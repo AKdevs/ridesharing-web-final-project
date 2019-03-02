@@ -20,17 +20,50 @@ class Ride {
   }
 }
 
+let postNumber = 0;
+
 class Post {
   constructor(ride) {
     this.ride = ride;
     this.timer = new countdownTimer(0, 15, 23);
+
+    this.postNumber = postNumber++;
   }
 }
 
 const posts = []
 
-const otherPostArea = document.querySelector('#other-post-area');
 const joinedPostArea = document.querySelector('#joined-post-area');
+const otherPostArea = document.querySelector('#other-post-area');
+
+joinedPostArea.addEventListener('click', leaveRide);
+otherPostArea.addEventListener('click', joinRide);
+
+function leaveRide(e) {
+    if (e.target.classList.contains('btn')) {
+      const button = e.target;
+      button.classList.remove('btn-danger');
+      button.classList.add('btn-success');
+      button.innerText = "Join";
+      const postElement = button.parentElement.parentElement.parentElement;
+
+      // const post = findPostById(post.id);
+      otherPostArea.appendChild(postElement);
+    }
+}
+
+function joinRide(e) {
+  if (e.target.classList.contains('btn')) {
+    const button = e.target;
+    button.classList.remove('btn-success');
+    button.classList.add('btn-danger');
+    button.innerText = "Leave";
+    const postElement = button.parentElement.parentElement.parentElement;
+
+    // const post = findPostById(post.id);
+    joinedPostArea.appendChild(postElement);
+  }
+}
 
 /* Updates all timers on DOM */
 function updateTimerDOM() {
@@ -72,8 +105,6 @@ const user = {
 /* UberX/UberPool,  UberXL */
 const carType = [4, 6]
 
-
-
 const ride1 = new Ride(0, 2, user, '09:00 PM', '01-03-2020',
       '483 Godric Way, Toronto, ON, M7R485',
       '4853 Baskerville Terrace, Markham, ON, L3RC3C');
@@ -93,7 +124,7 @@ function createPost(ride) {
   const minuteString = String(newPost.timer.minutes).padStart(2,'0');
   const secondString = String(newPost.timer.seconds).padStart(2,'0');
   const postMarkup = `
-      <div class="col-md-10 post">
+    <div class="col-md-10 post" id="${newPost.postNumber}">
       <div class="address">
         <h5>${ride.origin}</h5>
       </div>
@@ -113,7 +144,7 @@ function createPost(ride) {
             <div class="timer">
               <h1> ${hourString}:${minuteString}:${secondString}</h1>
             </div>
-              <button class="btn btn-block btn-success btn-leave"> Join </button>
+            <button class="btn btn-block btn-success btn-join"> Join </button>
         </div>
       </div> <!--post container -->
     </div><!--post -->
