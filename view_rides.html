@@ -14,15 +14,18 @@
 <div class="container">
   <div class="row">
     <h4 id = "intro"> Please select a ride to join. You may choose to leave at any time. </h4>
-    <div class="col-md-8 post">
+    <div class="col-md-12">
+      <h4 id> Currently Joined </h4>
+    </div>
+    <div class="col-md-10 post">
       <div class="address">
         <h5>638 Macbeth Heights, Mississauga, ON</h5>
       </div>
-      <div class="post-container row">
-        <div class="col-md-3">
+      <div class="post-container row ">
+        <div class="col-md-2 img-container">
           <img class="profilePic img-fluid rounded" src="images/profilepic.jpeg">
         </div>
-        <div class="col-md-5">
+        <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: 2 <br>
           <strong> Name:</strong> Peter Jordan <br>
           <strong>Time to call cab: </strong>6:00 PM <br>
@@ -32,37 +35,40 @@
         </div><!--post text container -->
         <div class="col-md-4 third-container">
             <div class="timer">
-              <h1> 00:09:23 </h1>
+              <!-- <h1> 00:09:23 </h1> -->
             </div>
               <button class="btn btn-block btn-danger btn-leave"> Leave </button>
               <!-- <button class="btn btn-sm btn-danger post-btn btn-leave"> Leave </button> -->
         </div>
       </div> <!--post container -->
     </div><!--post -->
-    <div class="col-md-8 post">
+    <div class="col-md-12">
+      <h4 id> Other Rides </h4>
+    </div>
+    <div class="col-md-10 post">
       <div class="address">
         <h5>1 Front Street, Toronto, ON</h5>
       </div>
-      <div class="post-container row">
-        <div class="col-md-3">
+      <div class="post-container row ">
+        <div class="col-md-2 img-container">
           <img class="profilePic img-fluid rounded" src="images/profilepic.jpeg">
         </div>
-        <div class="col-md-5">
-          <strong> Available Seats </strong>: 2 <br>
-          <strong> Name:</strong> Peter Jordan <br>
+        <div class="col-md-5 text-container">
+          <strong> Available Seats </strong>: 3 <br>
+          <strong> Name:</strong> Tom Brady <br>
           <strong>Time to call cab: </strong>6:00 PM <br>
-          <strong>Distance from origin: </strong>0.2 km <br>
+          <strong>Distance from origin: </strong>0.3 km <br>
           <strong>Distance from destination: </strong>0.1 km <br>
-          <strong>Phone Number</strong>: 905-322-4343
+          <strong>Phone Number</strong>: 905-448-8553
         </div><!--post text container -->
         <div class="col-md-4 third-container">
             <div class="timer">
-              <h1> 00:15:42 </h1>
+              <!-- <h1> 00:15:42 </h1> -->
             </div>
               <button class="btn btn-block btn-success btn-join"> Join </button>
         </div>
       </div> <!--post container -->
-    </div>
+    </div><!--post -->
 
     <div class="col-md-8 post"></div>
     <div class="col-md-8 post"></div>
@@ -75,5 +81,6 @@
    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+   <script type="text/javascript" src="js/view_rides.js"></script>
 </body>
 </html>

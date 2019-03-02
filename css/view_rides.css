@@ -1,11 +1,14 @@
 .post {
-  height: 230px;
+  height: 200px;
   margin-bottom: 70px;
   /* background-color: #c5cddb; */
   border-radius: 5px;
   border: 1px solid gray;
 }
 
+.text-container {
+  margin-left: 20px;
+}
 #intro {
   margin-top: 50px;
   margin-bottom: 30px;
@@ -13,12 +16,17 @@
 
 .address {
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 .profilePic {
+  margin-top: 5px;
 }
 
+.img-container {
+  margin-left: 10px;
+}
 .post-container {
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .vertical-align {
