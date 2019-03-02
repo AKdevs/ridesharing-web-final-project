@@ -23,11 +23,10 @@ class theRides {
 	}
 
 	setLoanTime() {
-		// Create a setTimeout that waits 3 seconds before indicating a book is overdue
 
-		const self = this; // keep book in scope of anon function (why? the call-site for 'this' in the anon function is the DOM window)
+		const self = this;
 		setTimeout(function() {
-
+			
 			console.log('overdue book!', self.title)
 			changeToOverdue(self);
 
@@ -37,24 +36,9 @@ class theRides {
 }
 
 
-
-// Adding these books does not change the DOM - we are simply setting up the
-// book and patron arrays as they appear initially in the DOM.
-//libraryBooks.push(new Book('Harry Potter', 'J.K. Rowling', 'Fantasy'));
-
-// Patron 0 loans book 0
-//libraryBooks[0].patron = patrons[0]
-// Set the overdue timeout
-//libraryBooks[0].setLoanTime()  // check console to see a log after 3 seconds
-
-
-/* Select all DOM form elements you'll need. */
 const locationInfo = document.querySelector('#location_info');
-const origin = locationInfo.querySelector('#starting');
-const destination = locationInfo.querySelector('#ending');
-
-const beginAddr = origin.querySelector('p').querySelector('.grey').value;
-const endAddr = destination.querySelector('p').querySelector('.grey').value;
+const origin = locationInfo.querySelector('#starting').textContent;
+const destination = locationInfo.querySelector('#ending').textContent;
 
 const createRide = locationInfo.querySelector('#ticket_info');
 
@@ -72,25 +56,14 @@ seatsSelect.addEventListener('click', selectSeats);
 submitBtn.addEventListener('click', create);
 
 /*-----------------------------------------------------------*/
-/* End of starter code - do *not* edit the code above. */
-/*-----------------------------------------------------------*/
 
-
-/** ADD your code to the functions below. DO NOT change the function signatures. **/
-
-
-/*** Functions that don't edit DOM themselves, but can call DOM functions
-     Use the book and patron arrays appropriately in these functions.
- ***/
-
-// Adds a new book to the global book list and calls addBookToLibraryTable()
 function selectCar(e) {
 	e.preventDefault();
-
+	
 	if(e.target.type == "button"){
-		car = e.target.id;
+		car = e.target.innerText;
 		e.target.classList = 'btn btn-success'
-
+		
 		const theParent = e.target.parentElement;
 		for (let i = 0; i < theParent.children.length; i++) {
 			if(theParent.children[i].id != e.target.id && theParent.children[i].type == "button"){
@@ -98,17 +71,17 @@ function selectCar(e) {
 			}
 		}
 	}
-
+	
 }
 
-// Changes book patron information, and calls
+// Changes book patron information, and calls 
 function selectSeats(e) {
 	e.preventDefault();
 
 	if(e.target.type == "button"){
-		seats = e.target.id;
+		seats = e.target.innerText;
 		e.target.classList = 'btn btn-success'
-
+		
 		const theParent = e.target.parentElement;
 		for (let i = 0; i < theParent.children.length; i++) {
 			if(theParent.children[i].id != e.target.id && theParent.children[i].type == "button"){
@@ -116,28 +89,34 @@ function selectSeats(e) {
 			}
 		}
 	}
-
+	
 
 }
 
 function create(e){
-
-	rides.push(new theRides(beginAddr, endAddr, car, seats,'01-03-2020','09:00 PM'));
+	const errorMsg = document.querySelector('#create_fail');
+	if(car ==	'' || seats == ''){
+		errorMsg.style.display = "block";
+	}
+	else{
+	rides.push(new theRides(origin, ending, car, seats,'01-03-2020','09:00 PM'));
 	displayTicket();
+	}
 }
 
 
-/*-----------------------------------------------------------*/
-/*** DOM functions below - use these to create and edit DOM objects ***/
 
 function displayTicket(){
 	const modalContent = document.querySelector('.modal-body');
 	const ticketContent = document.createElement('div');
 	ticketContent.className = "ticket";
-
-	const ticketHtml = '<h2>Your Ride Information is as follows:</h2><p><strong>Origin: </strong>'+beginAddr+'</p><p><strong>Destination: </strong>'+endAddr+'</p><p><strong>Uber Type: </strong>'+car+'</p><p><strong>Total Seats: </strong>'+seats+'</p><p><strong>Departure: </strong>'+'01-03-2020'+'</p>';
-
+	
+	const ticketHtml = '<div id = "rideInfo"><p><strong>Your Ride Information is as follows:</strong></p><p><strong>Origin: </strong>'+origin+'</p><p><strong>Destination: </strong>'+destination+'</p><p><strong>Uber Type: </strong>'+car+'</p><p><strong>Total Seats: </strong>'+seats+'</p><p><strong>Departure: </strong>'+'01-03-2020'+'</p></div>';
+	
 	ticketContent.innerHTML = ticketHtml;
+	ticketContent.querySelector('#rideInfo').style.textAlign = 'center';
+	ticketContent.querySelector('#rideInfo').style.border = "2px solid green";
+	
 	modalContent.appendChild(ticketContent);
-
+	
 }
