@@ -1,0 +1,46 @@
+.post {
+  height: 230px;
+  margin-bottom: 70px;
+  /* background-color: #c5cddb; */
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+#intro {
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.address {
+  margin-top: 10px;
+}
+.profilePic {
+}
+
+.post-container {
+  margin-top: 20px;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.post-text {
+  margin-top: 10px;
+}
+
+.post-btn {
+  margin-right: 10px;
+  width: 40%;
+}
+
+.timer {
+  margin-top: 10px;
+  height: 60%;
+  margin-bottom: 0px;
+}
+
+.third-container {
+  text-align: center;
+}
