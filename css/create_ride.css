@@ -82,3 +82,12 @@ body h1{
 .grey{
 	color:gray;
 }
+
+#create_fail{
+	display:none;
+}
+
+#create_success{
+	margin-left:2px;
+	margin-right:2px;
+}
