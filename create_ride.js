@@ -52,10 +52,15 @@ class theRides {
 const locationInfo = document.querySelector('#location_info');
 const origin = locationInfo.querySelector('#starting');
 const destination = locationInfo.querySelector('#ending');
-const createTicket = locationInfo.querySelector('#ticket_info');
+
+const beginAddr = origin.querySelector('p').querySelector('.grey').value;
+const endAddr = destination.querySelector('p').querySelector('.grey').value;
+
+const createRide = locationInfo.querySelector('#ticket_info');
 
 const carSelect = document.querySelector('#select_uber');
 const seatsSelect = document.querySelector('#select_seats');
+const submitBtn = document.querySelector('#create_button');
 
 let car;
 let seats;
@@ -64,6 +69,7 @@ let seats;
 
 carSelect.addEventListener('click', selectCar);
 seatsSelect.addEventListener('click', selectSeats);
+submitBtn.addEventListener('click', create);
 
 /*-----------------------------------------------------------*/
 /* End of starter code - do *not* edit the code above. */
@@ -114,9 +120,9 @@ function selectSeats(e) {
 
 }
 
-function createTicket(){
+function create(e){
 	
-	rides.push(new theRides(origin.value, destination.value, car, seats,'01-03-2020','09:00 PM'));
+	rides.push(new theRides(beginAddr, endAddr, car, seats,'01-03-2020','09:00 PM'));
 	displayTicket();
 }
 
@@ -126,11 +132,12 @@ function createTicket(){
 
 function displayTicket(){
 	const modalContent = document.querySelector('.modal-body');
-	const ticketContent = document,createElement('div');
+	const ticketContent = document.createElement('div');
 	ticketContent.className = "ticket";
-	const title = document.createElement('h2');
 	
+	const ticketHtml = '<h2>Your Ride Information is as follows:</h2><p><strong>Origin: </strong>'+beginAddr+'</p><p><strong>Destination: </strong>'+endAddr+'</p><p><strong>Uber Type: </strong>'+car+'</p><p><strong>Total Seats: </strong>'+seats+'</p><p><strong>Departure: </strong>'+'01-03-2020'+'</p>';
 	
-	
+	ticketContent.innerHTML = ticketHtml;
+	modalContent.appendChild(ticketContent);
 	
 }
