@@ -31,11 +31,11 @@
 		<img id="google_maps" src="map_image.png" alt="Google Map">
 	
 		<div id="location_info">
-			<div id="starting" class="location_text">
-				<p><span class='bold'>Starting Point:</span> <span class='grey'>10 King's College Rd, Toronto, ON M5S 3G4</span></p>
+			<div class="location_text">
+				<p><span class='bold'>Starting Point:</span> <span id="starting" class='grey'>10 Kings College Rd, Toronto, ON M5S 3G4</span></p>
 			</div>
-			<div id="ending" class="location_text">
-				<p><span class='bold'>Destination:</span> <span class='grey'>100 St George St, Toronto, ON M5S 3G3</span></p>
+			<div class="location_text">
+				<p><span class='bold'>Destination:</span> <span id="ending" class='grey'>10 Kings College Rd, Toronto, ON M5S 3G4</span></p>
 			</div>
 			<button type="button" class="btn btn-primary">Change</button>		
 		</div>
@@ -94,11 +94,13 @@
         </button>
       </div>
       <div class="modal-body">
-        ...
+        	<div id="create_success" class="alert alert-success">
+				<strong>Success!</strong> Your ride offer has been shared.
+			</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Events Page</button>
       </div>
     </div>
   </div>
