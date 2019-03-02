@@ -117,25 +117,20 @@ function selectSeats(e) {
 function createTicket(){
 	
 	rides.push(new theRides(origin.value, destination.value, car, seats,'01-03-2020','09:00 PM'));
+	displayTicket();
 }
 
 
 /*-----------------------------------------------------------*/
 /*** DOM functions below - use these to create and edit DOM objects ***/
 
-// Adds a book to the library table.
-function changeUberColor(book) {
-	// Add code here
-
-}
-
-function changeSeatsColor(book) {
-	// Add code here
-
-}
-
 function displayTicket(){
 	const modalContent = document.querySelector('.modal-body');
-	const ticketContent = document,createElement('div')
-	ticketContent.className = "" 
+	const ticketContent = document,createElement('div');
+	ticketContent.className = "ticket";
+	const title = document.createElement('h2');
+	
+	
+	
+	
 }
