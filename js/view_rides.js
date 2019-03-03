@@ -45,6 +45,7 @@ function leaveRide(e) {
       button.classList.remove('btn-danger');
       button.classList.add('btn-success');
       button.innerText = "Join";
+
       const postElement = button.parentElement.parentElement.parentElement;
 
       // const post = findPostById(post.id);
@@ -58,6 +59,7 @@ function joinRide(e) {
     button.classList.remove('btn-success');
     button.classList.add('btn-danger');
     button.innerText = "Leave";
+
     const postElement = button.parentElement.parentElement.parentElement;
 
     // const post = findPostById(post.id);

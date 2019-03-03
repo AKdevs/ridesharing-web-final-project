@@ -11,20 +11,32 @@
   <title>Bootstrap</title>
 </head>
 <body>
-<div class="container">
-  <div class="row" id="joined-post-area">
+  <div class="container">
+    <div class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Passengers
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+    </div>
     <h4 id = "intro"> Please select a ride to join. You may choose to leave at any time. </h4>
-    <div class="col-md-12">
-      <h4 id> Currently Joined </h4>
-    </div>
-  </div><!-- row joined post area -->
 
-  <div class="row" id="other-post-area">
-    <div class="col-md-12">
-      <h4 id> Other Rides </h4>
-    </div>
-  </div><!-- row other post area -->
-</div><!-- container -->
+    <div class="row" id="joined-post-area">
+
+      <div class="col-md-12">
+        <h4 id> Currently Joined </h4>
+      </div>
+    </div><!-- row joined post area -->
+
+    <div class="row" id="other-post-area">
+      <div class="col-md-12">
+        <h4 id> Other Rides </h4>
+      </div>
+    </div><!-- row other post area -->
+  </div><!-- container -->
 
 <!-- <script src="js/jquery.slim.min.js"></script>
 <script src="js/popper.min.js"></script>
