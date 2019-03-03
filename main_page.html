@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ 	<meta charset="utf-8">
+    <title>Library</title>
+    <link rel="stylesheet" type="text/css" href="css/main_page.css">
+	
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+ </head>
+ <body>
+ 	<h1>Hey John! Where do you plan to go?</h1>
+	 <p id="subtitle">Please enter your starting point and destination.</p>
+	<hr/>
+	
+	<div id="create_fail" class="alert alert-danger">
+		<strong>Error!</strong> Empty fields detected.
+	</div>
+	
+	<div id="confirm_location">
+	<!-- Google Maps have been embedded for Front-End but this will be replaed with Google Maps API here when working on backend -->
+	<iframe id="google_maps" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d11557.85076964587!2d-79.63897115!3d43.59690689999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sca!4v1551583922207" frameborder="0" style="border:0" allowfullscreen></iframe>
+	
+		<div id="location_info">
+			<div class="location_text">
+				<p><span class='bold'>Starting Point:</span></p>
+				<p id="emptyField1">Empty!</p>
+				 <input type="email" class="form-control" id="inputOrigin" aria-describedby="emailHelp" placeholder="Enter origin">
+			</div>
+			<div class="location_text">
+				<p><span class='bold'>Destination:</span></p>
+				<p id="emptyField2">Empty!</p>
+				    <input type="email" class="form-control" id="inputDestination" aria-describedby="emailHelp" placeholder="Enter final destination">
+
+			</div>
+			<button id="findDistTime" type="button" class="btn btn-success">Find Distance & Time</button>
+
+			<div id="submitBtns">
+				<a id="createRideBtn" href = "create_ride.html" type="button" class="btn btn-primary">Create Ride</a>	
+				<a id="FindRideBtn" href="view_rides.html" type="button" class="btn btn-primary">Find Ride</a>		
+				
+			</div>
+						
+				
+						
+			<div id="distTimeInfo">
+				<p><strong>Total Ride Distance: </strong>40 km</p>
+				<p><strong>Total Ride Duration: </strong>19 mins</p>
+			</div>
+			
+			
+		</div>
+	</div>
+
+
+ 	<script type="text/javascript" src="js/main_page.js"></script>
+
+ </body>
+</html>
