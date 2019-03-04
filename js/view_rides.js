@@ -1,5 +1,4 @@
 /* View rides */
-
 class countdownTimer {
   constructor (hours, minutes, seconds) {
     this.hours = hours;
@@ -32,8 +31,8 @@ class Post {
   constructor(ride) {
     this.ride = ride;
     // randomness for phase 1 simulation
-    const minutes = Math.floor(Math.random() * 60);
-    const seconds = Math.floor(Math.random() * 60);
+    const minutes = Math.floor(Math.random() * 1);
+    const seconds = Math.floor(Math.random() * 10);
     this.timer = new countdownTimer(0, minutes, seconds);
 
     this.postNumber = postNumber++;
@@ -100,9 +99,9 @@ function joinRide(e) {
 
 /* Updates all timers on DOM */
 function updateTimerDOM() {
-  const postContainers = document.querySelectorAll('.post-container');
-  for (let i = 0; i < postContainers.length; i++) {
-    const timeContainer = postContainers[i].querySelector('.timer');
+  const postElements = document.querySelectorAll('.post');
+  for (let i = 0; i < postElements.length; i++) {
+    const timeContainer = postElements[i].querySelector('.timer');
     const currentTime = timeContainer.innerText.split(':').map(x => parseInt(x));
     let hours = currentTime[0];
     let minutes = currentTime[1];
@@ -110,10 +109,24 @@ function updateTimerDOM() {
 
     seconds -= 1;
     seconds = seconds == -1 ? 59 : seconds; // reset to 59
-    minutes = seconds == 59 ? minutes-- : minutes;
+
+    minutes = seconds == 59 ? minutes - 1 : minutes;
+    minutes = minutes == -1 ? 59 : minutes; // reset to 59
 
     if (minutes == 59 && seconds == 59) {
       hours -= 1;
+    }
+
+    // timer expiry, remove the post
+    if (hours <= 0 && minutes == 0 && seconds == 0) {
+      let postIdx = findPostById(otherPosts, parseInt(postElements[i].id));
+      if (postIdx == -1) {
+        joinedPostArea.removeChild(postElements[i]);
+      }
+      else {
+        otherPostArea.removeChild(postElements[i]);
+      }
+      return
     }
 
     const hourString = String(hours).padStart(2,'0');
