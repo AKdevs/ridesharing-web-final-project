@@ -12,18 +12,35 @@
 </head>
 <body>
   <div class="container">
-    <div class="dropdown">
-      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Passengers
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
+    <div class="userInfoContainer">
+      <h4 class="userInfo">Starting Point:  <span id="userOriginInfo">City Centre Bus Terminal, Mississauga, ON, L5Y4H8</span></h4>
+      <h4 class="userInfo">Destination:  <span id="userDestinationInfo">Union Station, Toronto, ON, M1U8H3</span></h4>
+      <h4>Passengers (leave all rides to change the number of passengers)</h4>
+      <!-- Sourced from bootstrap docs https://getbootstrap.com/docs/3.4/javascript/
+      Checkbox/Radio section -->
+      <div class="btn-group-toggle" id="seat-selector" data-toggle="buttons">
+        <label class="btn btn-secondary active">
+          <input type="radio" checked autocomplete="off"> 1
+        </label>
+        <label class="btn btn-secondary ">
+          <input type="radio" checked autocomplete="off"> 2
+        </label>
+        <label class="btn btn-secondary ">
+          <input type="radio" checked autocomplete="off"> 3
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" checked autocomplete="off"> 4
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" checked autocomplete="off"> 5
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" checked autocomplete="off"> 6
+        </label>
       </div>
-    </div>
-    <h4 id = "intro"> Please select a ride to join. You may choose to leave at any time. </h4>
 
+
+    </div> <!--user info container -->
     <div class="row" id="joined-post-area">
 
       <div class="col-md-12">

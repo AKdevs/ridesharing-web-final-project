@@ -1,5 +1,5 @@
 /* View rides */
-const numPassengers = 2;
+
 
 class countdownTimer {
   constructor (hours, minutes, seconds) {
@@ -44,12 +44,32 @@ class Post {
 
 const joinedPosts = []
 const otherPosts = []
+var numPassengers = 1;
 
 const joinedPostArea = document.querySelector('#joined-post-area');
 const otherPostArea = document.querySelector('#other-post-area');
+const seatSelector = document.querySelector('#seat-selector');
 
 joinedPostArea.addEventListener('click', leaveRide);
 otherPostArea.addEventListener('click', joinRide);
+// for passenger seat number selection
+$('#seat-selector label').on('click', function() {
+  numPassengers = parseInt(this.innerText);
+});
+
+function disableSeatButtons() {
+  const seatButtons = seatSelector.getElementsByTagName('label');
+  for (let i = 0; i < seatButtons.length; i++) {
+    seatButtons[i].classList.add('Disabled');
+  }
+}
+
+function enableSeatButtons() {
+  const seatButtons = seatSelector.getElementsByTagName('label');
+  for (let i = 0; i < seatButtons.length; i++) {
+    seatButtons[i].classList.remove('Disabled');
+  }
+}
 
 function leaveRide(e) {
     if (e.target.classList.contains('btn')) {
@@ -73,6 +93,11 @@ function leaveRide(e) {
       const idxToInsert = insertPost(otherPosts, joinedPosts[postIdx]);
       joinedPosts.splice(postIdx, 1);
 
+      /* enable seat buttons if no rides have been joined */
+      if (joinedPosts.length === 0) {
+        enableSeatButtons();
+      }
+
       /* update seat count */
       postElement.querySelector('#seats-available').innerText = newSeatsAvailable;
       insertPostDOM(otherPostArea, postElement, idxToInsert);
@@ -81,12 +106,22 @@ function leaveRide(e) {
 
 function findPostPositionById(posts, postElementId) {
   for (let i = 0; i < posts.length; i++) {
-    if (posts[i].postNumber == postElementId) {
+    if (posts[i].postNumber === postElementId) {
       return i;
     }
   }
   return -1;
 }
+
+function removePost(posts, postNumber) {
+  for (let i = 0; i < posts.length; i++) {
+    if (posts[i].postNumber === postNumber) {
+       posts.splice(i, 1);
+       return
+    }
+  }
+}
+
 /* Get the specific ride, the ride has seats available
 seats available - numPassengers = new seats Available
 reject the action if
@@ -119,6 +154,8 @@ function joinRide(e) {
     /* remove the post from the otherPosts array */
     otherPosts.splice(postIdx, 1);
 
+    /* disable all seat buttons */
+    disableSeatButtons();
     /* change to leave button */
     button.classList.remove('btn-success');
     button.classList.add('btn-danger');
@@ -156,9 +193,17 @@ function updateTimerDOM() {
       let postIdx = findPostPositionById(otherPosts, parseInt(postElements[i].id));
       if (postIdx == -1) {
         joinedPostArea.removeChild(postElements[i]);
+        removePost(joinedPosts, parseInt(postElements[i].id));
+        if (joinedPosts.length === 0) {
+          enableSeatButtons();
+        }
       }
       else {
         otherPostArea.removeChild(postElements[i]);
+        removePost(otherPosts, parseInt(postElements[i].id));
+        if (otherPosts.length === 0) {
+          enableSeatButtons();
+        }
       }
       return
     }
