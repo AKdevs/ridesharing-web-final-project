@@ -25,8 +25,7 @@
 	
 	<div id="confirm_location">
 	<!-- Google Maps have been embedded for Front-End but this will be replaed with Google Maps API here when working on backend -->
-	<iframe id="google_maps" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d11557.85076964587!2d-79.63897115!3d43.59690689999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sca!4v1551583922207" frameborder="0" style="border:0" allowfullscreen></iframe>
-	
+	<div id="google_maps"></div>
 		<div id="location_info">
 			<div class="location_text">
 				<p><span class='bold'>Starting Point:</span></p>
@@ -42,16 +41,17 @@
 			<button id="findDistTime" type="button" class="btn btn-success">Find Distance & Time</button>
 
 			<div id="submitBtns">
-				<a id="createRideBtn" href = "create_ride.html" type="button" class="btn btn-primary">Create Ride</a>	
-				<a id="FindRideBtn" href="view_rides.html" type="button" class="btn btn-primary">Find Ride</a>		
-				
+				<a id="createRideBtn" type="button" class="btn btn-primary">Create Ride</a>
+				<a id="FindRideBtn" href="view_rides.html" type="button" class="btn btn-primary">Find Ride</a>
 			</div>
 						
 				
 						
 			<div id="distTimeInfo">
+				<div>
 				<p><strong>Total Ride Distance: </strong>40 km</p>
 				<p><strong>Total Ride Duration: </strong>19 mins</p>
+				</div>
 			</div>
 			
 			
