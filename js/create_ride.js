@@ -48,6 +48,10 @@ const submitBtn = document.querySelector('#create_button');
 
 let car;
 let seats;
+let theStart;
+let theEnd;
+let theDate;
+let theTime;
 
 /* Event listeners for button submit and button click */
 
@@ -56,6 +60,25 @@ seatsSelect.addEventListener('click', selectSeats);
 submitBtn.addEventListener('click', create);
 
 /*-----------------------------------------------------------*/
+
+window.onload = function () {
+    var url = document.location.href,
+        params = url.split('?')[1].split('&'),
+        data = {}, tmp;
+    for (var i = 0, l = params.length; i < l; i++) {
+         tmp = params[i].split('=');
+         data[tmp[0]] = tmp[1];
+    }
+	
+	const rcvd = data.info.split('__');
+	
+	theStart = decodeURIComponent(rcvd[0]);
+	theEnd = decodeURIComponent(rcvd[1]);
+	
+    document.querySelector('#starting').innerHTML = theStart;
+   document.querySelector('#ending').innerHTML = theEnd;	
+}
+
 
 function selectCar(e) {
 	e.preventDefault();
@@ -99,7 +122,10 @@ function create(e){
 		errorMsg.style.display = "block";
 	}
 	else{
-	rides.push(new theRides(origin, ending, car, seats,'01-03-2020','09:00 PM'));
+	theDate = document.querySelector('input[type="date"]').value;
+	theTime = document.querySelector('input[type="time"]').value;
+
+	rides.push(new theRides(origin, ending, car, seats, theDate, theTime));
 	displayTicket();
 	}
 }
@@ -111,7 +137,9 @@ function displayTicket(){
 	const ticketContent = document.createElement('div');
 	ticketContent.className = "ticket";
 	
-	const ticketHtml = '<div id = "rideInfo"><p><strong>Your Ride Information is as follows:</strong></p><p><strong>Origin: </strong>'+origin+'</p><p><strong>Destination: </strong>'+destination+'</p><p><strong>Uber Type: </strong>'+car+'</p><p><strong>Total Seats: </strong>'+seats+'</p><p><strong>Departure: </strong>'+'01-03-2020'+'</p></div>';
+	modalContent.innerHTML='<div id="create_success" class="alert alert-success"><strong>Success!</strong> Your ride offer has been shared.</div>';
+	
+	const ticketHtml = '<div id = "rideInfo"><p><strong>Your Ride Information is as follows:</strong></p><p><strong>Origin: </strong>'+theStart+'</p><p><strong>Destination: </strong>'+theEnd+'</p><p><strong>Uber Type: </strong>'+car+'</p><p><strong>Total Seats: </strong>'+seats+'</p><p><strong>Departure: </strong>'+theDate+' at ' + theTime + '</p></div>';
 	
 	ticketContent.innerHTML = ticketHtml;
 	ticketContent.querySelector('#rideInfo').style.textAlign = 'center';

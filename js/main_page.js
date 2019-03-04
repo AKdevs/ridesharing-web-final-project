@@ -8,8 +8,10 @@
 /*-----------------------------------------------------------*/
 
 const findDistTime = document.querySelector('#findDistTime');
+const createRideBtn = document.querySelector('#createRideBtn');
 
 findDistTime.addEventListener('click',checkInputs);
+createRideBtn.addEventListener('click',createRidePage);
 
 /*-----------------------------------------------------------*/
 
@@ -47,6 +49,14 @@ function checkInputs(e){
 		emptyError2.style.display = 'none';
 		distTimeInfos.style.display = 'block';
 	}
+}
+
+function createRidePage(){
+	let input = document.querySelector('#inputOrigin').value;
+	let destination = document.querySelector('#inputDestination').value;
+	let info = input + '__' + destination;
+     url = 'create_ride.html?info=' + encodeURIComponent(info);
+	document.location.href = url;
 }
 
 /*
