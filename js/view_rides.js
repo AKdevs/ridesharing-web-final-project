@@ -1,4 +1,6 @@
 /* View rides */
+const numPassengers = 2;
+
 class countdownTimer {
   constructor (hours, minutes, seconds) {
     this.hours = hours;
@@ -31,10 +33,11 @@ class Post {
   constructor(ride) {
     this.ride = ride;
     // randomness for phase 1 simulation
-    const minutes = Math.floor(Math.random() * 1);
-    const seconds = Math.floor(Math.random() * 10);
+    const minutes = Math.floor(Math.random() * 10);
+    const seconds = Math.floor(Math.random() * 60);
     this.timer = new countdownTimer(0, minutes, seconds);
 
+    this.seatsAvailable = carType[ride.type] - ride.seatsOccupied;
     this.postNumber = postNumber++;
   }
 }
@@ -58,17 +61,25 @@ function leaveRide(e) {
       const postElement = button.parentElement.parentElement.parentElement.parentElement.parentElement;
 
       /* get index of post in joinedPosts array */
-      const postIdx = findPostById(joinedPosts, parseInt(postElement.id));
+      const postIdx = findPostPositionById(joinedPosts, parseInt(postElement.id));
+      const post = joinedPosts[postIdx];
+
+      /* get the ride associated with the post, and calculate seats available */
+      const ride = post.ride;
+      ride.seatsOccupied -= numPassengers;
+      const newSeatsAvailable = carType[ride.type] - ride.seatsOccupied;
 
       /* insert post into otherPosts array and get index to insert into DOM */
       const idxToInsert = insertPost(otherPosts, joinedPosts[postIdx]);
       joinedPosts.splice(postIdx, 1);
 
+      /* update seat count */
+      postElement.querySelector('#seats-available').innerText = newSeatsAvailable;
       insertPostDOM(otherPostArea, postElement, idxToInsert);
     }
 }
 
-function findPostById(posts, postElementId) {
+function findPostPositionById(posts, postElementId) {
   for (let i = 0; i < posts.length; i++) {
     if (posts[i].postNumber == postElementId) {
       return i;
@@ -76,22 +87,45 @@ function findPostById(posts, postElementId) {
   }
   return -1;
 }
-
+/* Get the specific ride, the ride has seats available
+seats available - numPassengers = new seats Available
+reject the action if
+*/
 function joinRide(e) {
   if (e.target.classList.contains('btn')) {
     const button = e.target;
+    const postElement = button.parentElement.parentElement.parentElement.parentElement.parentElement;
+
+    /* get index of post in otherPosts array */
+    const postIdx = findPostPositionById(otherPosts, parseInt(postElement.id));
+
+    const post = otherPosts[postIdx];
+
+    /* get the ride associated with the post, and calculate seats remaining */
+    const ride = post.ride;
+    const seatsAvailable = carType[ride.type] - ride.seatsOccupied;
+    const newSeatsAvailable = seatsAvailable - numPassengers;
+
+    if (newSeatsAvailable < 0) {
+      alert('Could not join ride. Not enough available seats.')
+      return
+    }
+
+    ride.seatsOccupied = ride.seatsOccupied + numPassengers;
+
+    /* insert post into joinedPosts array and get index to insert into DOM */
+    const idxToInsert = insertPost(joinedPosts, post);
+
+    /* remove the post from the otherPosts array */
+    otherPosts.splice(postIdx, 1);
+
+    /* change to leave button */
     button.classList.remove('btn-success');
     button.classList.add('btn-danger');
     button.innerText = "Leave";
 
-    const postElement = button.parentElement.parentElement.parentElement.parentElement.parentElement;
-
-    /* get index of post in otherPosts array */
-    const postIdx = findPostById(otherPosts, parseInt(postElement.id));
-
-    /* insert post into joinedPosts array and get index to insert into DOM */
-    const idxToInsert = insertPost(joinedPosts, otherPosts[postIdx]);
-    otherPosts.splice(postIdx, 1);
+    /* update seat count */
+    postElement.querySelector('#seats-available').innerText = newSeatsAvailable;
 
     insertPostDOM(joinedPostArea, postElement, idxToInsert);
   }
@@ -119,7 +153,7 @@ function updateTimerDOM() {
 
     // timer expiry, remove the post
     if (hours == 0 && minutes == 0 && seconds == 0 || hours < 0) {
-      let postIdx = findPostById(otherPosts, parseInt(postElements[i].id));
+      let postIdx = findPostPositionById(otherPosts, parseInt(postElements[i].id));
       if (postIdx == -1) {
         joinedPostArea.removeChild(postElements[i]);
       }
@@ -184,18 +218,18 @@ function createPost(ride) {
   const secondString = String(newPost.timer.seconds).padStart(2,'0');
   const postMarkup = `
       <div class="card">
-      <div class="card-header">
+      <div class="card-header bg-default">
         <div class="address">
           <h5>${ride.origin}</h5>
         </div>
       </div>
-      <div class="card-body">
+      <div class="card-body shadow-sm bg-white rounded">
       <div class="post-container row ">
         <div class="col-md-2 img-container">
           <img class="profilePic img-fluid rounded" src="images/profilepic.jpeg">
         </div>
         <div class="col-md-5 text-container">
-          <strong> Available Seats </strong>: ${seatsAvailable} <br>
+          <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
           <strong> Name:</strong> ${ride.user.name} <br>
           <strong>Time to call cab: </strong> ${ride.time} <br>
           <strong>Distance from origin: </strong>${ride.userOriginDistance} km<br>
