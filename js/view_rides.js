@@ -56,7 +56,7 @@ function leaveRide(e) {
       button.classList.add('btn-success');
       button.innerText = "Join";
 
-      const postElement = button.parentElement.parentElement.parentElement;
+      const postElement = button.parentElement.parentElement.parentElement.parentElement.parentElement;
 
       /* get index of post in joinedPosts array */
       const postIdx = findPostById(joinedPosts, parseInt(postElement.id));
@@ -85,7 +85,7 @@ function joinRide(e) {
     button.classList.add('btn-danger');
     button.innerText = "Leave";
 
-    const postElement = button.parentElement.parentElement.parentElement;
+    const postElement = button.parentElement.parentElement.parentElement.parentElement.parentElement;
 
     /* get index of post in otherPosts array */
     const postIdx = findPostById(otherPosts, parseInt(postElement.id));
@@ -170,9 +170,13 @@ function createPost(ride) {
   const minuteString = String(newPost.timer.minutes).padStart(2,'0');
   const secondString = String(newPost.timer.seconds).padStart(2,'0');
   const postMarkup = `
-      <div class="address">
-        <h5>${ride.origin}</h5>
+      <div class="card">
+      <div class="card-header">
+        <div class="address">
+          <h5>${ride.origin}</h5>
+        </div>
       </div>
+      <div class="card-body">
       <div class="post-container row ">
         <div class="col-md-2 img-container">
           <img class="profilePic img-fluid rounded" src="images/profilepic.jpeg">
@@ -192,6 +196,8 @@ function createPost(ride) {
             <button class="btn btn-block btn-success btn-join"> Join </button>
         </div>
       </div> <!--post container -->
+      </div> <!--card-body-->
+      </div> <!--card -->
     `
     // otherPostArea.innerHTML += postMarkup;
 
