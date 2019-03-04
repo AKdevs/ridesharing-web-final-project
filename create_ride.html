@@ -24,18 +24,17 @@
 	
 	<div class="subtitle">
 		<p><span class="">Confirm Location and Date</span><span class=""></span></p>
-		<hr/>
 	</div>
-	
+	<hr/>
 	<div id="confirm_location">
-		<img id="google_maps" src="map_image.png" alt="Google Map">
+		<div id="google_maps"></div>
 	
 		<div id="location_info">
 			<div class="location_text">
-				<p><span class='bold'>Starting Point:</span> <span id="starting" class='grey'>10 Kings College Rd, Toronto, ON M5S 3G4</span></p>
+				<p><span class='bold'>Starting Point:</span> <span id="starting" class='grey'></span></p>
 			</div>
 			<div class="location_text">
-				<p><span class='bold'>Destination:</span> <span id="ending" class='grey'>10 Kings College Rd, Toronto, ON M5S 3G4</span></p>
+				<p><span class='bold'>Destination:</span> <span id="ending" class='grey'></span></p>
 			</div>
 			<button type="button" class="btn btn-primary">Change</button>		
 		</div>
@@ -44,18 +43,12 @@
 	<div class="subtitle">
 		<p><span class="">Select Date and Time.</span><span class=""></span></p>
 	</div>
+	<hr/>
 
-<div class="input-append date form_datetime">
-    <input size="16" type="text" value="" readonly>
-    <span class="add-on"><i class="icon-th"></i></span>
-</div>
- 
-<script type="text/javascript">
-    $(".form_datetime").datetimepicker({
-        format: "dd MM yyyy - hh:ii"
-    });
-</script>     
-
+	<input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01">
+	   
+	<input type="time" id="appt" name="appt" required>
+	   
 <div class="subtitle">
 <p><span class="">Select Car</span><span class=""></span></p>
 </div>
@@ -88,10 +81,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ticketInfoLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h5 class="modal-title" id="ticketInfoLabel">Ride Information</h5>
+
       </div>
       <div class="modal-body">
         	<div id="create_success" class="alert alert-success">
@@ -100,13 +91,26 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Events Page</button>
+        <button type="button" href="view_rides.html" class="btn btn-primary">Find Ride</button>
       </div>
     </div>
   </div>
 </div>
 
  	<br><br>
+	
+	<script>
+	function myMap() {
+	var mapProp= {
+		center:new google.maps.LatLng(51.508742,-0.120850),
+		zoom:5,
+	};
+	var map = new google.maps.Map(document.getElementById("google_maps"),mapProp);
+	}
+	</script>
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRqD3RzY5tIaPAVV87pM6zgPMEY8Plih4&callback=myMap"></script>
+
 
  	<script type="text/javascript" src="js/create_ride.js"></script>
  </body>
