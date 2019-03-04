@@ -118,7 +118,7 @@ function updateTimerDOM() {
     }
 
     // timer expiry, remove the post
-    if (hours <= 0 && minutes == 0 && seconds == 0) {
+    if (hours == 0 && minutes == 0 && seconds == 0 || hours < 0) {
       let postIdx = findPostById(otherPosts, parseInt(postElements[i].id));
       if (postIdx == -1) {
         joinedPostArea.removeChild(postElements[i]);
