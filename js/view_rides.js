@@ -17,6 +17,12 @@ class Ride {
     this.date = date;
     this.origin = origin;
     this.destination = destination;
+    // Distance that the user's location is from this ride's starting point
+    // this field will be calculated based on the user and origin/destination
+    // parameters
+    this.userOriginDistance = parseFloat(Math.random().toFixed(2));
+    // Distance that the user's destination is from this ride's destination
+    this.userDestDistance = parseFloat(Math.random().toFixed(2));
   }
 }
 
@@ -25,13 +31,17 @@ let postNumber = 0;
 class Post {
   constructor(ride) {
     this.ride = ride;
-    this.timer = new countdownTimer(0, 15, 23);
+    // randomness for phase 1 simulation
+    const minutes = Math.floor(Math.random() * 60);
+    const seconds = Math.floor(Math.random() * 60);
+    this.timer = new countdownTimer(0, minutes, seconds);
 
     this.postNumber = postNumber++;
   }
 }
 
-const posts = []
+const joinedPosts = []
+const otherPosts = []
 
 const joinedPostArea = document.querySelector('#joined-post-area');
 const otherPostArea = document.querySelector('#other-post-area');
@@ -48,9 +58,24 @@ function leaveRide(e) {
 
       const postElement = button.parentElement.parentElement.parentElement;
 
-      // const post = findPostById(post.id);
-      otherPostArea.appendChild(postElement);
+      /* get index of post in joinedPosts array */
+      const postIdx = findPostById(joinedPosts, parseInt(postElement.id));
+
+      /* insert post into otherPosts array and get index to insert into DOM */
+      const idxToInsert = insertPost(otherPosts, joinedPosts[postIdx]);
+      joinedPosts.splice(postIdx, 1);
+
+      insertPostDOM(otherPostArea, postElement, idxToInsert);
     }
+}
+
+function findPostById(posts, postElementId) {
+  for (let i = 0; i < posts.length; i++) {
+    if (posts[i].postNumber == postElementId) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 function joinRide(e) {
@@ -62,8 +87,14 @@ function joinRide(e) {
 
     const postElement = button.parentElement.parentElement.parentElement;
 
-    // const post = findPostById(post.id);
-    joinedPostArea.appendChild(postElement);
+    /* get index of post in otherPosts array */
+    const postIdx = findPostById(otherPosts, parseInt(postElement.id));
+
+    /* insert post into joinedPosts array and get index to insert into DOM */
+    const idxToInsert = insertPost(joinedPosts, otherPosts[postIdx]);
+    otherPosts.splice(postIdx, 1);
+
+    insertPostDOM(joinedPostArea, postElement, idxToInsert);
   }
 }
 
@@ -107,6 +138,7 @@ const user = {
 /* UberX/UberPool,  UberXL */
 const carType = [4, 6]
 
+/* Server call will be used to get ride */
 const ride1 = new Ride(0, 2, user, '09:00 PM', '01-03-2020',
       '483 Godric Way, Toronto, ON, M7R485',
       '4853 Baskerville Terrace, Markham, ON, L3RC3C');
@@ -115,18 +147,29 @@ const ride2 = new Ride(0, 1, user, '09:14 PM', '01-03-2020',
       'City Centre Bus Terminal, ON, L5U1F8',
       'Union Station, Toronto, ON, M3RC7C');
 
+const ride3 = new Ride(0, 1, user, '09:14 PM', '01-03-2020',
+      'City Centre Bus Terminal, ON, L5U1F8',
+      'Union Station, Toronto, ON, M3RC7C');
+
+const ride4 = new Ride(0, 1, user, '09:14 PM', '01-03-2020',
+      'City Centre Bus Terminal, ON, L5U1F8',
+      'Union Station, Toronto, ON, M3RC7C');
+
+
+createPost(ride1);
+createPost(ride2);
+createPost(ride3);
+createPost(ride4);
 
 function createPost(ride) {
   const newPost = new Post(ride);
-  // const ride = newPost.ride;
-  posts.push(newPost);
+
   const seatsAvailable = carType[ride.type] - ride.seatsOccupied;
 
   const hourString = String(newPost.timer.hours).padStart(2,'0');
   const minuteString = String(newPost.timer.minutes).padStart(2,'0');
   const secondString = String(newPost.timer.seconds).padStart(2,'0');
   const postMarkup = `
-    <div class="col-md-10 post" id="${newPost.postNumber}">
       <div class="address">
         <h5>${ride.origin}</h5>
       </div>
@@ -138,8 +181,8 @@ function createPost(ride) {
           <strong> Available Seats </strong>: ${seatsAvailable} <br>
           <strong> Name:</strong> ${ride.user.name} <br>
           <strong>Time to call cab: </strong> ${ride.time} <br>
-          <strong>Distance from origin: </strong>0.2 km<br>
-          <strong>Distance from destination: </strong>0.1 km <br>
+          <strong>Distance from origin: </strong>${ride.userOriginDistance} km<br>
+          <strong>Distance from destination: </strong>${ride.userDestDistance} km <br>
           <strong>Phone Number</strong>: ${ride.user.phone}
         </div><!--post text container -->
         <div class="col-md-4 third-container">
@@ -149,9 +192,60 @@ function createPost(ride) {
             <button class="btn btn-block btn-success btn-join"> Join </button>
         </div>
       </div> <!--post container -->
-    </div><!--post -->
     `
+    // otherPostArea.innerHTML += postMarkup;
 
-    otherPostArea.innerHTML += postMarkup;
+    /* Create new post element */
+    const postContainer = document.createElement('div');
+    // postContainer.class = "col-md-10 post";
+    postContainer.classList.add('col-md-10');
+    postContainer.classList.add('post');
 
+    postContainer.id = newPost.postNumber;
+    postContainer.innerHTML = postMarkup;
+
+    const idxToInsert = insertPost(otherPosts, newPost);
+    insertPostDOM(otherPostArea, postContainer, idxToInsert);
+}
+
+function insertPost(posts, post) {
+  if (posts.length == 0) {
+    posts.push(post);
+    return 0;
+  }
+
+  const distanceTotal = post.ride.userOriginDistance + post.ride.userDestDistance;
+  let otherDistanceTotal = posts[0].ride.userOriginDistance + posts[0].ride.userDestDistance;
+  let idxToInsert;
+  let idx = 1;
+
+  while (idx < posts.length && distanceTotal > otherDistanceTotal) {
+    otherDistanceTotal = posts[idx].ride.userOriginDistance + posts[idx].ride.userDestDistance;
+    idx++;
+  }
+
+  if (idx == posts.length && distanceTotal > otherDistanceTotal) {
+    idxToInsert = idx;
+  }
+  else {
+    idxToInsert = idx - 1;
+  }
+
+  posts.splice(idxToInsert, 0, post);
+
+  return idxToInsert;
+}
+
+/* Insert post into posts array in correct (sorted) position
+based on user origin and destination sum */
+function insertPostDOM(postArea, postElement, idxToInsert) {
+  const postList = postArea.querySelectorAll('.post');
+
+  if (postList.length == idxToInsert || postList.length == 0) {
+    postArea.appendChild(postElement);
+  }
+  else {
+    postArea.insertBefore(postElement, postList[idxToInsert]);
+
+  }
 }
