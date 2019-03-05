@@ -12,10 +12,9 @@ class user {
 	}   
 }
 
-Users.push(new user('kartikay@gmail.com', '647-801-4618', 'kartikay'));
-Users.push(new user('parth@gmail.com', '647-801-4619', 'parth'));
-Users.push(new user('atharva@gmail.com', '647-801-2022', 'atharva'));
-Users.push(new user('imran@gmail.com', '647-801-2992', 'imran'));
+Users.push(new user('user', '647-801-4618', 'user'));
+Users.push(new user('user2', '647-801-4619', 'user2'));
+Users.push(new user('admin', '647-801-2022', 'admin'));
            
            
 if (document.querySelector('.form_body_login')!=null){
@@ -34,15 +33,19 @@ function login_page(e) {
     let password_input = document.querySelector('.form_password').value;
     console.log(password_input);
     
-    for (let i = 0; i < Users.length; i++){
+    for (var i = 0; i < Users.length; i++){
         if ((Users[i].email) == email_input && (Users[i].password) == password_input){
             window.open('logged.html',"_self")       
         }
+        
     }
-    if (i == Users.length)
+    
+    
+    if (i >= Users.length)
     {
-        alert("Please enter correct username and password")
+            alert("Please enter correct username and password")
     }
+
 }
 
 function registration_page(e) {

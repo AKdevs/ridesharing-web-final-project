@@ -21,11 +21,10 @@
     <form action="/login" class="form_body_login">
     <div class="form__element">
         <label class="form__label" for="email">
-            Email
+            Username
             <span class="form__required">required</span>
         </label>
-        <input class="form_email" id="email" type="text" name="email" required pattern="[^]+@[^]+[.][a-z]{2,63}$" autocomplete="email">
-        <p class="form__hint" id="emailHint">The email must be in the form of abc@xyz.com</p>
+        <input class="form_email" id="email" type="text" name="email" autocomplete="email">
     </div>
 
     <div class="form__element">
@@ -33,8 +32,7 @@
             Password
             <span class="form__required">required</span>
         </label>
-        <input class="form_password" id="password" type="password" name="password" required minlength="8">
-        <p class="form__hint" id="passwordHint">The password must be at least 8 characters long.</p>
+        <input class="form_password" id="password" type="password" name="password">
     </div>
 
     <a href="Registration.html" >Register here</a>

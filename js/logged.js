@@ -4,7 +4,7 @@ firstnameelement.addEventListener('click', myFunctionedit, false);
 const lastnamelement = document.querySelector('#lastnameelement').getElementsByClassName('edit')[0];
 lastnamelement.addEventListener('click', myFunctionedit)
 
-const passwordelement = document.querySelector('#passwordelement').getElementsByClassName('edit')[0];
+const passwordelement = document.querySelector('#passwordelement').getElementsByClassName('save')[0];
 passwordelement.addEventListener('click', myFunctionedit)
 
 const emailelement = document.querySelector('#emailelement').getElementsByClassName('edit')[0];
