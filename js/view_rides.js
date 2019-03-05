@@ -51,6 +51,7 @@ const joinedPostArea = document.querySelector('#joined-post-area');
 const otherPostArea = document.querySelector('#other-post-area');
 const ownPostArea = document.querySelector('#own-post-area');
 const seatSelector = document.querySelector('#seat-selector');
+const adminMode = parseInt(document.querySelector('#admin-mode').innerText);
 
 joinedPostArea.addEventListener('click', leaveRide);
 otherPostArea.addEventListener('click', joinRide);
@@ -244,7 +245,6 @@ setInterval(updateTimerDOM, 1000);
 
 /* Get the user that is logged in */
 const loggedInUser = getLoggedInUser();
-console.log(loggedInUser);
 
 /* UberX/UberPool,  UberXL */
 const carType = [4, 6];
@@ -387,6 +387,7 @@ function createPost(ride) {
       </div> <!--card -->
     `
 
+
     /* Create new post element */
     const postContainer = document.createElement('div');
     postContainer.classList.add('col-md-10');
@@ -404,9 +405,13 @@ function createPost(ride) {
       button.innerText = 'Remove';
     }
 
+
     /* Insert into array and DOM */
     const idxToInsert = insertPost(postArray, newPost);
     insertPostDOM(postArea, postContainer, idxToInsert);
+
+    /* Add admin controls if admin mode is on */
+    postContainer.querySelector('#close-button').style.visibility = 'visible';
 }
 
 function insertPost(posts, post) {
@@ -425,7 +430,7 @@ function insertPost(posts, post) {
     idx++;
   }
 
-  if (idx == posts.length && distanceTotal > otherDistanceTotal) {
+  if (idx === posts.length && distanceTotal > otherDistanceTotal) {
     idxToInsert = idx;
   }
   else {
