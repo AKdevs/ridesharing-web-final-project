@@ -1,9 +1,9 @@
-const new_var = document.querySelectorAll('#removeUser');
+const new_var = document.querySelectorAll('.deleteUser');
 console.log(new_var);
-new_var.addEventListener('click', delUser);
+var i;
+for (i=0; i<new_var.length; i++)
+{ new_var[i].addEventListener('click',delUser); }
 
 function delUser(e) {
-
-	console.log(e);
-
+	e.target.parentElement.parentElement.remove();
 }

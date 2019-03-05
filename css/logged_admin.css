@@ -19,7 +19,7 @@
 	max-width: 200px;
 }
 
-#deleteUser {
+.deleteUser {
 	height: 50px;
 	width: 50px;
 	margin-left: 10px;
