@@ -6,6 +6,14 @@
   /* border: 1px solid gray; */
 }
 
+.close-button {
+  margin-left: auto;
+}
+
+#post-area {
+  margin-top: 10vh;
+}
+
 .Disabled {
   pointer-events: none;
 }
@@ -14,14 +22,6 @@
   display: flex;
 }
 
-var {
-  visibility: hidden;
-}
-
-.close-button {
-  margin-left: auto;
-  visibility: hidden;
-}
 
 
 body {

@@ -33,7 +33,7 @@ class Post {
   constructor(ride) {
     this.ride = ride;
     // randomness for phase 1 simulation
-    const minutes = Math.floor(Math.random() * 20);
+    const minutes = Math.floor(Math.random() * 1);
     const seconds = Math.floor(Math.random() * 60);
     this.timer = new countdownTimer(0, minutes, seconds);
 
@@ -303,20 +303,20 @@ function getAllRides() {
   /* Server call will be used to get ride */
   const rides = [];
   const ride1 = new Ride(0, 2, getUser(1), '09:00 PM', '01-03-2020',
-        '483 Godric Way, Toronto, ON, M7R485',
-        '4853 Baskerville Terrace, Markham, ON, L3RC3C');
+        'City Centre Bus Terminal, ON, L5U1F8',
+        'Union Station, Toronto, ON, M3RC7C')
 
   const ride2 = new Ride(1, 3, getUser(2), '09:14 PM', '01-03-2020',
-        'City Centre Bus Terminal, ON, L5U1F8',
-        'Union Station, Toronto, ON, M3RC7C');
+        '483 Godric Way, Mississauga, ON, M7R485',
+        '4853 Baskerville Terrace, Markham, ON, L3RC3C');
 
   const ride3 = new Ride(1, 4, getUser(3), '09:14 PM', '01-03-2020',
-        'City Centre Bus Terminal, ON, L5U1F8',
-        'Union Station, Toronto, ON, M3RC7C');
+        '32 Lowther Street, Mississauga, ON, L5U1F8',
+        'Eaton Centre, Toronto, ON, M3RC7C');
 
   const ride4 = new Ride(0, 1, getUser(4), '09:14 PM', '01-03-2020',
-        'City Centre Bus Terminal, ON, L5U1F8',
-        'Union Station, Toronto, ON, M3RC7C');
+        '382 Falcon Terrace, Mississauga, ON, L5U1F8',
+        '82 Front Street, Toronto, ON, M3RC7C');
 
   rides.push(ride1);
   rides.push(ride2);
@@ -359,9 +359,6 @@ function createPost(ride) {
         <div class="address">
           <h5>${ride.origin}</h5>
         </div>
-        <button type="button" class="close" id="close-button" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="card-body shadow-sm bg-white rounded">
       <div class="post-container row ">
@@ -372,8 +369,12 @@ function createPost(ride) {
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
           <strong> Name:</strong> ${ride.user.name} <br>
           <strong>Time to call cab: </strong> ${ride.time} <br>
-          <strong>Distance from origin: </strong>${ride.userOriginDistance} km<br>
-          <strong>Distance from destination: </strong>${ride.userDestDistance} km <br>
+          <div class="distOrigin">
+            <strong>Distance from origin: </strong>${ride.userOriginDistance} km<br>
+          </div>
+          <div class="distDest">
+            <strong>Distance from destination: </strong>${ride.userDestDistance} km <br>
+          </div>
           <strong>Phone Number</strong>: ${ride.user.phone}
         </div><!--post text container -->
         <div class="col-md-4 third-container">
@@ -403,6 +404,10 @@ function createPost(ride) {
       button.classList.add('btn-danger');
       button.classList.add('btn-remove');
       button.innerText = 'Remove';
+
+      const textContainer = postContainer.getElementsByClassName('text-container')[0];
+      textContainer.removeChild(textContainer.querySelector('.distOrigin'));
+      textContainer.removeChild(textContainer.querySelector('.distDest'));
     }
 
 
@@ -410,8 +415,6 @@ function createPost(ride) {
     const idxToInsert = insertPost(postArray, newPost);
     insertPostDOM(postArea, postContainer, idxToInsert);
 
-    /* Add admin controls if admin mode is on */
-    postContainer.querySelector('#close-button').style.visibility = 'visible';
 }
 
 function insertPost(posts, post) {
