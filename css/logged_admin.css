@@ -1,0 +1,28 @@
+.containerText{
+	 float: left; 
+	 margin-left: 50px;
+	 margin-bottom: 20px;
+}
+
+#firstnameelement{
+	float: left;
+	max-width: 200px;
+}
+
+#lastnameelement{
+	float: left;
+	max-width: 200px;
+}
+
+#usernameelement{
+	float: left;
+	max-width: 200px;
+}
+
+#deleteUser {
+	height: 50px;
+	width: 50px;
+	margin-left: 10px;
+	margin-top: 20px;
+}
+
