@@ -44,14 +44,17 @@ class Post {
 
 const joinedPosts = []
 const otherPosts = []
+const ownPosts = []
 var numPassengers = 1;
 
 const joinedPostArea = document.querySelector('#joined-post-area');
 const otherPostArea = document.querySelector('#other-post-area');
+const ownPostArea = document.querySelector('#own-post-area');
 const seatSelector = document.querySelector('#seat-selector');
 
 joinedPostArea.addEventListener('click', leaveRide);
 otherPostArea.addEventListener('click', joinRide);
+ownPostArea.addEventListener('click', removeRide);
 // for passenger seat number selection
 $('#seat-selector label').on('click', function() {
   numPassengers = parseInt(this.innerText);
@@ -68,6 +71,15 @@ function enableSeatButtons() {
   const seatButtons = seatSelector.getElementsByTagName('label');
   for (let i = 0; i < seatButtons.length; i++) {
     seatButtons[i].classList.remove('Disabled');
+  }
+}
+
+/* only applies to own rides */
+function removeRide(e) {
+  if (e.target.classList.contains('btn')) {
+    const postElement = e.target.parentElement.parentElement.parentElement.parentElement.parentElement;
+    ownPostArea.removeChild(postElement);
+    removePost(ownPosts, parseInt(postElement.id));
   }
 }
 
@@ -172,7 +184,9 @@ function joinRide(e) {
 function updateTimerDOM() {
   const postElements = document.querySelectorAll('.post');
   for (let i = 0; i < postElements.length; i++) {
-    const timeContainer = postElements[i].querySelector('.timer');
+    const postElement = postElements[i];
+    const postNumber = parseInt(postElement.id);
+    const timeContainer = postElement.querySelector('.timer');
     const currentTime = timeContainer.innerText.split(':').map(x => parseInt(x));
     let hours = currentTime[0];
     let minutes = currentTime[1];
@@ -188,24 +202,57 @@ function updateTimerDOM() {
       hours -= 1;
     }
 
+    // if (timerExpired(h,m,s)) {
+    //   removePostDOM();
+    //   removePost();
+    // }
     // timer expiry, remove the post
     if (hours == 0 && minutes == 0 && seconds == 0 || hours < 0) {
-      let postIdx = findPostPositionById(otherPosts, parseInt(postElements[i].id));
-      if (postIdx == -1) {
-        joinedPostArea.removeChild(postElements[i]);
-        removePost(joinedPosts, parseInt(postElements[i].id));
-        if (joinedPosts.length === 0) {
-          enableSeatButtons();
-        }
-      }
-      else {
-        otherPostArea.removeChild(postElements[i]);
-        removePost(otherPosts, parseInt(postElements[i].id));
+      let postIdx = findPostPositionById(otherPosts, postNumber);
+      if (postIdx >= 0) {
+        otherPostArea.removeChild(postElement);
+        removePost(otherPosts, postNumber);
         if (otherPosts.length === 0) {
           enableSeatButtons();
         }
       }
+      else {
+        postIdx = findPostPositionById(joinedPosts, postNumber)
+        if (postIdx >= 0) {
+          joinedPostArea.removeChild(postElement);
+          removePost(joinedPosts, postNumber);
+          if (joinedPosts.length === 0) {
+            enableSeatButtons();
+          }
+        }
+        else {
+          ownPostArea.removeChild(postElement);
+          removePost(ownPosts, postNumber);
+        }
+      }
       return
+
+
+
+
+
+
+      // let postIdx = findPostPositionById(otherPosts, parseInt(postElement.id));
+      // if (postIdx == -1) {
+      //   joinedPostArea.removeChild(postElement);
+      //   removePost(joinedPosts, parseInt(postElement.id));
+      //   if (joinedPosts.length === 0) {
+      //     enableSeatButtons();
+      //   }
+      // }
+      // else {
+      //   otherPostArea.removeChild(postElement);
+      //   removePost(otherPosts, parseInt(postElement.id));
+      //   if (otherPosts.length === 0) {
+      //     enableSeatButtons();
+      //   }
+      // }
+      // return
     }
 
     const hourString = String(hours).padStart(2,'0');
@@ -221,29 +268,49 @@ function updateTimerDOM() {
 /* timer functionality */
 setInterval(updateTimerDOM, 1000);
 
-const user = {
+const user1 = {
   id: 1,
-  name: 'John Smith',
+  name: 'Alex Smith',
   phone: '905-383-3929'
 }
+
+const user2 = {
+  id: 2,
+  name: 'Julian Edelman',
+  phone: '416-291-2012'
+}
+
+const user3 = {
+  id: 3,
+  name: 'Peyton Manning',
+  phone: '647-392-3292'
+}
+
+const user4 = {
+  id: 4,
+  name: 'Tom Brady',
+  phone: '215-291-3939'
+}
+
+const loggedInUser = user1;
 
 /* UberX/UberPool,  UberXL */
 const carType = [4, 6]
 
 /* Server call will be used to get ride */
-const ride1 = new Ride(0, 2, user, '09:00 PM', '01-03-2020',
+const ride1 = new Ride(0, 2, user1, '09:00 PM', '01-03-2020',
       '483 Godric Way, Toronto, ON, M7R485',
       '4853 Baskerville Terrace, Markham, ON, L3RC3C');
 
-const ride2 = new Ride(0, 1, user, '09:14 PM', '01-03-2020',
+const ride2 = new Ride(1, 3, user2, '09:14 PM', '01-03-2020',
       'City Centre Bus Terminal, ON, L5U1F8',
       'Union Station, Toronto, ON, M3RC7C');
 
-const ride3 = new Ride(0, 1, user, '09:14 PM', '01-03-2020',
+const ride3 = new Ride(1, 4, user3, '09:14 PM', '01-03-2020',
       'City Centre Bus Terminal, ON, L5U1F8',
       'Union Station, Toronto, ON, M3RC7C');
 
-const ride4 = new Ride(0, 1, user, '09:14 PM', '01-03-2020',
+const ride4 = new Ride(0, 1, user4, '09:14 PM', '01-03-2020',
       'City Centre Bus Terminal, ON, L5U1F8',
       'Union Station, Toronto, ON, M3RC7C');
 
@@ -258,6 +325,10 @@ function createPost(ride) {
 
   const seatsAvailable = carType[ride.type] - ride.seatsOccupied;
 
+  /* Determine the appropriate area/array where the post should be inserted */
+  const postArray = (ride.user === loggedInUser) ? ownPosts : otherPosts;
+  const postArea = (ride.user === loggedInUser) ? ownPostArea : otherPostArea;
+
   const hourString = String(newPost.timer.hours).padStart(2,'0');
   const minuteString = String(newPost.timer.minutes).padStart(2,'0');
   const secondString = String(newPost.timer.seconds).padStart(2,'0');
@@ -267,6 +338,9 @@ function createPost(ride) {
         <div class="address">
           <h5>${ride.origin}</h5>
         </div>
+        <button type="button" class="close" id="close-button" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="card-body shadow-sm bg-white rounded">
       <div class="post-container row ">
@@ -286,24 +360,32 @@ function createPost(ride) {
               <h1> ${hourString}:${minuteString}:${secondString}</h1>
             </div>
             <button class="btn btn-block btn-success btn-join"> Join </button>
-        </div>
-      </div> <!--post container -->
-      </div> <!--card-body-->
+          </div>
+        </div> <!--post container -->
+        </div> <!--card-body-->
       </div> <!--card -->
     `
-    // otherPostArea.innerHTML += postMarkup;
 
     /* Create new post element */
     const postContainer = document.createElement('div');
-    // postContainer.class = "col-md-10 post";
     postContainer.classList.add('col-md-10');
     postContainer.classList.add('post');
-
     postContainer.id = newPost.postNumber;
     postContainer.innerHTML = postMarkup;
 
-    const idxToInsert = insertPost(otherPosts, newPost);
-    insertPostDOM(otherPostArea, postContainer, idxToInsert);
+    // change button to remove if post belongs to logged in user
+    if (loggedInUser === ride.user) {
+      const button = postContainer.querySelector('.btn-join');
+      button.classList.remove('btn-join');
+      button.classList.remove('btn-success');
+      button.classList.add('btn-danger');
+      button.classList.add('btn-remove');
+      button.innerText = 'Remove';
+    }
+
+    /* Insert into array and DOM */
+    const idxToInsert = insertPost(postArray, newPost);
+    insertPostDOM(postArea, postContainer, idxToInsert);
 }
 
 function insertPost(posts, post) {

@@ -10,6 +10,16 @@
   pointer-events: none;
 }
 
+.card-header {
+  display: flex;
+}
+
+#close-button {
+  margin-left: auto;
+  visibility: hidden;
+}
+
+
 body {
 	font-family: "helvetica neue", helvetica, sans-serif;
 }
