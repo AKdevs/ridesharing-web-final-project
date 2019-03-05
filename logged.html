@@ -1,21 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Profile Page</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Profile Page</title>
+        <!---link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"-->
+        <link rel="stylehseet" type="text/css" href="css/profile.css">
+        <!--link rel="stylesheet" href="css/style.css"--->
 
-<body>
-  <nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">UberZ</a>
-      <a class="btn btn-primary" href="registration.html">Register</a>
+    </head>
+
+    <body>
+
+    <div id="myP">This is a paragraph. Click the button to make me editable.<button class='edit'>Edit</button>
     </div>
-  </nav>
-    <h1><center>Your Profile</center></h1>
-</body>
+
+    </body>
+    
+    
+    <body>
+      <nav class="navbar navbar-light bg-light static-top">
+        <div class="container">
+          <a class="navbar-brand" href="#">Search for a Ride</a>
+          <a class="btn btn-primary" href="index.html">Logout</a>
+        </div>
+      </nav>
+      <h1><center>Hi Welcome back, Kartikay </center></h1>
+
+      <div id="firstElement" >First Element<button class='edit'>Edit</button></div>
+      <div id="secondElement">Second Element<button class='edit'>Edit</button></div>
+
+
+        <div class="pic-container pic-medium pic-circle">
+          <img class="pic" src="img/testimonials-1.jpg" alt="">
+          <div class="pic-overlay">
+              <a><i class="fa fa-window-close-o" aria-hidden="true"></i></a>
+              <a><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+
+                <!---div class="form-control"> 
+                    <label class="header">Profile Photo:</label>
+
+                    <input id="image" type="file" name="profile_photo" placeholder="Photo" required="" capture>
+                </div--->
+
+        <div class="form-control"> 
+            <label class="header">Store Name :</label>
+            <input type="text" id="store_name" name="store_name" placeholder="Store Name" title="Please enter your First Name" required="">
+        </div>
+
+        <div class="form-control">
+            <label class="header">Store Type :</label>
+            <input type="text" id="store_type" name="store_type" placeholder="Store Type" title="Please enter your Last Name" required=""> 
+            <button class='delete'>Delete</button>
+        </div>
+
+        <div class="form-control">  
+            <label class="header">Owner Type :</label>
+            <input type="text" id="owner_type" name="owner_type" placeholder="Owner Type" title="Please enter a valid email" required="">
+        </div>
+
+        <div contenteditable="true">Anything inside this div will be editable!</div>
+
+        <div class="form-control">  
+            <label class="header">Contact Number :</label>  
+            <input type="text" id="contact_number" name="contact_number" placeholder="Contact Number" required="">
+        </div>  
+
+        <div class="form-control">  
+            <label class="header">Contact Email :</label>   
+            <input type="email" id="contact_email" name="contact_email" placeholder="Contact Email" required="">
+        </div>  
+
+    <script type="text/javascript" src="js/logged.js"></script>  
+    </body>
+</html>
+
