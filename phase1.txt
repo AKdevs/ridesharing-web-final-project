@@ -1,0 +1,62 @@
+Phase 1 Report (Team 40):
+
+View Landing Page:
+Run the web app by clicking the index.html page in chrome browser.
+This will launch the main landing page, here you can scroll through and get a feel about the product and click the elements in nav bar to redirect to different elements of the page like team and about section. You can now choose to login by clicking the login from the top right of the page. 
+
+
+View Login Page:
+
+You would have two options to login as a regular user or an admin.
+
+If you chose to login as a regular user, enter either of following credentials:
+Username: user, Password: user
+Username: user2, Password: user2
+
+If you chose to login as admin, enter the following credentials:
+
+Username: admin, Password: admin.
+
+If you wish to create another user, click the register button on top right.
+
+
+View Register Page:
+
+Here you are asked to enter your username, Email, Phone Number, Password and re enter password. You are required to match your password and reenter password field otherwise there will be a pop up window and you won’t be able to register.
+
+You also can’t register by setting your username to admin - this will pop up a window suggesting the same.
+At any point you can go back to the home page by clicking UberZ on top left corner.
+
+
+Logged in as regular user:
+
+You will be greeted by the profile page, which will show you a default profile picture, first name, last name, email, phone number and password. Apart from your username and profile picture, you should be able to edit all other fields. Username field is locked by default and is used to distinguish a particular user. We plan to add the profile picture upload functionality in the next phase to allow data exchange from your local computer on to the profile page. In the next phase, all the field you edit will be stored and updated in database so when you refresh the page you will have the updated values.
+
+You can click on logout button on top right corner of nav bar which will redirect you to main page.
+
+On the top left corner you can start searching for a ride 
+
+
+
+……..
+
+
+……..
+
+
+
+Logged in as admin user:
+
+
+You will be by the users profile page where you can view all the details about the users registered on the system, including their username, first name, last name. As an admin, you can modify the username of a user and be able to delete users as well.
+
+
+On the top left of the nav bar, you can view the list of created rides. Clicking this lands a page
+
+……..
+
+
+……..
+
+
+
