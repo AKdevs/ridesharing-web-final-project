@@ -35,6 +35,7 @@ const createRide = locationInfo.querySelector('#ticket_info');
 const carSelect = document.querySelector('#select_uber');
 const seatsSelect = document.querySelector('#select_seats');
 const submitBtn = document.querySelector('#create_button');
+const changeInfo = document.querySelector('#change_info');
 
 let car;
 let seats;
@@ -48,6 +49,7 @@ let theTime;
 carSelect.addEventListener('click', selectCar);
 seatsSelect.addEventListener('click', selectSeats);
 submitBtn.addEventListener('click', create);
+changeInfo.addEventListener('click',changeInfoPage);
 
 /*-----------------------------------------------------------*/
 
@@ -70,9 +72,38 @@ window.onload = function () {
     document.querySelector('#ending').innerText= "";	
 	
     document.querySelector('#starting').innerText = theStart;
-    document.querySelector('#ending').innerText = theEnd;	
+    document.querySelector('#ending').innerText = theEnd;
+	
+	calendarInitialization();
+	
+	//timeCheck below
+	
+	
 }
 
+function calendarInitialization(){
+	
+	const startCalendar = document.querySelector('#start');
+	const startTime = document.querySelector('#appt');
+	
+	let newDate = new Date();
+	let dateToday = newDate.getDate();
+	let month = newDate.getMonth()+1;
+	let year = newDate.getFullYear();
+	let theTime = newDate.getHours() + ":" + newDate.getMinutes() + ":" + newDate.getSeconds();
+
+	if (dateToday < 10) {
+		dateToday = '0' + dateToday;
+	}
+
+	if (month < 10) {
+		month = '0' + month;
+	}
+	
+	startCalendar.value = year + '-' + month + '-' + dateToday;
+	startCalendar.min = year + '-' + month + '-' + dateToday;
+
+}
 
 function selectCar(e) {
 	e.preventDefault();
@@ -143,7 +174,9 @@ function create(e){
 	
 }
 
-
+function changeInfoPage(){
+	document.location.href = 'main_page.html';
+}
 
 function displayTicket(){
 	const modalContent = document.querySelector('.modal-body');
