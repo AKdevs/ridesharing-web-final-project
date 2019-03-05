@@ -12,8 +12,8 @@ const createRideBtn = document.querySelector('#createRideBtn');
 const viewRideBtn = document.querySelector('#viewRideBtn');
 
 findDistTime.addEventListener('click',checkInputs);
-createRideBtn.addEventListener('click',createRidePage);
-viewRideBtn.addEventListener('click',viewRides);
+createRideBtn.addEventListener('click',checkInputs);
+viewRideBtn.addEventListener('click',checkInputs);
 
 
 /*-----------------------------------------------------------*/
@@ -50,8 +50,19 @@ function checkInputs(e){
 		emptyError.style.display = 'none';
 		emptyError1.style.display = 'none';
 		emptyError2.style.display = 'none';
-		distTimeInfos.style.display = 'block';
+		
+		if(e.target.id == "createRideBtn"){
+			createRidePage();
+		}
+		
+		if(e.target.id == "viewRideBtn"){
+			viewRides();
+		}
+		if(e.target.id == "findDistTime"){
+		   distTimeInfos.style.display = 'block';
+		}
 	}
+	
 }
 
 function createRidePage(){
