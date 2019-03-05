@@ -87,3 +87,12 @@ body h1{
 .third-container {
   text-align: center;
 }
+
+
+.navbar-brand{
+	margin-left:7vw;
+}
+
+#logOutBtn{
+	margin-right:7vw;
+}
