@@ -10,12 +10,11 @@ class countdownTimer {
 }
 
 class Ride {
-  constructor(type, seatsOccupied, user, time, date, origin, destination) {
+  constructor(type, seatsOccupied, user, timer, origin, destination) {
     this.type = type;
     this.seatsOccupied = seatsOccupied;
     this.user = user;
-    this.time = time;
-    this.date = date;
+    this.timer = timer;
     this.origin = origin;
     this.destination = destination;
     // Distance that the user's location is from this ride's starting point
@@ -32,11 +31,6 @@ let postNumber = 0;
 class Post {
   constructor(ride) {
     this.ride = ride;
-    // randomness for phase 1 simulation
-    const minutes = Math.floor(Math.random() * 20);
-    const seconds = Math.floor(Math.random() * 60);
-    this.timer = new countdownTimer(0, minutes, seconds);
-
     this.postNumber = postNumber++;
   }
 }
@@ -300,19 +294,19 @@ progress */
 function getAllRides() {
   /* Server call will be used to get ride */
   const rides = [];
-  const ride1 = new Ride(0, 2, getUser(1), '09:00 PM', '01-03-2020',
+  const ride1 = new Ride(0, 2, getUser(1), new Date(2020, 0, 3, 21, 0, 0),
         'City Centre Bus Terminal, ON, L5U1F8',
         'Union Station, Toronto, ON, M1UH83')
 
-  const ride2 = new Ride(1, 3, getUser(2), '09:14 PM', '01-03-2020',
+  const ride2 = new Ride(1, 3, getUser(2), new Date(2020, 0, 3, 21, 20, 0),
         '483 Godric Way, Mississauga, ON, M7R485',
         '4853 Baskerville Terrace, Markham, ON, L3RC3C');
 
-  const ride3 = new Ride(1, 4, getUser(3), '09:14 PM', '01-03-2020',
+  const ride3 = new Ride(1, 4, getUser(3), new Date(2020, 0, 3, 21, 15, 0),
         '32 Lowther Street, Mississauga, ON, L5U1F8',
         'Eaton Centre, Toronto, ON, M3RC7C');
 
-  const ride4 = new Ride(0, 1, getUser(4), '09:14 PM', '01-03-2020',
+  const ride4 = new Ride(0, 1, getUser(4), new Date(2020, 0, 3, 21, 5, 0),
         '382 Falcon Terrace, Mississauga, ON, L5U1F8',
         '82 Front Street, Toronto, ON, M3RC7C');
 
@@ -335,6 +329,9 @@ function displayAllPosts() {
   }
 }
 
+/* Specify current time, just for simulation purposes */
+var currentTime = new Date(2020, 0, 3, 20, 55, 52);
+
 /* Code execution begins here */
 displayAllPosts();
 /* Code execution ends here */
@@ -348,9 +345,18 @@ function createPost(ride) {
   const postArray = (ride.user.id === loggedInUser.id) ? ownPosts : otherPosts;
   const postArea = (ride.user.id === loggedInUser.id) ? ownPostArea : otherPostArea;
 
-  const hourString = String(newPost.timer.hours).padStart(2,'0');
-  const minuteString = String(newPost.timer.minutes).padStart(2,'0');
-  const secondString = String(newPost.timer.seconds).padStart(2,'0');
+  /* Convert time difference to readable format, sourced from
+  https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript */
+  const timerDifferenceSeconds = (ride.timer - currentTime) / 1000;
+  const date = new Date(null);
+  date.setSeconds(timerDifferenceSeconds); // specify value for SECONDS here
+  const timeString = date.toISOString().substr(11, 8).split(':');
+  const hourString = timeString[0];
+  const minuteString = timeString[1];
+  const secondString = timeString[2];
+
+  const expiryTimeString = ride.timer.toLocaleString("en-US").split(', ')[1];
+
   const postMarkup = `
       <div class="card">
       <div class="card-header bg-default address">
@@ -367,7 +373,7 @@ function createPost(ride) {
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
           <strong> Name:</strong> ${ride.user.name} <br>
-          <strong>Time to call cab: </strong> ${ride.time} <br>
+          <strong>Time to call cab: </strong> ${expiryTimeString} <br>
           <div class="distOrigin">
             <strong>Distance from origin: </strong>${ride.userOriginDistance} km<br>
           </div>
