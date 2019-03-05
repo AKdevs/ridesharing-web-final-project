@@ -26,7 +26,8 @@ body h1{
 #google_maps{
 	margin-left:7.5vw;
 	margin-right:2vw;
-	height:30vw;
+	margin-bottom:2vw;
+	height:25vw;
 	width:45vw;
 	float:left;
 	border:0;
@@ -54,20 +55,25 @@ body h1{
 }
 
 #createRideBtn{
-	margin-right:1vw;
 	width:8vw;
+	padding-left:1vw;
+	padding-right:1vw;
+	font-size:1vw;
+	margin-right:1vw;
+	
+}
+
+#viewRideBtn{
+	width:12vw;
 	padding-left:1vw;
 	padding-right:1vw;
 	font-size:1vw;
 	
 }
 
-#FindRideBtn{
-	margin-right:1vw;
-	width:8vw;
-	padding-left:1vw;
-	padding-right:1vw;
-	font-size:1vw;
+#submitBtns{
+	float:right;
+	margin-right:7.5vw;
 }
 
 #findDistTime{
@@ -79,10 +85,6 @@ body h1{
 	padding-right:1vw;
 }
 
-#submitBtns{
-	float:right;
-	margin-right:7.5vw;
-}
 
 #emptyField1{
 	color:red;
@@ -120,6 +122,16 @@ body h1{
 	margin-top:1.5vw;
 	margin-bottom:1.5vw;
 	font-size:1.25vw;
+}
+
+
+
+.navbar-brand{
+	margin-left:7vw;
+}
+
+#logOutBtn{
+	margin-right:7vw;
 }
 
 body hr{
