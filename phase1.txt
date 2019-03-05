@@ -30,41 +30,27 @@ At any point you can go back to the home page by clicking UberZ on top left corn
 
 Logged in as regular user:
 
-You will be greeted by the profile page, which will show you a default profile picture, first name, last name, email, phone number and password. Apart from your username and profile picture, you should be able to edit all other fields. Username field is locked by default and is used to distinguish a particular user. We plan to add the profile picture upload functionality in the next phase to allow data exchange from your local computer on to the profile page. In the next phase, all the field you edit will be stored and updated in database so when you refresh the page you will have the updated values.
+You will be greeted by the main ride finding/ creating page. The nav bar consists of 'My Profile', along with UberZ home button and logout button. On clicking my profile page, you will be redirected to your profile page which will show you a default profile picture, first name, last name, email, phone number and password. Apart from your username and profile picture, you should be able to edit all other fields. Username field is locked by default and is used to distinguish a particular user. We plan to add the profile picture upload functionality in the next phase to allow data exchange from your local computer on to the profile page. In the next phase, all the field you edit will be stored and updated in database so when you refresh the page you will have the updated values.
 
 You can click on logout button on top right corner of nav bar which will redirect you to main page.
 
 On the top left corner you can start searching for a ride 
 
-View find rides page:
+Search for a ride page:
 
-You will be presented with a page displaying an interactive map and input fields for users to specify starting and ending points. Once
-a user adds their origin and destination, they can click the "Find distance and time" page to view time required to reach their
-destination. It also displays the distance from origin to destination. Currently, the values of distance and time displayed to the user
-once they enter the origin and destinatios are hardcoded. This page also ensures that the user has not left any input fields by giving
-an error message to the user and specifying the empty fields. This enchances the user interface. In the next phase, map API will be used
-to display an interactive map. The API will be used to get information on the distance and time as well. Each input field will also have
-an autofill feature. This feature will display location options to choose from as user enters their starting and ending point.
+You will be presented with a page displaying an interactive map and input fields for users to specify starting and ending points. Once a user adds their origin and destination, they can click the "Find distance and time" page to view time required to reach their destination. It also displays the distance from origin to destination. Currently, the values of distance and time displayed to the user once they enter the origin and destinatios are hardcoded. This page also ensures that the user has not left any input fields by giving an error message to the user and specifying the empty fields. This enchances the user interface. In the next phase, map API will be used to display an interactive map. The API will be used to get information on the distance and time as well. Each input field will also have an autofill feature. This feature will display location options to choose from as user enters their starting and ending point.
 
 View Rides Page:
 On the top of the page, the user's chosen origin and destination are shown, along with a button toggle for selecting the number of passengers they will be joining a ride with. Further down on this page you will find a list of all the rides that are currently available, always sorted by ascending total distance. We define total distance as the distance of ride's origin from user's specified origin + distance of the ride's destination from the user's specified destination. Each ride is shown in a post, which displays ride information such as available seats, name and contact number of the ride creator etc. The post also shows the meeting point of the ride, which is where all joined riders are to meet up when the timer expires. By default, all rides will show in the "Rides Available" section and the "Currently Joined" will be empty. Any rides that the user has created (call it an "own ride") will show in the "Your Rides" section. Note, we have put an example of an "own ride" by default on the page just for demonstration purposes. Each ride has a timer, which after expiry will cause the post to disappear from the page. If the user joins a ride, the ride will show up in the "Currently Joined" section. The user may NOT change the number of passengers while they are joined in a ride. This is to prevent joining and leaving with different amounts of passengers. The user may leave a ride by clicking the "Leave" button, after which the ride will return to the "Rides Available" section. A user cannot join or leave their own ride, but can remove it by clicking the "Remove" button.
 
-……..
-
-
-
 Logged in as admin user:
-
 
 You will be by the users profile page where you can view all the details about the users registered on the system, including their username, first name, last name. As an admin, you can modify the username of a user and be able to delete users as well.
 
+On the top left of the nav bar, you can click the "View Rides" button to view the list of created rides. On this page, you can click the cancel button to remove a user's ride from the list. 
 
-On the top left of the nav bar, you can click the "View Rides" button to view the list of created rides. On this page, you can remove any rides.
+Once you are in the view rides page, on the top left of the nav bar, you can click the "View Users" button to view the list of all users. On this page, you can click the cancel user button to delete the user. 
 
-……..
-
-
-……..
 
 
 
