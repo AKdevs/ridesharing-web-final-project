@@ -16,8 +16,8 @@ body h1{
 }
 
 #google_maps{
-	width:500px;
-	height:385px;
+	width:550px;
+	height:410px;
 	margin-left:100px;
 	margin-right:40px;
 	float:left;
@@ -54,13 +54,13 @@ body h1{
 
 #select_uber button{
 	margin-right:10px;
-	margin-top:10px;
-	margin-bottom:10px;
+	margin-top:0px;
+	margin-bottom:20px;
 }
 
 #select_seats button{
 	margin-right:10px;
-	margin-top:10px;
+	margin-top:00px;
 	margin-bottom:10px;
 }
 
@@ -97,8 +97,13 @@ body h1{
 	display:none;
 }
 
-body hr{
+.bigHR{
 	margin-left:7.5vw;
+	margin-right:7.5vw;	
+}
+
+.smallHR{
+	margin-left:50vw;
 	margin-right:7.5vw;
 }
 
@@ -111,4 +116,16 @@ body hr{
 #create_success{
 	margin-left:2px;
 	margin-right:2px;
+}
+
+.subheading{
+	width 10px;
+}
+
+.navbar-brand{
+	margin-left:7vw;
+}
+
+#logOutBtn{
+	margin-right:7vw;
 }
