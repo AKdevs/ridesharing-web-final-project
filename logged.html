@@ -12,13 +12,6 @@
 
     </head>
 
-    <body>
-
-    <div id="myP">This is a paragraph. Click the button to make me editable.<button class='edit'>Edit</button>
-    </div>
-
-    </body>
-    
     
     <body>
       <nav class="navbar navbar-light bg-light static-top">
@@ -29,8 +22,8 @@
       </nav>
       <h1><center>Hi Welcome back, Kartikay </center></h1>
 
-      <div id="firstElement" >First Element<button class='edit'>Edit</button></div>
-      <div id="secondElement">Second Element<button class='edit'>Edit</button></div>
+      <!---div id="firstElement" >First Element<button class='edit'>Edit</button></div-->
+      <!---div id="secondElement">Second Element<button class='edit'>Edit</button></div-->
 
 
         <div class="pic-container pic-medium pic-circle">
@@ -48,33 +41,29 @@
                     <input id="image" type="file" name="profile_photo" placeholder="Photo" required="" capture>
                 </div--->
 
-        <div class="form-control"> 
-            <label class="header">Store Name :</label>
-            <input type="text" id="store_name" name="store_name" placeholder="Store Name" title="Please enter your First Name" required="">
+        <div class="form-control" id="firstnameelement"> 
+            <label class="header">First Name :</label>
+            Kartikay<button class='edit'>Edit</button>
         </div>
 
-        <div class="form-control">
-            <label class="header">Store Type :</label>
-            <input type="text" id="store_type" name="store_type" placeholder="Store Type" title="Please enter your Last Name" required=""> 
-            <button class='delete'>Delete</button>
+        <div class="form-control" id="lastnameelement"> 
+            <label class="header">Last Name :</label>
+            Goyle<button class='edit'>Edit</button>
         </div>
 
-        <div class="form-control">  
-            <label class="header">Owner Type :</label>
-            <input type="text" id="owner_type" name="owner_type" placeholder="Owner Type" title="Please enter a valid email" required="">
+        <div class="form-control" id="phoneelement"> 
+            <label class="header">Phone Number :</label>
+            647-801-3333<button class='edit'>Edit</button>
         </div>
 
-        <div contenteditable="true">Anything inside this div will be editable!</div>
-
-        <div class="form-control">  
-            <label class="header">Contact Number :</label>  
-            <input type="text" id="contact_number" name="contact_number" placeholder="Contact Number" required="">
-        </div>  
-
-        <div class="form-control">  
-            <label class="header">Contact Email :</label>   
-            <input type="email" id="contact_email" name="contact_email" placeholder="Contact Email" required="">
-        </div>  
+        <div class="form-control" id="emailelement"> 
+            <label class="header">Email :</label>
+            kartikay@gmail.com<button class='edit'>Edit</button>
+        </div>
+        <div class="form-control" id="passwordelement" type="password"> 
+            <label class="header">Password :</label>
+            kartikay<button class='edit'>Edit</button>
+        </div>
 
     <script type="text/javascript" src="js/logged.js"></script>  
     </body>

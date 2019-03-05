@@ -1,0 +1,185 @@
+    .signup-w3ls {
+    width: 50%;
+    margin: 70px 25% 80%;
+    padding: 0;
+    display: table;
+    position: relative;
+}
+.signup-agile1{
+    width:100%;
+    float:center;
+}
+
+.signup-w3ls .signup-agile1 .form-control {
+    margin-bottom: 20px;
+}
+label.header {
+    font-size: 16px;
+    font-weight: 500;
+    width: 215px;
+    color: grey;
+    margin-right:10px;
+    text-align:justify;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: 'Nunito', sans-serif;
+}
+input#image,input#store_name, input#store_type,input#owner_type, input#website,input#contact_number,input#contact_email {
+    padding:0 40px;
+    width:40%;
+    height:55px;
+    border: 1px solid #dadada;
+    color: grey;
+    text-align:justify;
+    outline: none;
+    letter-spacing: 1px;
+    font-size: 16px;
+    font-weight:normal;
+    font-family: 'Muli', sans-serif;
+    border-radius:30px;
+    -webkit-border-radius:30px;
+    -moz-border-radius:30px;
+    -o-border-radius:30px;
+    -ms-border-radius:30px; 
+}
+input#image:focus,input#store_name:focus, input#store_type:focus,input#owner_type:focus, input#website:focus,input#contact_number:focus,input#contact_email:focus  {
+    background-color:#f5f8fa !important;
+    border:1px solid #dadada;
+}
+input::-webkit-input-placeholder {
+color: grey;
+} 
+input:-moz-placeholder { /* Firefox 18- */
+color: grey;  
+} 
+input::-moz-placeholder {  /* Firefox 19+ */
+color: grey;  
+} 
+input:-ms-input-placeholder {  
+color: grey;  
+}
+.register {
+    background-color: lightgreen;
+    width: 52%;
+    height: 55px;
+    border: none;
+    margin-left: 233px;
+    cursor: pointer;
+    color: #fff;
+    outline: none;
+    font-size: 20px;
+    font-weight: normal;
+    text-transform: uppercase;
+    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -o-border-radius: 30px;
+    -ms-border-radius: 30px;
+    font-family: 'Muli', sans-serif;
+}   
+.register:hover {
+    background-color:#36b051;
+    color:#fff;
+}
+
+
+
+.pic-container{
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.pic{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.pic-container.pic-xs{
+  width: 50px;
+  height: 50px;
+}
+
+.pic-container.pic-small{
+  width: 70px;
+  height: 70px;
+}
+
+.pic-container.pic-medium{
+  width: 150px;
+  height: 150px;
+  display: inline-block;
+  border-radius: 50%;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+    
+}
+
+.pic-container.pic-large{
+  width: 250px;
+  height: 250px;
+}
+
+
+.pic-container.pic-xl{
+  width: 350px;
+  height: 350px;
+}
+
+.pic-container.pic-circle{
+  border-radius: 50%;
+}
+
+.pic-overlay{
+  background-color: #ccc;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  position: relative;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.pic-container:hover .pic-overlay{
+  top: -100%;
+}
+
+.pic-overlay a{
+  display: block;
+  padding: 10px;
+}
+
+.pic-xs .pic-overlay a{
+  padding: 5px;
+}
+
+.pic-overlay .fa-window-close-o{
+  color: red;
+}
+
+.pic-overlay .fa-pencil-square-o{
+  color: blue;
+}
+
+.pic-medium .pic-overlay a i{
+  font-size: 20px;
+}
+
+.pic-large .pic-overlay a i{
+  font-size: 35px;
+}
+
+.pic-xl .pic-overlay a i{
+  font-size: 45px;
+}
