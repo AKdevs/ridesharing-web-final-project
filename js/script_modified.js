@@ -42,7 +42,7 @@ function login_page(e) {
     for (var i = 1; i < Users.length; i++){
  
         if ((Users[i].username) == email_input && (Users[i].password) == password_input){
-              window.open('logged.html',"_self") 
+              window.open('main_page.html',"_self") 
               flag_bool = true;
         }
         
