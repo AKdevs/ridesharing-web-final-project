@@ -32,9 +32,7 @@ function login_page(e) {
     var flag_bool = false;
     e.preventDefault();
     let email_input = document.querySelector('.form_email').value;
-    console.log(email_input);
     let password_input = document.querySelector('.form_password').value;
-    console.log(password_input);
     
     if (email_input === "admin" && password_input === "admin"){
         flag_bool = true;
@@ -60,15 +58,11 @@ function login_page(e) {
 function registration_page(e) {
     e.preventDefault();
     let username_input = document.querySelector('.form_username').value;
-    console.log(username_input);
     let email_input = document.querySelector('.form_email').value;
-    console.log(email_input);
+    
     let phone_input = document.querySelector('.form_phone').value;
-    console.log(phone_input);
-    let password_input = document.querySelector('.form_password').value;
-    console.log(password_input);
+        let password_input = document.querySelector('.form_password').value;
     let password_input_repeat = document.querySelector('.form_password_repeat').value;
-    console.log(password_input_repeat);
     
     if(username_input == "admin")
     {
