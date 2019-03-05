@@ -37,7 +37,6 @@ class Post {
     const seconds = Math.floor(Math.random() * 60);
     this.timer = new countdownTimer(0, minutes, seconds);
 
-    this.seatsAvailable = carType[ride.type] - ride.seatsOccupied;
     this.postNumber = postNumber++;
   }
 }
@@ -51,7 +50,6 @@ const joinedPostArea = document.querySelector('#joined-post-area');
 const otherPostArea = document.querySelector('#other-post-area');
 const ownPostArea = document.querySelector('#own-post-area');
 const seatSelector = document.querySelector('#seat-selector');
-const adminMode = parseInt(document.querySelector('#admin-mode').innerText);
 
 joinedPostArea.addEventListener('click', leaveRide);
 otherPostArea.addEventListener('click', joinRide);
