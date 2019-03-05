@@ -22,17 +22,7 @@ class theRides {
 		numberOfRides++;
 	}
 
-	setLoanTime() {
 
-		const self = this;
-		setTimeout(function() {
-			
-			console.log('overdue book!', self.title)
-			changeToOverdue(self);
-
-		}, 3000)
-
-	}
 }
 
 
@@ -48,8 +38,8 @@ const submitBtn = document.querySelector('#create_button');
 
 let car;
 let seats;
-let theStart;
-let theEnd;
+let theStart = "10 Kings College Street, Toronto";
+let theEnd = "122 St.George Street, Toronto";
 let theDate;
 let theTime;
 
@@ -62,6 +52,7 @@ submitBtn.addEventListener('click', create);
 /*-----------------------------------------------------------*/
 
 window.onload = function () {
+	
     var url = document.location.href,
         params = url.split('?')[1].split('&'),
         data = {}, tmp;
@@ -75,8 +66,11 @@ window.onload = function () {
 	theStart = decodeURIComponent(rcvd[0]);
 	theEnd = decodeURIComponent(rcvd[1]);
 	
-    document.querySelector('#starting').innerHTML = theStart;
-   document.querySelector('#ending').innerHTML = theEnd;	
+	document.querySelector('#starting').innerText = "";
+    document.querySelector('#ending').innerText= "";	
+	
+    document.querySelector('#starting').innerText = theStart;
+    document.querySelector('#ending').innerText = theEnd;	
 }
 
 
@@ -118,16 +112,35 @@ function selectSeats(e) {
 
 function create(e){
 	const errorMsg = document.querySelector('#create_fail');
-	if(car ==	'' || seats == ''){
-		errorMsg.style.display = "block";
-	}
-	else{
+
+	let timeElem;
 	theDate = document.querySelector('input[type="date"]').value;
 	theTime = document.querySelector('input[type="time"]').value;
+	
+    let isAmisPm = " AM";
+    if(theTime.substring(0,2) < 12){
+        isAmisPm = " AM";
+    } else {
+        isAmisPm = " PM";   
+    }
+    
+	let hour = +theTime.substr(0, 2);
+	let theHour = (hour % 12)||12;
+	theTime = theHour + theTime.substr(2, 3) + isAmisPm;
 
-	rides.push(new theRides(origin, ending, car, seats, theDate, theTime));
-	displayTicket();
+
+	rides.push(new theRides(theStart, theEnd, car, seats, theDate, theTime));
+	
+	if(typeof theStart === 'undefined' || typeof theEnd === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined' || typeof theDate === 'undefined' || typeof theTime === 'undefined'){
+		errorMsg.style.display = "block";
+		scroll(0,0);
 	}
+	else{
+		//jquery for the modal pop up
+		$('#ticket_info').modal();
+		displayTicket();
+	}
+	
 }
 
 
