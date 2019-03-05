@@ -11,7 +11,7 @@ class countdownTimer {
 
 class Ride {
   constructor(type, seatsOccupied, user, time, date, origin, destination) {
-    this.type = 0;
+    this.type = type;
     this.seatsOccupied = seatsOccupied;
     this.user = user;
     this.time = time;
@@ -33,7 +33,7 @@ class Post {
   constructor(ride) {
     this.ride = ride;
     // randomness for phase 1 simulation
-    const minutes = Math.floor(Math.random() * 10);
+    const minutes = Math.floor(Math.random() * 20);
     const seconds = Math.floor(Math.random() * 60);
     this.timer = new countdownTimer(0, minutes, seconds);
 
@@ -202,10 +202,6 @@ function updateTimerDOM() {
       hours -= 1;
     }
 
-    // if (timerExpired(h,m,s)) {
-    //   removePostDOM();
-    //   removePost();
-    // }
     // timer expiry, remove the post
     if (hours == 0 && minutes == 0 && seconds == 0 || hours < 0) {
       let postIdx = findPostPositionById(otherPosts, postNumber);
@@ -231,28 +227,6 @@ function updateTimerDOM() {
         }
       }
       return
-
-
-
-
-
-
-      // let postIdx = findPostPositionById(otherPosts, parseInt(postElement.id));
-      // if (postIdx == -1) {
-      //   joinedPostArea.removeChild(postElement);
-      //   removePost(joinedPosts, parseInt(postElement.id));
-      //   if (joinedPosts.length === 0) {
-      //     enableSeatButtons();
-      //   }
-      // }
-      // else {
-      //   otherPostArea.removeChild(postElement);
-      //   removePost(otherPosts, parseInt(postElement.id));
-      //   if (otherPosts.length === 0) {
-      //     enableSeatButtons();
-      //   }
-      // }
-      // return
     }
 
     const hourString = String(hours).padStart(2,'0');
@@ -268,57 +242,104 @@ function updateTimerDOM() {
 /* timer functionality */
 setInterval(updateTimerDOM, 1000);
 
-const user1 = {
-  id: 1,
-  name: 'Alex Smith',
-  phone: '905-383-3929'
-}
-
-const user2 = {
-  id: 2,
-  name: 'Julian Edelman',
-  phone: '416-291-2012'
-}
-
-const user3 = {
-  id: 3,
-  name: 'Peyton Manning',
-  phone: '647-392-3292'
-}
-
-const user4 = {
-  id: 4,
-  name: 'Tom Brady',
-  phone: '215-291-3939'
-}
-
-const loggedInUser = user1;
+/* Get the user that is logged in */
+const loggedInUser = getLoggedInUser();
+console.log(loggedInUser);
 
 /* UberX/UberPool,  UberXL */
-const carType = [4, 6]
+const carType = [4, 6];
 
-/* Server call will be used to get ride */
-const ride1 = new Ride(0, 2, user1, '09:00 PM', '01-03-2020',
-      '483 Godric Way, Toronto, ON, M7R485',
-      '4853 Baskerville Terrace, Markham, ON, L3RC3C');
+/*-------------------- SERVER CALLS ---------------- */
 
-const ride2 = new Ride(1, 3, user2, '09:14 PM', '01-03-2020',
-      'City Centre Bus Terminal, ON, L5U1F8',
-      'Union Station, Toronto, ON, M3RC7C');
+function getLoggedInUser() {
+  return getUser(1);
+}
 
-const ride3 = new Ride(1, 4, user3, '09:14 PM', '01-03-2020',
-      'City Centre Bus Terminal, ON, L5U1F8',
-      'Union Station, Toronto, ON, M3RC7C');
+/* Server call that retrieves all user information */
+function getAllUsers() {
+  users = [];
+  const user1 = {
+    id: 1,
+    name: 'Alex Smith',
+    phone: '905-383-3929'
+  }
 
-const ride4 = new Ride(0, 1, user4, '09:14 PM', '01-03-2020',
-      'City Centre Bus Terminal, ON, L5U1F8',
-      'Union Station, Toronto, ON, M3RC7C');
+  const user2 = {
+    id: 2,
+    name: 'Julian Edelman',
+    phone: '416-291-2012'
+  }
 
+  const user3 = {
+    id: 3,
+    name: 'Peyton Manning',
+    phone: '647-392-3292'
+  }
 
-createPost(ride1);
-createPost(ride2);
-createPost(ride3);
-createPost(ride4);
+  const user4 = {
+    id: 4,
+    name: 'Tom Brady',
+    phone: '215-291-3939'
+  }
+
+  users.push(user1);
+  users.push(user2);
+  users.push(user3);
+  users.push(user4);
+
+  return users;
+}
+
+/* Server call that retrieves information of users by user id */
+function getUser(id) {
+  const users = getAllUsers();
+  const users_filtered = users.filter((u) => u.id === id);
+  return (users_filtered.length === 0) ? -1 : users_filtered[0];
+}
+
+/* Server call that retrieves information of all rides currently in
+progress */
+function getAllRides() {
+  /* Server call will be used to get ride */
+  const rides = [];
+  const ride1 = new Ride(0, 2, getUser(1), '09:00 PM', '01-03-2020',
+        '483 Godric Way, Toronto, ON, M7R485',
+        '4853 Baskerville Terrace, Markham, ON, L3RC3C');
+
+  const ride2 = new Ride(1, 3, getUser(2), '09:14 PM', '01-03-2020',
+        'City Centre Bus Terminal, ON, L5U1F8',
+        'Union Station, Toronto, ON, M3RC7C');
+
+  const ride3 = new Ride(1, 4, getUser(3), '09:14 PM', '01-03-2020',
+        'City Centre Bus Terminal, ON, L5U1F8',
+        'Union Station, Toronto, ON, M3RC7C');
+
+  const ride4 = new Ride(0, 1, getUser(4), '09:14 PM', '01-03-2020',
+        'City Centre Bus Terminal, ON, L5U1F8',
+        'Union Station, Toronto, ON, M3RC7C');
+
+  rides.push(ride1);
+  rides.push(ride2);
+  rides.push(ride3);
+  rides.push(ride4);
+
+  return rides;
+}
+
+/* ------------------------ END OF SERVER CALLS -------------------- */
+
+/* Create posts of all rides currrently in progress. The rides will
+be retrieved by making a server call -- getAllRides() */
+function displayAllPosts() {
+  const rides = getAllRides();
+  for (let i = 0; i < rides.length; i++) {
+    createPost(rides[i]);
+  }
+}
+
+/* Code execution begins here */
+displayAllPosts();
+/* Code execution ends here */
 
 function createPost(ride) {
   const newPost = new Post(ride);
@@ -326,8 +347,8 @@ function createPost(ride) {
   const seatsAvailable = carType[ride.type] - ride.seatsOccupied;
 
   /* Determine the appropriate area/array where the post should be inserted */
-  const postArray = (ride.user === loggedInUser) ? ownPosts : otherPosts;
-  const postArea = (ride.user === loggedInUser) ? ownPostArea : otherPostArea;
+  const postArray = (ride.user.id === loggedInUser.id) ? ownPosts : otherPosts;
+  const postArea = (ride.user.id === loggedInUser.id) ? ownPostArea : otherPostArea;
 
   const hourString = String(newPost.timer.hours).padStart(2,'0');
   const minuteString = String(newPost.timer.minutes).padStart(2,'0');
@@ -374,7 +395,7 @@ function createPost(ride) {
     postContainer.innerHTML = postMarkup;
 
     // change button to remove if post belongs to logged in user
-    if (loggedInUser === ride.user) {
+    if (loggedInUser.id === ride.user.id) {
       const button = postContainer.querySelector('.btn-join');
       button.classList.remove('btn-join');
       button.classList.remove('btn-success');
