@@ -1,5 +1,5 @@
 const firstnameelement = document.querySelector('#firstnameelement').getElementsByClassName('edit')[0];
-firstnameelement.addEventListener('click', myFunctionedit)
+firstnameelement.addEventListener('click', myFunctionedit, false);
 
 const lastnamelement = document.querySelector('#lastnameelement').getElementsByClassName('edit')[0];
 lastnamelement.addEventListener('click', myFunctionedit)
@@ -13,9 +13,26 @@ emailelement.addEventListener('click', myFunctionedit)
 const phoneelement = document.querySelector('#phoneelement').getElementsByClassName('edit')[0];
 phoneelement.addEventListener('click', myFunctionedit)
 
+
+//document.querySelector('#firstnameelement').getElementsByClassName('edit')[0].parentElement.getElementsByTagName('a')[0].innerText
+
+
 function myFunctionedit(e) {
     
-        e.target.parentElement.contentEditable = true;
+         if (e.target.style.visibility === "hidden") {
+                    e.target.style.visibility = "visible";
+                 } else {
+                     e.target.style.visibility = "hidden";
+                 }
+
+
+
+    
+        //e.disabled = true; 
+    
+        e.target.parentElement.getElementsByTagName('a')[0].contentEditable = true;
+    
+        //e.target.removeEventListener('click', myFunctionedit);
     
         var newButton = document.createElement('button')
         newButton.className = "save";
@@ -43,9 +60,18 @@ function myFunctionedit(e) {
 
 
 function myFunctionsave(e) {
+
+         if (e.target.parentElement.getElementsByClassName('edit')[0].style.visibility === "hidden") {
+            e.target.parentElement.getElementsByClassName('edit')[0].style.visibility = "visible";
+         } else {
+             e.target.parentElement.getElementsByClassName('edit')[0].style.visibility = "hidden";
+         }
+    
+    
+    
     
         const delete_edit = e.target.parentElement.getElementsByClassName('edit')[0];
-        e.target.parentElement.contentEditable = false;
+        e.target.parentElement.getElementsByTagName('a')[0].contentEditable = false;
         //e.target.parentElement.removeChild(delete_edit);
     
         var newButton = document.createElement('button')
@@ -58,7 +84,14 @@ function myFunctionsave(e) {
         const delete_save = e.target.parentElement.getElementsByClassName('save')[0];
     
         //console.log(e.target.parentElement);
+    
+        //e.target.addEventListener('click', myFunctionedit);
+    
+
+    
         e.target.parentElement.removeChild(delete_save);
+    
+        //
     
         //console.log("HEere2")
     
