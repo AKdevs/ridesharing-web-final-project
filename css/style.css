@@ -59,6 +59,13 @@ img {
     margin-left: 1px;
 }
 
+.form_username {
+    font-size: 1.2em;
+    display: block;
+    margin-left: 1px;
+}
+
+
 .form_password_repeat {
     font-size: 1.2em;
     display: block;

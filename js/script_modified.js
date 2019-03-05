@@ -59,6 +59,8 @@ function login_page(e) {
 
 function registration_page(e) {
     e.preventDefault();
+    let username_input = document.querySelector('.form_username').value;
+    console.log(username_input);
     let email_input = document.querySelector('.form_email').value;
     console.log(email_input);
     let phone_input = document.querySelector('.form_phone').value;
@@ -67,15 +69,18 @@ function registration_page(e) {
     console.log(password_input);
     let password_input_repeat = document.querySelector('.form_password_repeat').value;
     console.log(password_input_repeat);
-    if(password_input === password_input_repeat)
+    
+    if(username_input == "admin")
     {
-        Users.push(new user(email_input, phone_input, password_input));
-        console.log("Reach here")
-        //window.open('logged.html',"_self")
+        alert("You can't register as admin");
+    }
+    else if(password_input === password_input_repeat)
+    {
+        window.open('logged.html',"_self");
     }
     else
     {
-        alert("Please make sure the passowrds match")
+        alert("Please make sure the passowrds match");
     }
 }
 
