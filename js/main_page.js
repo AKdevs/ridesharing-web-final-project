@@ -9,9 +9,12 @@
 
 const findDistTime = document.querySelector('#findDistTime');
 const createRideBtn = document.querySelector('#createRideBtn');
+const viewRideBtn = document.querySelector('#viewRideBtn');
 
 findDistTime.addEventListener('click',checkInputs);
 createRideBtn.addEventListener('click',createRidePage);
+viewRideBtn.addEventListener('click',viewRides);
+
 
 /*-----------------------------------------------------------*/
 
@@ -58,6 +61,11 @@ function createRidePage(){
      url = 'create_ride.html?info=' + encodeURIComponent(info);
 	document.location.href = url;
 }
+
+function viewRides(){
+	document.location.href = 'view_rides.html';
+}
+
 
 /*
 function getMap(){

@@ -5,16 +5,30 @@
     <title>Library</title>
     <link rel="stylesheet" type="text/css" href="css/main_page.css">
 	
-	<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
  </head>
  <body>
+	 
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">UberZ</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link active" href="#">My Profile <span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="view_rides.html">View Rides</a>
+				<a class="nav-item nav-link" href="main_page.html">Find Rides</a>
+			</div>
+		</div>
+		<a id="logOutBtn" class="btn btn-primary" href="index.html">Logout</a>
+	</nav>
+ 
  	<h1>Hey John! Where do you plan to go?</h1>
 	 <p id="subtitle">Please enter your starting point and destination.</p>
 	<hr/>
@@ -25,7 +39,7 @@
 	
 	<div id="confirm_location">
 	<!-- Google Maps have been embedded for Front-End but this will be replaed with Google Maps API here when working on backend -->
-	<div id="google_maps"></div>
+	<img id="google_maps" src="images/map_image.png" alt="Flowers in Chania">
 		<div id="location_info">
 			<div class="location_text">
 				<p><span class='bold'>Starting Point:</span></p>
@@ -41,8 +55,8 @@
 			<button id="findDistTime" type="button" class="btn btn-success">Find Distance & Time</button>
 
 			<div id="submitBtns">
-				<a id="createRideBtn" type="button" class="btn btn-primary">Create Ride</a>
-				<a id="FindRideBtn" href="view_rides.html" type="button" class="btn btn-primary">Find Ride</a>
+				<button id="createRideBtn" type="button" class="btn btn-primary">Create Ride</button>
+				<button id="viewRideBtn" type="button" class="btn btn-primary">View Available Rides</button>
 			</div>
 						
 				
@@ -58,17 +72,6 @@
 		</div>
 	</div>
 
-<script>
-	function myMap() {
-	var mapProp= {
-		center:new google.maps.LatLng(51.508742,-0.120850),
-		zoom:5,
-	};
-	var map = new google.maps.Map(document.getElementById("google_maps"),mapProp);
-	}
-</script>
-
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRqD3RzY5tIaPAVV87pM6zgPMEY8Plih4&callback=myMap"></script>
 
  	<script type="text/javascript" src="js/main_page.js"></script>
 
