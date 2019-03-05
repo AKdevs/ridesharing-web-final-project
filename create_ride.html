@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ 	<meta charset="utf-8">
+    <title>Library</title>
+    <link rel="stylesheet" type="text/css" href="css/create_ride.css">
+	
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+ </head>
+ <body>
+ 	<h1>Let's Create a New Ride!</h1>
+	<hr/>
+	
+	<div id="create_fail" class="alert alert-danger">
+		<strong>Error!</strong> Empty fields detected.
+	</div>
+	
+	<div class="subtitle">
+		<p><span class="">Confirm Location and Date</span><span class=""></span></p>
+	</div>
+	<hr/>
+	<div id="confirm_location">
+		<div id="google_maps"></div>
+	
+		<div id="location_info">
+			<div class="location_text">
+				<p><span class='bold'>Starting Point: </span><span id="starting" class='grey'>10 Kings College Street, Toronto</span></p>
+			</div>
+			<div class="location_text">
+				<p><span class='bold'>Destination: </span><span id="ending" class='grey'>122 St.George Street, Toronto</span></p>
+			</div>
+			<a type="button" href="main_page.html" class="btn btn-primary">Change</a>		
+		</div>
+	</div>
+	
+	<div class="subtitle">
+		<p><span class="">Select Date and Time.</span><span class=""></span></p>
+	</div>
+	<hr/>
+
+	<input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01">
+	   
+	<input type="time" id="appt" name="appt" required>
+	   
+<div class="subtitle">
+<p><span class="">Select Car</span><span class=""></span></p>
+</div>
+
+<hr/>
+	<div id="select_uber">
+		<p>Select your choice of Uber.</p>
+		<button id="uberx" type="button" class="btn btn-primary">UberX</button>
+		<button id="uberpool" type="button" class="btn btn-primary">UberPool</button>
+		<button id="wav" type="button" class="btn btn-primary">WAV</button>
+		<button id="uberxl" type="button" class="btn btn-primary">UberXL</button>
+		
+	</div>
+
+	<div id="select_seats">
+		<p>Select total number of seats.</p>
+		<button id="two" type="button" class="btn btn-primary">2</button>
+		<button id="four" type="button" class="btn btn-primary">4</button>
+		<button id="six" type="button" class="btn btn-primary">6</button>
+		<button id="eight" type="button" class="btn btn-primary">8</button>
+	</div>
+	
+	<hr/>
+	
+	<button id="create_button" type="button" class="btn btn-success">
+		Create
+	</button>
+
+<!-- Modal -->
+<div class="modal fade" id="ticket_info" tabindex="-1" role="dialog" aria-labelledby="ticketInfoLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ticketInfoLabel">Ride Information</h5>
+
+      </div>
+      <div class="modal-body">
+        	<div id="create_success" class="alert alert-success">
+				<strong>Success!</strong> Your ride offer has been shared.
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a type="button" href="view_rides.html" class="btn btn-primary">View Rides</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 	<br><br>
+	
+	<script>
+	function myMap() {
+	var mapProp= {
+		center:new google.maps.LatLng(51.508742,-0.120850),
+		zoom:5,
+	};
+	var map = new google.maps.Map(document.getElementById("google_maps"),mapProp);
+	}
+	</script>
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRqD3RzY5tIaPAVV87pM6zgPMEY8Plih4&callback=myMap"></script>
+
+
+ 	<script type="text/javascript" src="js/create_ride.js"></script>
+ </body>
+</html>
