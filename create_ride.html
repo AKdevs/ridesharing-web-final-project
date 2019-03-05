@@ -5,18 +5,31 @@
     <title>Library</title>
     <link rel="stylesheet" type="text/css" href="css/create_ride.css">
 	
-	<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
  </head>
  <body>
+ 
+ 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">UberZ</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link active" href="#">My Profile <span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="main_page.html">Find Rides</a>
+			</div>
+		</div>
+		<a id="logOutBtn" class="btn btn-primary" href="index.html">Logout</a>
+	</nav>
+	
  	<h1>Let's Create a New Ride!</h1>
-	<hr/>
 	
 	<div id="create_fail" class="alert alert-danger">
 		<strong>Error!</strong> Empty fields detected.
@@ -25,9 +38,11 @@
 	<div class="subtitle">
 		<p><span class="">Confirm Location and Date</span><span class=""></span></p>
 	</div>
-	<hr/>
+	
+	<hr class="bigHR"/>
+	
 	<div id="confirm_location">
-		<div id="google_maps"></div>
+		<img id="google_maps" src="images/map_image2.png" alt="Flowers in Chania">
 	
 		<div id="location_info">
 			<div class="location_text">
@@ -36,24 +51,26 @@
 			<div class="location_text">
 				<p><span class='bold'>Destination: </span><span id="ending" class='grey'>122 St.George Street, Toronto</span></p>
 			</div>
-			<a type="button" href="main_page.html" class="btn btn-primary">Change</a>		
+			<button id="change_info" type="button" class="btn btn-primary">Change</button>		
 		</div>
 	</div>
 	
 	<div class="subtitle">
 		<p><span class="">Select Date and Time.</span><span class=""></span></p>
 	</div>
-	<hr/>
+	
+	<hr class="smallHR"/>
 
-	<input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01">
+	<input type="date" id="start" name="trip-start">
 	   
 	<input type="time" id="appt" name="appt" required>
 	   
-<div class="subtitle">
-<p><span class="">Select Car</span><span class=""></span></p>
-</div>
-
-<hr/>
+	<div class="subtitle">
+		<p><span class="">Select Car</span><span class=""></span></p>
+	</div>
+	
+	<hr class="smallHR"/>
+	
 	<div id="select_uber">
 		<p>Select your choice of Uber.</p>
 		<button id="uberx" type="button" class="btn btn-primary">UberX</button>
