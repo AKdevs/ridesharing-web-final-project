@@ -179,15 +179,15 @@ function getAllRides() {
 
   const ride2 = new Ride(1, 'julian1', {'julian1': 1}, '09:14 PM', '01-03-2020',
         'City Centre Bus Terminal, ON, L5U1F8',
-        'Union Station, Toronto, ON, M3RC7C');
+        'Union Station, Toronto, ON, M1UH83');
 
   const ride3 = new Ride(1, 'pm1', {'pm1': 3}, '09:14 PM', '01-03-2020',
         'City Centre Bus Terminal, ON, L5U1F8',
-        'Union Station, Toronto, ON, M3RC7C');
+        'Union Station, Toronto, ON, M1UH83');
 
   const ride4 = new Ride(0, 'tb12', {'tb12': 1}, '09:14 PM', '01-03-2020',
         'City Centre Bus Terminal, ON, L5U1F8',
-        'Union Station, Toronto, ON, M3RC7C');
+        'Union Station, Toronto, ON, M1UH83');
 
   rides.push(ride1);
   rides.push(ride2);

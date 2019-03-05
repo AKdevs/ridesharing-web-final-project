@@ -33,7 +33,7 @@ class Post {
   constructor(ride) {
     this.ride = ride;
     // randomness for phase 1 simulation
-    const minutes = Math.floor(Math.random() * 1);
+    const minutes = Math.floor(Math.random() * 20);
     const seconds = Math.floor(Math.random() * 60);
     this.timer = new countdownTimer(0, minutes, seconds);
 
@@ -302,7 +302,7 @@ function getAllRides() {
   const rides = [];
   const ride1 = new Ride(0, 2, getUser(1), '09:00 PM', '01-03-2020',
         'City Centre Bus Terminal, ON, L5U1F8',
-        'Union Station, Toronto, ON, M3RC7C')
+        'Union Station, Toronto, ON, M1UH83')
 
   const ride2 = new Ride(1, 3, getUser(2), '09:14 PM', '01-03-2020',
         '483 Godric Way, Mississauga, ON, M7R485',
@@ -353,9 +353,10 @@ function createPost(ride) {
   const secondString = String(newPost.timer.seconds).padStart(2,'0');
   const postMarkup = `
       <div class="card">
-      <div class="card-header bg-default">
+      <div class="card-header bg-default address">
         <div class="address">
-          <h5>${ride.origin}</h5>
+          <h5><strong>Starting Point:</strong> ${ride.origin}</h5>
+          <h5><strong>Destination:</strong> ${ride.destination}</h5>
         </div>
       </div>
       <div class="card-body shadow-sm bg-white rounded">
