@@ -4,17 +4,19 @@ const Users = []
 let numberOfUsers = 0; // total number of Users
 
 class user {
-	constructor(email, phone, password) {
-		this.email = email;
+	constructor(username, phone, password) {
+		this.username = username;
 		this.phone = phone;
 		this.password = password;
 		numberOfUsers++;
 	}   
 }
 
+
+Users.push(new user('admin', '647-801-2022', 'admin'));
 Users.push(new user('user', '647-801-4618', 'user'));
 Users.push(new user('user2', '647-801-4619', 'user2'));
-Users.push(new user('admin', '647-801-2022', 'admin'));
+
            
            
 if (document.querySelector('.form_body_login')!=null){
@@ -27,21 +29,28 @@ if (document.querySelector('.form_body_register')!=null){
 
 
 function login_page(e) {
+    var flag_bool = false;
     e.preventDefault();
     let email_input = document.querySelector('.form_email').value;
     console.log(email_input);
     let password_input = document.querySelector('.form_password').value;
     console.log(password_input);
     
-    for (var i = 0; i < Users.length; i++){
-        if ((Users[i].email) == email_input && (Users[i].password) == password_input){
-            window.open('logged.html',"_self")       
+    if (email_input === "admin" && password_input === "admin"){
+        flag_bool = true;
+         window.open('logged_admin.html',"_self")  
+    }
+    
+    for (var i = 1; i < Users.length; i++){
+ 
+        if ((Users[i].username) == email_input && (Users[i].password) == password_input){
+              window.open('logged.html',"_self") 
+              flag_bool = true;
         }
         
     }
     
-    
-    if (i >= Users.length)
+    if (i >= Users.length && flag_bool === false)
     {
             alert("Please enter correct username and password")
     }
