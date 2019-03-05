@@ -7,8 +7,14 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Profile Page</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <!---link rel="stylehseet" type="text/css" href="css/profile.css"--->
-        <!--link rel="stylesheet" href="css/style.css"--->
+        <link rel="stylesheet" type="text/css" href="css/logged.css">
+        <!---link rel="stylehseet" type="text/css" href="css/profile.css"-->
+        <!--link rel="stylesheet" href="css/style.css"-->
+
+        <script language="JavaScript" type="text/javascript" src="/js/jquery-1.2.6.min.js"></script>
+        <script language="JavaScript" type="text/javascript" src="/js/jquery-ui-personalized-1.5.2.packed.js"></script>
+        <script language="JavaScript" type="text/javascript" src="/js/sprinkle.js"></script>
+        <script type="text/javascript" src="js/logged.js"></script>
 
     </head>
 
@@ -21,13 +27,14 @@
         </div>
       </nav>
       <h1><center>Hi Welcome back, Kartikay </center></h1>
+      <br><br>
 
       <!---div id="firstElement" >First Element<button class='edit'>Edit</button></div-->
       <!---div id="secondElement">Second Element<button class='edit'>Edit</button></div-->
 
 
         <div class="pic-container pic-medium pic-circle">
-          <img class="pic" src="img/testimonials-1.jpg" alt="">
+          <img class="pic" src="img/testimonials-1.jpg" alt=""/>
           <div class="pic-overlay">
               <a><i class="fa fa-window-close-o" aria-hidden="true"></i></a>
               <a><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -39,39 +46,42 @@
                     <label class="header">Profile Photo:</label>
 
                     <input id="image" type="file" name="profile_photo" placeholder="Photo" required="" capture>
-                </div--->
+                </div-->
 
-        <div class="form-control" id="firstnameelement"> 
-            <label class="header">First Name :</label>
-        <input id="firstname-field" type="text" class="form-control" name="First Name" value="Kartikay">
-        </div>
+        <div class="containerText"">
 
-        <div class="form-control" id="lastnameelement"> 
-            <label class="header">Last Name :</label>
-        <input id="lastname-field" type="text" class="form-control" name="Last Name" value="Goyle">
-        </div>
-        
-        <div class="form-control" id="lastnameelement"> 
-            <label class="header">User Name :</label>
-        <input id="username-field" type="text" class="form-control" name="User Name" value="user">
-        </div>
-        
+          <div class="form-control" id="firstnameelement"> 
+              <label class="header">First Name :</label>
+          <input id="firstname-field" type="text" class="form-control" name="First Name" value="Kartikay">
+          </div>
 
-        <div class="form-control" id="phoneelement"> 
-            <label class="header">Phone :</label>
-        <input id="phone-field" type="text" class="form-control" name="Phone" value="647-801-4618">
+          <div class="form-control" id="lastnameelement"> 
+              <label class="header">Last Name :</label>
+          <input id="lastname-field" type="text" class="form-control" name="Last Name" value="Goyle">
+          </div>
+          
+          <div class="form-control" id="lastnameelement"> 
+              <label class="header">User Name :</label>
+          <input id="username-field" type="text" class="form-control" name="User Name" value="user">
+          </div>
         </div>
+        <div class="containerText">
+          
 
-        <div class="form-control" id="emailelement"> 
-            <label class="header">Email :</label>
-        <input id="email-field" type="text" class="form-control" name="Email" value="kartikay@gmail.com">
-        </div>
-        <div class="form-control" id="passwordelement" type="password"> 
-            <label class="header">Password :</label>
-        <input id="password-field" type="password" class="form-control" name="password" value="kartikay">
-        </div>
+          <div class="form-control" id="phoneelement"> 
+              <label class="header">Phone :</label>
+          <input id="phone-field" type="text" class="form-control" name="Phone" value="647-801-4618">
+          </div>
 
-    <!--script type="text/javascript" src="js/logged.js"></script-->  
+          <div class="form-control" id="emailelement"> 
+              <label class="header">Email :</label>
+          <input id="email-field" type="text" class="form-control" name="Email" value="kartikay@gmail.com">
+          </div>
+          <div class="form-control" id="passwordelement" type="password"> 
+              <label class="header">Password :</label>
+          <input id="password-field" type="password" class="form-control" name="password" value="kartikay">
+          </div>
+        </div>
     </body>
 </html>
 
