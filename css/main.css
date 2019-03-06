@@ -10,6 +10,11 @@ html,h1,h2,h3,h4,h5,h6,a{
 	font-family: "Raleway";
 }
 
+h1{
+	font-family: "Raleway";
+	margin-left: 40%;
+}
+
 
 .about{
 	margin: 4em 0;
@@ -82,3 +87,8 @@ html,h1,h2,h3,h4,h5,h6,a{
 	bottom: 24px;
 
 }
+
+/*
+.form_body_register{
+	
+}*/
