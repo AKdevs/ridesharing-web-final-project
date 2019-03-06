@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>login form</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-light bg-light static-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">UberZ</a>
+        <!---button type='submit' class="btn btn-primary" href="login.html">Login</button--> 
+      <a class="btn btn-primary" href="login.html">Login</a>
+    </div>
+  </nav>
+    <h1><center>Register</center></h1>
+    <form action="/register" class="form_body_register">
+
+    <div class="form__element_first">
+    <label for="firstname"><b>First Name</b></label>
+    <input class="form_firstname" type="text" placeholder="Enter First Name" name="firstname" required>
+    </div>
+
+    <div class="form__element">
+    <label for="lastname"><b>Last Name</b></label>	
+    <input class="form_lastname" type="text" placeholder="Enter Last Name" name="lastname" required>
+    </div>
+        
+    <div class="form__element">
+    <label for="username"><b>Username</b></label>
+    <input class="form_username" type="text" placeholder="Enter Username" name="username" required>
+    </div>
+        
+    <div class="form__element">
+    <label for="email"><b>Email</b></label>
+    <input class="form_email" type="text" placeholder="Enter Email" name="email" required>
+    </div>
+        
+    <div class="form__element">
+    <label for="phone"><b>Phone Number</b></label>
+    <input class="form_phone" type="tel" id="phone" name="phone" placeholder="647-xxx-xxxx"
+       pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+       required>
+    </div>
+        
+    <div class="form__element_first">
+    <label for="psw"><b>Password</b></label>
+    <input class="form_password" type="password" placeholder="Enter Password" name="psw" required>
+    </div>
+    <div class="form__element">
+    <label for="psw-repeat"><b>Repeat Password</b></label>
+    <input class="form_password_repeat" type="password" placeholder="Repeat Password" name="psw-repeat" required>
+    </div>
+ 
+    <button type='submit' class="form__register">Register</button> 
+    <!---input class="form__register" type="submit" value="Register"-->
+    </form>
+    <script src="js/script_modified.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ 	<meta charset="utf-8">
+    <title>Library</title>
+    <link rel="stylesheet" type="text/css" href="css/create_ride.css">
+	
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+ </head>
+ <body>
+ 
+ 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">UberZ</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link active" href="logged.html">My Profile <span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="main_page.html">Search Rides</a>
+			</div>
+		</div>
+		<a id="logOutBtn" class="btn btn-primary" href="index.html">Logout</a>
+	</nav>
+	
+ 	<h1>Let's Create a New Ride!</h1>
+	
+	<div id="create_fail" class="alert alert-danger">
+		<strong>Error!</strong> Empty fields detected.
+	</div>
+	
+	<div class="subtitle">
+		<p><span class="">Confirm Location and Date</span><span class=""></span></p>
+	</div>
+	
+	<hr class="bigHR"/>
+	
+	<div id="confirm_location">
+		<img id="google_maps" src="img/map_image2.PNG" alt="Image Not Found!">
+	
+		<div id="location_info">
+			<div class="location_text">
+				<p><span class='bold'>Starting Point: </span><span id="starting" class='grey'>10 Kings College Street, Toronto</span></p>
+			</div>
+			<div class="location_text">
+				<p><span class='bold'>Destination: </span><span id="ending" class='grey'>122 St.George Street, Toronto</span></p>
+			</div>
+			<button id="change_info" type="button" class="btn btn-primary">Change</button>		
+		</div>
+	</div>
+
+	<input type="date" id="start" name="trip-start">
+	   
+	<input type="time" id="appt" name="appt" value ="00:00:00">
+	
+	<div id="select_uber">
+		<p>Select your choice of Uber.</p>
+		<button id="uberx" type="button" class="btn btn-primary">UberX</button>
+		<button id="uberpool" type="button" class="btn btn-primary">UberPool</button>
+		<button id="wav" type="button" class="btn btn-primary">WAV</button>
+		<button id="uberxl" type="button" class="btn btn-primary">UberXL</button>
+		
+	</div>
+
+	<div id="select_seats">
+		<p>Select total number of seats.</p>
+		<button id="two" type="button" class="btn btn-primary">2</button>
+		<button id="four" type="button" class="btn btn-primary">4</button>
+		<button id="six" type="button" class="btn btn-primary">6</button>
+		<button id="eight" type="button" class="btn btn-primary">8</button>
+	</div>
+	
+	<hr/>
+	
+	<button id="create_button" type="button" class="btn btn-success">
+		Create
+	</button>
+
+<!-- Modal -->
+<div class="modal fade" id="ticket_info" tabindex="-1" role="dialog" aria-labelledby="ticketInfoLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ticketInfoLabel">Ride Information</h5>
+
+      </div>
+      <div class="modal-body">
+        	<div id="create_success" class="alert alert-success">
+				<strong>Success!</strong> Your ride offer has been shared.
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="viewMyRide" type="button" class="btn btn-primary">View Rides</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 	<br><br>
+	
+
+
+ 	<script type="text/javascript" src="js/create_ride.js"></script>
+ </body>
+</html>
