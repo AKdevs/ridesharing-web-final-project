@@ -1,5 +1,6 @@
 //var form_body_page = 
 
+//Script for loggin in and registering users
 const Users = []
 let numberOfUsers = 0; // total number of Users
 
