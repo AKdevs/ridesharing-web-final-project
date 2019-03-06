@@ -1,11 +1,11 @@
 Phase 1 Report (Team 40):
 
-View Landing Page:
+Landing Page:
 Run the web app by clicking the index.html page in chrome browser.
 This will launch the main landing page, here you can scroll through and get a feel about the product and click the elements in nav bar to redirect to different elements of the page like team and about section. You can now choose to login by clicking the login button from the top right of the page. 
 
 
-View Login Page:
+Login Page:
 
 You would have two options to login as a regular user or as an admin.
 
@@ -20,7 +20,7 @@ Username: admin, Password: admin.
 If you wish to create another user, click the register button on top right.
 
 
-View Register Page:
+Register Page:
 
 Here you are asked to enter your firstname, lastname, username, Email, Phone Number, Password and confirm password. You are required to match your password and reenter password field otherwise there will be a pop up window and you won’t be able to register.
 
@@ -45,7 +45,7 @@ Create Ride Page:
 This allows users to specify the time when they will leave, their origin and destination and the type of uber they are ordering. It creates a ride from the inputs and adds it to rides array. Then it displays a modal which contains information on the ride created. It allows the user to navigate to View Rides page after they have created a ride. The page also ensures that user has not left any field blank as an error message appears if they do. It makes sure that the user does not enter a date that is before current date and displays current date. It also displays an image of a map which will be later replaced by an actual map for navigation in the next phase. While entering ride information, the user can always navigate back to the Search for a ride page to figure out which arrival and destination they prefer. Functionalities such as adding ride data to the database and api for google map navigation will be added in the next phase.
 
 View Rides Page:
-On the top of the page, the user's chosen origin and destination are shown, along with a button toggle for selecting the number of passengers they will be joining a ride with. Further down on this page you will find a list of all the rides that are currently available, always sorted by ascending total distance. We define total distance as the distance of ride's origin from user's specified origin + distance of the ride's destination from the user's specified destination. Each ride is shown in a post, which displays ride information such as available seats, name and contact number of the ride creator etc. The post also shows the meeting point of the ride, which is where all joined riders are to meet up when the timer expires. By default, all rides will show in the "Rides Available" section and the "Currently Joined" will be empty. Any rides that the user has created (call it an "own ride") will show in the "Your Rides" section. Note, we have put an example of an "own ride" by default on the page just for demonstration purposes. Each ride has a timer, which after expiry will cause the post to disappear from the page. If the user joins a ride, the ride will show up in the "Currently Joined" section. The user may NOT change the number of passengers while they are joined in a ride. This is to prevent joining and leaving with different amounts of passengers. The user may leave a ride by clicking the "Leave" button, after which the ride will return to the "Rides Available" section. A user cannot join or leave their own ride, but can remove it by clicking the "Remove" button.
+On the top of the page, the user's chosen origin and destination are shown, along with a button toggle for selecting the number of passengers they will be joining a ride with. Further down on this page you will find a list of all the rides that are currently available, always sorted by ascending total distance. We define total distance as the distance between the ride's origin and user's specified origin + distance between the ride's destination and the user's specified destination. Basically, the rides whose origin and destination are closer to the user's origin and destination are listed earlier. Each ride is shown in a post, which displays ride information such as available seats, name and contact number of the ride creator etc. The post also shows the meeting point (origin) of the ride, which is where all joined riders are to meet up when the timer expires. By default, all rides will show in the "Available Rides" section and the "Currently Joined" will be empty. Any rides that the user has created (call it an "own ride") will show in the "Your Rides" section. Note, we have put an example of an "own ride" by default on the page just for demonstration purposes. Each ride has a timer, which after expiry will cause the post to disappear from the page. If the user joins a ride, the ride will show up in the "Currently Joined" section. The user may NOT change the number of passengers while they are joined in a ride. This is to prevent joining and leaving with different amounts of passengers. The user may leave a ride by clicking the "Leave" button, after which the ride will return to the "Rides Available" section. A user cannot join or leave their own ride, but can remove it by clicking the "Remove" button.
 
 Logged in as admin user:
 
