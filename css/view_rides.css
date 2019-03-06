@@ -6,6 +6,17 @@
   /* border: 1px solid gray; */
 }
 
+#alert-own {
+  display: none;
+}
+
+#alert-joined {
+}
+
+#alert-other {
+  display: none;
+}
+
 .Disabled {
   pointer-events: none;
 }

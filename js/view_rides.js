@@ -45,6 +45,10 @@ const otherPostArea = document.querySelector('#other-post-area');
 const ownPostArea = document.querySelector('#own-post-area');
 const seatSelector = document.querySelector('#seat-selector');
 
+const alertOwn = document.querySelector('#alert-own');
+const alertJoined = document.querySelector('#alert-joined');
+const alertOther = document.querySelector('#alert-other');
+
 joinedPostArea.addEventListener('click', leaveRide);
 otherPostArea.addEventListener('click', joinRide);
 ownPostArea.addEventListener('click', removeRide);
@@ -73,11 +77,16 @@ function removeRide(e) {
     const postElement = e.target.parentElement.parentElement.parentElement.parentElement.parentElement;
     ownPostArea.removeChild(postElement);
     removePost(ownPosts, parseInt(postElement.id));
+
+    if (ownPosts.length === 0) {
+      $(alertOwn).show();
+    }
   }
 }
 
 function leaveRide(e) {
     if (e.target.classList.contains('btn')) {
+      $(alertOther).hide();
       const button = e.target;
       button.classList.remove('btn-danger');
       button.classList.add('btn-success');
@@ -106,7 +115,12 @@ function leaveRide(e) {
       /* update seat count */
       postElement.querySelector('#seats-available').innerText = newSeatsAvailable;
       insertPostDOM(otherPostArea, postElement, idxToInsert);
+
+      if (joinedPosts.length === 0) {
+        $(alertJoined).show();
+      }
     }
+
 }
 
 function findPostPositionById(posts, postElementId) {
@@ -170,6 +184,10 @@ function joinRide(e) {
     postElement.querySelector('#seats-available').innerText = newSeatsAvailable;
 
     insertPostDOM(joinedPostArea, postElement, idxToInsert);
+    $(alertJoined).hide();
+    if (otherPosts.length === 0) {
+      $(alertOther).show();
+    }
   }
 }
 
@@ -203,6 +221,7 @@ function updateTimerDOM() {
         removePost(otherPosts, postNumber);
         if (otherPosts.length === 0) {
           enableSeatButtons();
+          $(alertOther).show();
         }
       }
       else {
@@ -212,11 +231,15 @@ function updateTimerDOM() {
           removePost(joinedPosts, postNumber);
           if (joinedPosts.length === 0) {
             enableSeatButtons();
+            $(alertJoined).show();
           }
         }
         else {
           ownPostArea.removeChild(postElement);
           removePost(ownPosts, postNumber);
+          if (ownPosts.length === 0) {
+            $(alertOwn).show();
+          }
         }
       }
       return
@@ -330,7 +353,7 @@ function displayAllPosts() {
 }
 
 /* Specify current time, just for simulation purposes */
-var currentTime = new Date(2020, 0, 3, 20, 55, 52);
+var currentTime = new Date(2020, 0, 3, 21, 04, 52);
 
 /* Code execution begins here */
 displayAllPosts();
