@@ -13,7 +13,7 @@ class user {
 }
 
 
-//Push code from database for Phase2
+//Push users from database for Phase2
 Users.push(new user('admin', '647-801-2022', 'admin'));
 Users.push(new user('user', '647-801-4618', 'user'));
 Users.push(new user('user2', '647-801-4619', 'user2'));
