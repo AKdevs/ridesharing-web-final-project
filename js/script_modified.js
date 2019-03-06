@@ -13,6 +13,7 @@ class user {
 }
 
 
+//Push code from database for Phase2
 Users.push(new user('admin', '647-801-2022', 'admin'));
 Users.push(new user('user', '647-801-4618', 'user'));
 Users.push(new user('user2', '647-801-4619', 'user2'));
@@ -39,6 +40,7 @@ function login_page(e) {
          window.open('logged_admin.html',"_self")  
     }
     
+    // Check if login credentials match any of the user in our Users array.
     for (var i = 1; i < Users.length; i++){
  
         if ((Users[i].username) == email_input && (Users[i].password) == password_input){
@@ -56,12 +58,14 @@ function login_page(e) {
 }
 
 function registration_page(e) {
+    
+    //Save these values to database for Phase 2
     e.preventDefault();
     let username_input = document.querySelector('.form_username').value;
     let email_input = document.querySelector('.form_email').value;
     
     let phone_input = document.querySelector('.form_phone').value;
-        let password_input = document.querySelector('.form_password').value;
+    let password_input = document.querySelector('.form_password').value;
     let password_input_repeat = document.querySelector('.form_password_repeat').value;
     
     if(username_input == "admin")
