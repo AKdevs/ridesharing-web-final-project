@@ -36,6 +36,7 @@ const carSelect = document.querySelector('#select_uber');
 const seatsSelect = document.querySelector('#select_seats');
 const submitBtn = document.querySelector('#create_button');
 const changeInfo = document.querySelector('#change_info');
+const viewMyRide = document.querySelector('#viewMyRide');
 
 let car;
 let seats;
@@ -50,6 +51,7 @@ carSelect.addEventListener('click', selectCar);
 seatsSelect.addEventListener('click', selectSeats);
 submitBtn.addEventListener('click', create);
 changeInfo.addEventListener('click',changeInfoPage);
+viewMyRide.addEventListener('click', viewTheRides);
 
 /*-----------------------------------------------------------*/
 
@@ -76,15 +78,11 @@ window.onload = function () {
 	
 	calendarInitialization();
 	
-	//timeCheck below
-	
-	
 }
 
 function calendarInitialization(){
 	
 	const startCalendar = document.querySelector('#start');
-	const startTime = document.querySelector('#appt');
 	
 	let newDate = new Date();
 	let dateToday = newDate.getDate();
@@ -162,11 +160,24 @@ function create(e){
 
 	rides.push(new theRides(theStart, theEnd, car, seats, theDate, theTime));
 	
-	if(typeof theStart === 'undefined' || typeof theEnd === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined' || typeof theDate === 'undefined' || typeof theTime === 'undefined'){
+
+	//var times = new Date();
+	//times.getHours();
+	//times.getMinutes();
+
+	//if (theTime.substring(0,2) != times.getHours() || theTime.subString(3,5) != times.getMinutes()){
+	//	console.log("Error")
+	//	console.log(times.getMinutes())
+	//	console.log(theTime.substring(3,5))
+	//}
+	console.log(theTime);
+	console.log(theDate);
+	if(theDate == ""| typeof theStart === 'undefined' || theStart == "" || theEnd == "" || typeof theEnd === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined' || typeof theDate === 'undefined' || typeof theTime === 'undefined'){
 		errorMsg.style.display = "block";
 		scroll(0,0);
 	}
 	else{
+		errorMsg.style.display = "none";
 		//jquery for the modal pop up
 		$('#ticket_info').modal();
 		displayTicket();
@@ -176,6 +187,10 @@ function create(e){
 
 function changeInfoPage(){
 	document.location.href = 'main_page.html';
+}
+
+function viewTheRides(){
+	document.location.href = 'view_rides.html';
 }
 
 function displayTicket(){

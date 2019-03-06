@@ -4,7 +4,7 @@
  	<meta charset="utf-8">
     <title>Library</title>
     <link rel="stylesheet" type="text/css" href="css/create_ride.css">
-
+	
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 
@@ -14,7 +14,7 @@
 
  </head>
  <body>
-
+ 
  	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="#">UberZ</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,22 +28,22 @@
 		</div>
 		<a id="logOutBtn" class="btn btn-primary" href="index.html">Logout</a>
 	</nav>
-
+	
  	<h1>Let's Create a New Ride!</h1>
-
+	
 	<div id="create_fail" class="alert alert-danger">
 		<strong>Error!</strong> Empty fields detected.
 	</div>
-
+	
 	<div class="subtitle">
 		<p><span class="">Confirm Location and Date</span><span class=""></span></p>
 	</div>
-
+	
 	<hr class="bigHR"/>
-
+	
 	<div id="confirm_location">
-		<img id="google_maps" src="img/map_image2.PNG" alt="Flowers in Chania">
-
+		<img id="google_maps" src="img/map_image2.png" alt="Image Not Found!">
+	
 		<div id="location_info">
 			<div class="location_text">
 				<p><span class='bold'>Starting Point: </span><span id="starting" class='grey'>10 Kings College Street, Toronto</span></p>
@@ -51,33 +51,33 @@
 			<div class="location_text">
 				<p><span class='bold'>Destination: </span><span id="ending" class='grey'>122 St.George Street, Toronto</span></p>
 			</div>
-			<button id="change_info" type="button" class="btn btn-primary">Change</button>
+			<button id="change_info" type="button" class="btn btn-primary">Change</button>		
 		</div>
 	</div>
-
+	
 	<div class="subtitle">
 		<p><span class="">Select Date and Time.</span><span class=""></span></p>
 	</div>
-
+	
 	<hr class="smallHR"/>
 
 	<input type="date" id="start" name="trip-start">
-
-	<input type="time" id="appt" name="appt" required>
-
+	   
+	<input type="time" id="appt" name="appt" value ="00:00:00">
+	   
 	<div class="subtitle">
 		<p><span class="">Select Car</span><span class=""></span></p>
 	</div>
-
+	
 	<hr class="smallHR"/>
-
+	
 	<div id="select_uber">
 		<p>Select your choice of Uber.</p>
 		<button id="uberx" type="button" class="btn btn-primary">UberX</button>
 		<button id="uberpool" type="button" class="btn btn-primary">UberPool</button>
 		<button id="wav" type="button" class="btn btn-primary">WAV</button>
 		<button id="uberxl" type="button" class="btn btn-primary">UberXL</button>
-
+		
 	</div>
 
 	<div id="select_seats">
@@ -87,9 +87,9 @@
 		<button id="six" type="button" class="btn btn-primary">6</button>
 		<button id="eight" type="button" class="btn btn-primary">8</button>
 	</div>
-
+	
 	<hr/>
-
+	
 	<button id="create_button" type="button" class="btn btn-success">
 		Create
 	</button>
@@ -109,13 +109,15 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a type="button" href="view_rides.html" class="btn btn-primary">View Rides</a>
+        <button id="viewMyRide" type="button" class="btn btn-primary">View Rides</button>
       </div>
     </div>
   </div>
 </div>
 
  	<br><br>
+	
+
 
  	<script type="text/javascript" src="js/create_ride.js"></script>
  </body>
