@@ -38,7 +38,7 @@ h1 {
     font-size: 1.2em;
     display: inline-block;
     margin: 0.5em 0.5em 0.5em 0;
-    
+
 }
 
 img {
@@ -117,12 +117,13 @@ img {
     padding: 10px;
     font-size: 25px;
     display: block;
-    margin-top: 10px;   
-    border-radius: 8px; 
+    margin-top: 10px;
+    border-radius: 8px;
     float: left;
+    margin-left: 350px;
 
-    
-    
+
+
 }
 
 footer {
