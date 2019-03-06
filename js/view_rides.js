@@ -1,14 +1,4 @@
 /* View rides */
-
-
-class countdownTimer {
-  constructor (hours, minutes, seconds) {
-    this.hours = hours;
-    this.minutes = minutes;
-    this.seconds = seconds;
-  }
-}
-
 class Ride {
   constructor(type, seatsOccupied, user, timer, origin, destination) {
     this.type = type;
@@ -45,10 +35,6 @@ const otherPostArea = document.querySelector('#other-post-area');
 const ownPostArea = document.querySelector('#own-post-area');
 const seatSelector = document.querySelector('#seat-selector');
 
-const alertOwn = document.querySelector('#alert-own');
-const alertJoined = document.querySelector('#alert-joined');
-const alertOther = document.querySelector('#alert-other');
-
 joinedPostArea.addEventListener('click', leaveRide);
 otherPostArea.addEventListener('click', joinRide);
 ownPostArea.addEventListener('click', removeRide);
@@ -79,14 +65,14 @@ function removeRide(e) {
     removePost(ownPosts, parseInt(postElement.id));
 
     if (ownPosts.length === 0) {
-      $(alertOwn).show();
+      $('#alert-own').show();
     }
   }
 }
 
 function leaveRide(e) {
     if (e.target.classList.contains('btn')) {
-      $(alertOther).hide();
+      $('#alert-other').hide();
       const button = e.target;
       button.classList.remove('btn-danger');
       button.classList.add('btn-success');
@@ -109,20 +95,18 @@ function leaveRide(e) {
 
       /* enable seat buttons if no rides have been joined */
       if (joinedPosts.length === 0) {
+        $('#alert-joined').show();
         enableSeatButtons();
       }
 
       /* update seat count */
       postElement.querySelector('#seats-available').innerText = newSeatsAvailable;
       insertPostDOM(otherPostArea, postElement, idxToInsert);
-
-      if (joinedPosts.length === 0) {
-        $(alertJoined).show();
-      }
     }
 
 }
 
+/* Find index of post in sorted array */
 function findPostPositionById(posts, postElementId) {
   for (let i = 0; i < posts.length; i++) {
     if (posts[i].postNumber === postElementId) {
@@ -132,6 +116,7 @@ function findPostPositionById(posts, postElementId) {
   return -1;
 }
 
+/* Remove post from the array */
 function removePost(posts, postNumber) {
   for (let i = 0; i < posts.length; i++) {
     if (posts[i].postNumber === postNumber) {
@@ -184,9 +169,9 @@ function joinRide(e) {
     postElement.querySelector('#seats-available').innerText = newSeatsAvailable;
 
     insertPostDOM(joinedPostArea, postElement, idxToInsert);
-    $(alertJoined).hide();
+    $('#alert-joined').hide();
     if (otherPosts.length === 0) {
-      $(alertOther).show();
+      $('#alert-other').show();
     }
   }
 }
@@ -221,7 +206,7 @@ function updateTimerDOM() {
         removePost(otherPosts, postNumber);
         if (otherPosts.length === 0) {
           enableSeatButtons();
-          $(alertOther).show();
+          $('#alert-other').show();
         }
       }
       else {
@@ -231,14 +216,14 @@ function updateTimerDOM() {
           removePost(joinedPosts, postNumber);
           if (joinedPosts.length === 0) {
             enableSeatButtons();
-            $(alertJoined).show();
+            $('#alert-joined').show();
           }
         }
         else {
           ownPostArea.removeChild(postElement);
           removePost(ownPosts, postNumber);
           if (ownPosts.length === 0) {
-            $(alertOwn).show();
+            $('#alert-own').show();
           }
         }
       }
@@ -261,7 +246,10 @@ setInterval(updateTimerDOM, 1000);
 /* Get the user that is logged in */
 const loggedInUser = getLoggedInUser();
 
-/* UberX/UberPool,  UberXL */
+/* Indicates the number of seats
+for a specific car type
+index 0 = UberX/UberPool
+index 1 =  UberXL */
 const carType = [4, 6];
 
 /*-------------------- SERVER CALLS ---------------- */
@@ -353,12 +341,13 @@ function displayAllPosts() {
 }
 
 /* Specify current time, just for simulation purposes */
-var currentTime = new Date(2020, 0, 3, 21, 04, 52);
+var currentTime = new Date(2020, 0, 3, 20, 55, 52);
 
 /* Code execution begins here */
 displayAllPosts();
 /* Code execution ends here */
 
+/* Create new post, add it to the DOM */
 function createPost(ride) {
   const newPost = new Post(ride);
 
@@ -424,7 +413,7 @@ function createPost(ride) {
     postContainer.id = newPost.postNumber;
     postContainer.innerHTML = postMarkup;
 
-    // change button to remove if post belongs to logged in user
+    // change button to "Remove" if post belongs to logged in user
     if (loggedInUser.id === ride.user.id) {
       const button = postContainer.querySelector('.btn-join');
       button.classList.remove('btn-join');
@@ -445,6 +434,8 @@ function createPost(ride) {
 
 }
 
+/* Insert post into the array in proper position to
+maintain sorted order */
 function insertPost(posts, post) {
   if (posts.length == 0) {
     posts.push(post);
@@ -473,7 +464,7 @@ function insertPost(posts, post) {
   return idxToInsert;
 }
 
-/* Insert post into posts array in correct (sorted) position
+/* Insert post into DOM in correct (sorted) position
 based on user origin and destination sum */
 function insertPostDOM(postArea, postElement, idxToInsert) {
   const postList = postArea.querySelectorAll('.post');
