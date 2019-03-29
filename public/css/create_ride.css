@@ -1,0 +1,129 @@
+body {
+	background-color: #dce3ed;
+	margin-left: 20px;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+body h1{
+	margin-top:2vw;
+	margin-bottom:1vw;
+	text-align:center;
+}
+
+#create_success, #create_fail {
+	margin-left:7.5vw;
+	margin-right:7.5vw;
+}
+
+#google_maps{
+	width:45vw;
+	height:30vw;
+    margin-bottom: 4vw;
+	margin-left:7.5vw;
+	margin-right:3vw;
+	float:left;
+}
+
+#location_info{
+	position:relative;
+	margin-left: 0vw;
+	margin-top: 1vw;
+	margin-bottom: 2vw;
+}
+
+.location_text p{
+	font-size:18px;
+	padding-left:0vw;
+}
+
+.subtitle{
+	margin-left:7.5vw;
+	margin-top: 1vw;
+	font-size:20px;
+	
+}
+
+#confirm_location{
+	display:block;
+}
+
+#select_uber, #select_seats {
+	margin-top:1vw;
+	margin-left:0vw;
+	font-size:18px;
+}
+
+
+#select_uber button{
+	margin-right:1vw;
+	margin-top:0px;
+	margin-bottom:1vw;
+}
+
+#select_seats button{
+	margin-right:10px;
+	margin-top:0vw;
+	margin-bottom:1vw;
+}
+
+#create_button{
+	width:7.5vw;
+	margin-right:7.5vw;
+	float:right;
+}
+
+
+#confirm_location{
+	margin-bottom:1vw;
+	
+}
+
+#start{
+	margin-left: 0vw;
+	margin-right: 1vw;
+}
+
+#appt{
+	
+}
+
+.bold{
+	font-weight:bold;
+}
+
+.grey{
+	color:gray;
+}
+
+#create_fail{
+	display:none;
+}
+
+.bigHR{
+	margin-left:7.5vw;
+	margin-right:7.5vw;	
+}
+
+.smallHR{
+	margin-left:50vw;
+	margin-right:7.5vw;
+}
+
+.modal-title{
+	font-size:20px;
+	margin-bottom:0vw;
+	text-align:center;
+}
+
+#create_success{
+	margin-left:0.3vw;
+	margin-right:0.3vw;
+}
+
+.navbar-brand{
+	margin-left:7vw;
+}
+
+#logOutBtn{
+	margin-right:7vw;
+}

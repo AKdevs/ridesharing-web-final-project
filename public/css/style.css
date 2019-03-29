@@ -1,0 +1,134 @@
+
+.form_body_login{
+    /*background-image: url(../images/ridesharing-lighter.png);
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-blend-mode: lighten;*/
+    margin-top: 5%;
+    margin-left: 40%;
+}
+
+
+.form_body_register{
+    /*background-image: url(../images/ridesharing-lighter.png);
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-blend-mode: lighten;*/
+    /*margin-top: 5%;*/
+    margin-left: 28%;
+}
+
+h1 {
+    margin-top: 25px;
+
+}
+
+.form__element {
+    margin: 0 0 1em 0;
+
+}
+
+.form__element_first{
+    margin: 0 0 1em 0;
+    float: left;
+    margin-right: 30px;
+}
+
+.form__label {
+    font-size: 1.2em;
+    display: inline-block;
+    margin: 0.5em 0.5em 0.5em 0;
+
+}
+
+img {
+  opacity: 0.1;
+  filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+
+
+.form_email {
+    font-size: 1.2em;
+    display: block;
+    margin: 0 0 0.4em 0;
+}
+
+.form_phone {
+    font-size: 1.2em;
+    display: block;
+    margin: 0 0 0.4em 0;
+}
+
+.form_password {
+    font-size: 1.2em;
+    display: block;
+    margin-left: 1px;
+}
+
+.form_username {
+    font-size: 1.2em;
+    display: block;
+    margin-left: 1px;
+}
+
+.form_firstname {
+    font-size: 1.2em;
+    display: block;
+    margin-left: 1px;
+}
+
+.form_lastname {
+    font-size: 1.2em;
+    display: block;
+    margin-left: 1px;
+}
+
+
+.form_password_repeat {
+    font-size: 1.2em;
+    display: block;
+    margin-left: 1px;
+}
+
+.form__required {
+    float: right;
+    font-size: 0.8em;
+    background: #ddd;
+    margin-left: 5px;
+    padding: 5px;
+}
+
+.form__submit {
+    background: #326f10;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 25px;
+    display: block;
+    margin-top: 50px;
+    margin-top: 50px;
+    border-radius: 8px;
+}
+
+.form__register{
+    background: #326f10;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 25px;
+    display: block;
+    margin-top: 10px;
+    border-radius: 8px;
+    float: left;
+    margin-left: 20%;
+
+
+
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+}
