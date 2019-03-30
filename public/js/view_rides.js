@@ -66,7 +66,6 @@ function removeOwnPostElement(e) {
     const postElement = getPostElementFromButton(e.target);
     ownPostArea.removeChild(postElement);
     removePostById(allPosts, parseInt(postElement.id));
-    console.log('yo');
 
     if (isPostAreaEmpty(ownPostArea)) {
       $('#alert-own').show();
@@ -79,7 +78,7 @@ function removePostFromPostArea(postArea, postElement) {
 }
 
 function isPostAreaEmpty(postArea) {
-  const posts = postArea.getElementsByClassName('.post');
+  const posts = postArea.getElementsByClassName('post');
   return posts.length === 0;
 }
 
@@ -101,7 +100,6 @@ function changeButtonFromJoinToLeave(button) {
 
 function leaveRide(e) {
     if (e.target.classList.contains('btn')) {
-      $('#alert-other').hide();
       const button = e.target;
       changeButtonFromLeaveToJoin(button);
 
@@ -110,9 +108,6 @@ function leaveRide(e) {
 
       changePostToNotJoined(post);
 
-      /* show empty alert and enable seat buttons if no rides have been joined */
-      displayAlertIfPostAreaEmpty(joinedPostArea);
-
       updateRideSeatCount(post.ride);
       const newSeatsAvailable = calculateNewSeatsAvailable(post.ride);
 
@@ -120,11 +115,13 @@ function leaveRide(e) {
       updatePostElementSeatCount(postElement, newSeatsAvailable);
 
       insertPostDOM(otherPostArea, postElement, allPosts);
+
+      enableSeatButtonsIfNoJoined();
+      updateEmptyAlerts();
     }
 }
-function displayAlertIfPostAreaEmpty(postArea) {
-  if (isPostAreaEmpty(postArea)) {
-    $('#alert-joined').show();
+function enableSeatButtonsIfNoJoined() {
+  if (isPostAreaEmpty(joinedPostArea)) {
     enableSeatButtons();
   }
 }
@@ -192,16 +189,12 @@ function joinRide(e) {
 
     changeButtonFromJoinToLeave(button);
 
-
     /* Update seat count on DOM */
     updatePostElementSeatCount(postElement, newSeatsAvailable);
 
     insertPostDOM(joinedPostArea, postElement, allPosts);
 
-    $('#alert-joined').hide();
-    if (isPostAreaEmpty(otherPostArea)) {
-      $('#alert-other').show();
-    }
+    updateEmptyAlerts();
   }
 }
 
@@ -245,11 +238,18 @@ function updateTimerDOM() {
     if (timerExpired(timerObj)) {
       removePostElement(postElement);
       removePostById(postNumber);
+      updateEmptyAlerts();
     }
     else {
       timeContainer.innerHTML = generateTimerMarkup(timerObj);
     }
   }
+}
+
+function updateEmptyAlerts() {
+  isPostAreaEmpty(ownPostArea) ? $('#alert-own').show() : $('#alert-own').hide();
+  isPostAreaEmpty(joinedPostArea) ? $('#alert-joined').show() : $('#alert-joined').hide();
+  isPostAreaEmpty(otherPostArea) ? $('#alert-other').show() : $('#alert-other').hide();
 }
 
 function timerExpired(timerObj) {
