@@ -19,6 +19,9 @@ const UserSchema = new mongoose.Schema({
     },
     profileimage: {
         type: String
+    },
+    hash: {
+        type: Object
     }
 });
 
