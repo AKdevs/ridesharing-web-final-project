@@ -8,8 +8,14 @@ block content
    div.alert.alert-danger #{error.msg}
  form(method='post', action='/users/register',enctype='multipart/form-data')
   .form-group
-   label Name
-   input.form-control(name='name', type='text', placeholder='Enter Name')
+   label First Name
+   input.form-control(name='firstname', type='text', placeholder='Enter First Name')
+  .form-group
+   label Last Name
+   input.form-control(name='lastname', type='text', placeholder='Enter Last Name')
+  .form-group
+   label Phone
+   input.form-control(name='phone', type='number', placeholder='Enter Phone Number')
   .form-group
    label Email
    input.form-control(name='email', type='email', placeholder='Enter Email')
