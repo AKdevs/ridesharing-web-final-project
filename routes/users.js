@@ -61,7 +61,9 @@ passport.use(new LocalStrategy(function(username, password, done){
 }));
 
 router.post('/register', upload.single('profileimage') ,function(req, res, next) {
-  var name = req.body.name;
+  var firstname = req.body.firstname;
+  var lastname = req.body.firstname;
+  var phone = req.body.phone;
   var email = req.body.email;
   var username = req.body.username;
   var password = req.body.password;
@@ -76,8 +78,8 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
   }
 
   // Form Validator
-  req.checkBody('name','Name field is required').notEmpty();
-  req.checkBody('email','Email field is required').notEmpty();
+  req.checkBody('firstname','First Name field is required').notEmpty();
+  req.checkBody('lastname','Last Name field is required').notEmpty();
   req.checkBody('email','Email is not valid').isEmail();
   req.checkBody('username','Username field is required').notEmpty();
   req.checkBody('password','Password field is required').notEmpty();
@@ -92,7 +94,9 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
   	});
   } else{
   	var newUser = new User({
-      name: name,
+      firstname: firstname,
+      lastname: lastname,
+      phone: phone,
       email: email,
       username: username,
       password: password,
