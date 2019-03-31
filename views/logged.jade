@@ -13,7 +13,7 @@ html(lang='en')
         a.navbar-brand(href='main_page.html') Search for a Ride
         a.btn.btn-primary(href='index.html') Logout
     h1
-      center Hi Welcome back, #{user.name}
+      center Hi Welcome back, #{user.firstname} #{user.lastname}
     br
     br
     .pic-container.pic-medium.pic-circle
@@ -26,17 +26,17 @@ html(lang='en')
     .containerText
       #firstnameelement.form-control
         label.header First Name :
-        input#firstname-field.form-control(type='text', name='First Name', value='#{user.name}')
+        input#firstname-field.form-control(type='text', name='First Name', value='#{user.firstname}')
       #lastnameelement.form-control
         label.header Last Name :
-        input#lastname-field.form-control(type='text', name='Last Name')
+        input#lastname-field.form-control(type='text', name='Last Name', value='#{user.lastname}')
       #usernameelement.form-control
         label.header User Name :
         input#username-field.form-control(type='text', name='User Name', value='#{user.username}', readonly='true')
     .containerText
       #phoneelement.form-control
         label.header Phone :
-        input#phone-field.form-control(type='text', name='Phone', value='647-801-4618')
+        input#phone-field.form-control(type='text', name='Phone', value='#{user.phone}')
       #emailelement.form-control
         label.header Email :
         input#email-field.form-control(type='text', name='Email', value='#{user.email}')

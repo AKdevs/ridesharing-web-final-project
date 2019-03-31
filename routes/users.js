@@ -26,7 +26,7 @@ router.get('/logged', function(req, res, next) {
     User.find({username: req.user.username}, function(err, docs){
         console.log(docs)
         if (err) {console.log("user not found"); res.status(404).send();}
-        res.render('logged',{user: {"name": docs[0].name.toString(), "username": docs[0].username.toString(), "email": docs[0].email.toString()}});
+        res.render('logged',{user: {"firstname": docs[0].firstname.toString(), "lastname": docs[0].lastname.toString(), "username": docs[0].username.toString(), "email": docs[0].email.toString(),"phone": docs[0].phone.toString() }});
     });
 });
 
@@ -76,7 +76,7 @@ passport.use(new LocalStrategy(function(username, password, done){
 
 router.post('/register', upload.single('profileimage') ,function(req, res, next) {
   var firstname = req.body.firstname;
-  var lastname = req.body.firstname;
+  var lastname = req.body.lastname;
   var phone = req.body.phone;
   var email = req.body.email;
   var username = req.body.username;
