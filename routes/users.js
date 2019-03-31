@@ -4,6 +4,7 @@ var multer = require('multer');
 var upload = multer({dest: './uploads'});
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var bcrypt = require('bcryptjs');
 
 var User = require('../models/user');
 
@@ -23,20 +24,82 @@ router.get('/login', function(req, res, next) {
 router.get('/logged', function(req, res, next) {
   console.log("Person is now logged")
   var user = req.session.username;
+  //console.log(req.body.firstname);
     User.find({username: req.user.username}, function(err, docs){
         console.log(docs)
         if (err) {console.log("user not found"); res.status(404).send();}
-        res.render('logged',{user: {"firstname": docs[0].firstname.toString(), "lastname": docs[0].lastname.toString(), "username": docs[0].username.toString(), "email": docs[0].email.toString(),"phone": docs[0].phone.toString() }});
+        else{
+            res.render('logged',{user: {"firstname": docs[0].firstname.toString(), "lastname": docs[0].lastname.toString(), "username": docs[0].username.toString(), "email": docs[0].email.toString(),"phone": docs[0].phone.toString() }});
+        }
     });
 });
 
 router.post('/logged', function(req, res, next) {
     console.log("USER LOGGED POST")
-    var user = req.session.username;
-    User.find({username: user}, function(err, docs){
-        if (err) {console.log("user not found"); res.status(404).send();}
-        res.render('logged',{user: docs[0]});
+    //console.log(req.user);
+
+
+    // User.findOneAndUpdate({
+    //     _id: req.user.id
+    // })
+    User.findById(req.user.id).then((user1) => {
+        console.log(req.body['First Name'])
+        var newUser;
+        if(req.body['password'] == '')
+        {
+            newUser = {
+                firstname: req.body['First Name'],
+                lastname: req.body['Last Name'],
+                email: req.body['Email'],
+                phone: req.body['Phone'],
+                username: req.body['User Name'],
+                password: user1.password
+            }
+            if (user1){
+                user1.set(newUser);
+                console.log(user1);
+                user1.save().then((result) => {
+                    console.log("UPDATED INFO check 3T");
+                    res.render('logged',{user: {"firstname": user1.firstname.toString(), "lastname": user1.lastname.toString(), "username": user1.username.toString(), "email": user1.email.toString(),"phone": user1.phone.toString() }});
+                }).catch((error)=>{
+                    console.log("error in updating info");
+                    res.status(400).send();
+                });
+                }
+            else{console.log("error in updating info");}
+        }
+        else{
+            bcrypt.hash(req.body['password'], 10, function(err, hash) {
+                newUser = {
+                    firstname: req.body['First Name'],
+                    lastname: req.body['Last Name'],
+                    email: req.body['Email'],
+                    phone: req.body['Phone'],
+                    username: req.body['User Name'],
+                    password: hash
+                }
+
+                if (user1){
+                user1.set(newUser);
+                console.log(user1);
+                user1.save().then((result) => {
+                    console.log("UPDATED INFO check 3T");
+                    res.render('logged',{user: {"firstname": user1.firstname.toString(), "lastname": user1.lastname.toString(), "username": user1.username.toString(), "email": user1.email.toString(),"phone": user1.phone.toString() }});
+                }).catch((error)=>{
+                    console.log("error in updating info");
+                    res.status(400).send();
+                });
+                }
+            else{console.log("error in updating info");}
+
+            });
+            
+        }
+
+        
+        
     });
+    
 })
 
 router.post('/login',
