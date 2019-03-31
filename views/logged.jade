@@ -1,0 +1,45 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title Profile Page
+    link#bootstrap-css(href='/css/bootstrap.min.css', rel='stylesheet')
+    link(rel='stylesheet', type='text/css', href='/css/logged.css')
+  body
+    nav.navbar.navbar-light.bg-light.static-top
+      .container
+        a.navbar-brand(href='main_page.html') Search for a Ride
+        a.btn.btn-primary(href='index.html') Logout
+    h1
+      center Hi Welcome back, #{user.name}
+    br
+    br
+    .pic-container.pic-medium.pic-circle
+      img.pic(src='img/user.png', alt='')
+      .pic-overlay
+        a
+          i.fa.fa-window-close-o(aria-hidden='true')
+        a
+          i.fa.fa-pencil-square-o(aria-hidden='true')
+    .containerText
+      #firstnameelement.form-control
+        label.header First Name :
+        input#firstname-field.form-control(type='text', name='First Name', value='#{user.name}')
+      #lastnameelement.form-control
+        label.header Last Name :
+        input#lastname-field.form-control(type='text', name='Last Name')
+      #usernameelement.form-control
+        label.header User Name :
+        input#username-field.form-control(type='text', name='User Name', value='#{user.username}', readonly='true')
+    .containerText
+      #phoneelement.form-control
+        label.header Phone :
+        input#phone-field.form-control(type='text', name='Phone', value='647-801-4618')
+      #emailelement.form-control
+        label.header Email :
+        input#email-field.form-control(type='text', name='Email', value='#{user.email}')
+      #passwordelement.form-control(type='password')
+        label.header Password :
+        input#password-field.form-control(type='password', name='password')

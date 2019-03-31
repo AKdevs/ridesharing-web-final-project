@@ -22,14 +22,28 @@ router.get('/login', function(req, res, next) {
 
 router.get('/logged', function(req, res, next) {
   console.log("Person is now logged")
-  res.sendfile('public/logged.html', {title:'Login'});
+  var user = req.session.username;
+    User.find({username: req.user.username}, function(err, docs){
+        console.log(docs)
+        if (err) {console.log("user not found"); res.status(404).send();}
+        res.render('logged',{user: {"name": docs[0].name.toString(), "username": docs[0].username.toString(), "email": docs[0].email.toString()}});
+    });
 });
+
+router.post('/logged', function(req, res, next) {
+    console.log("USER LOGGED POST")
+    var user = req.session.username;
+    User.find({username: user}, function(err, docs){
+        if (err) {console.log("user not found"); res.status(404).send();}
+        res.render('logged',{user: docs[0]});
+    });
+})
 
 router.post('/login',
   passport.authenticate('local',{failureRedirect:'/users/login', failureFlash: 'Invalid username or password'}),
   function(req, res) {
-   req.flash('success', 'You are now logged in');
-   res.redirect('/users/logged');
+    req.flash('success', 'You are now logged in');
+    res.redirect('/users/logged');
 });
 
 passport.serializeUser(function(user, done) {
