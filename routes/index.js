@@ -2,15 +2,28 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', ensureAuthenticated, function(req, res, next) {
+router.get('/', function(req, res, next) {
   res.sendfile('public/main_page.html', { title: 'Members' });
 });
 
-function ensureAuthenticated(req, res, next){
+
+/*function ensureAuthenticated(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
 	}
 	res.redirect('/users/login');
 }
+
+
+function requiresLogin(req, res, next) {
+  if (req.session && req.session.userId) {
+    return next();
+  } else {
+    var err = new Error('You must be logged in to view this page.');
+    err.status = 401;
+    return next(err);
+  }
+}*/
+
 
 module.exports = router;

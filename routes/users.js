@@ -50,9 +50,6 @@ function requiresLogin(req, res, next) {
 
 router.get('/logged',  function(req, res, next) {
     
-    console.log(req.session);
-    console.log(req.user);
-    
     if(!req.user || !req.session){
         var err = new Error('You must be logged in to view this page.');
         err.status = 401;
