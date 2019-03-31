@@ -1,138 +1,120 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-var upload  = multer({dest:'./uploads/'});
-const bcrypt = require('bcrypt');
+var upload = multer({dest: './uploads'});
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
+var User = require('../models/user');
 
-const { User } = require('../models/user');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.sendfile('./public/index.html');
+  res.send('respond with a resource');
+});
+
+router.get('/register', function(req, res, next) {
+  res.render('register',{title:'Register'});
+});
+
+router.get('/login', function(req, res, next) {
+  res.render('login', {title:'Login'});
 });
 
 router.get('/logged', function(req, res, next) {
-    console.log("trying to login now...");
-    var user = User.find();
-    console.log(user);
-    // bcrypt.compare(req.body.password, user.hash, function(err, res) {
-    //     if(res) {
-    //     // Passwords match
-    //     } else {
-    //     // Passwords don't match
-    //     } 
-    // });    
-  res.sendfile('./public/logged.html');
+  console.log("Person is now logged")
+  res.sendfile('public/logged.html', {title:'Login'});
 });
 
-
-
-router.get('/login', function(req, res, next) {
-
-    // var user = User.getUser(req.body.username);
-    // console.log(user);
-    // bcrypt.compare(req.body.password, user.hash, function(err, res) {
-    //     if(res) {
-    //     // Passwords match
-    //     } else {
-    //     // Passwords don't match
-    //     } 
-    // });    
-
-    res.sendfile('./public/login.html', {title: 'Login'});
+router.post('/login',
+  passport.authenticate('local',{failureRedirect:'/users/login', failureFlash: 'Invalid username or password'}),
+  function(req, res) {
+   req.flash('success', 'You are now logged in');
+   res.redirect('/users/logged');
 });
 
-router.post('/login', function(req, res, next) {
-    console.log("POST /user");
-    var allowed = false;
-    User.find({username: req.body.username}, function(err, docs){
-        if (err) {console.log("user not found"); res.status(404).send();}
-        dbHash = docs[0].hash;
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
 
-        bcrypt.compare(req.body.password, docs[0].hash, function(err, result) {
-            if(result) {
-                console.log("Welcome "+ docs[0].firstname)
-                allowed=true;
-                res.location('/users/logged');
-                res.redirect('/users/logged');
-            } else {
-                console.log("user unauthorized");
-                allowed=false;
-                res.status(401).send();
-            } 
-        }); 
+passport.deserializeUser(function(id, done) {
+  User.getUserById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
+passport.use(new LocalStrategy(function(username, password, done){
+  User.getUserByUsername(username, function(err, user){
+    if(err) throw err;
+    if(!user){
+      return done(null, false, {message: 'Unknown User'});
+    }
+
+    User.comparePassword(password, user.password, function(err, isMatch){
+      if(err) return done(err);
+      if(isMatch){
+        return done(null, user);
+      } else {
+        return done(null, false, {message:'Invalid Password'});
+      }
+    });
+  });
+}));
+
+router.post('/register', upload.single('profileimage') ,function(req, res, next) {
+  var name = req.body.name;
+  var email = req.body.email;
+  var username = req.body.username;
+  var password = req.body.password;
+  var password2 = req.body.password2;
+
+  if(req.file){
+  	console.log('Uploading File...');
+  	var profileimage = req.file.filename;
+  } else {
+  	console.log('No File Uploaded...');
+  	var profileimage = 'noimage.jpg';
+  }
+
+  // Form Validator
+  req.checkBody('name','Name field is required').notEmpty();
+  req.checkBody('email','Email field is required').notEmpty();
+  req.checkBody('email','Email is not valid').isEmail();
+  req.checkBody('username','Username field is required').notEmpty();
+  req.checkBody('password','Password field is required').notEmpty();
+  req.checkBody('password2','Passwords do not match').equals(req.body.password);
+
+  // Check Errors
+  var errors = req.validationErrors();
+
+  if(errors){
+  	res.render('register', {
+  		errors: errors
+  	});
+  } else{
+  	var newUser = new User({
+      name: name,
+      email: email,
+      username: username,
+      password: password,
+      profileimage: profileimage
     });
 
-    // console.log("allowed: "+ allowed);
-    // if(allowed){
-    //     res.location('/users/logged');
-    //     res.redirect('/users/logged');
-    // }
-    // else{
-    //     res.status(401).send();
-    // }
-}); 
+    User.createUser(newUser, function(err, user){
+      if(err) throw err;
+      console.log(user);
+    });
 
+    req.flash('success', 'You are now registered and can login');
 
-router.get('/register', function(req, res, next) {
-    res.sendfile('./public/registration.html', {title: 'Register'});
+    res.location('/users/login');
+    res.redirect('/users/login');
+  }
 });
 
-router.post('/register', upload.single('profileimage'), function(req, res, next) {
-    
-    console.log("Reach herreeeee");
-    //console.log(req.file);
-    
-    var firstname = req.body.firstname;
-    var lastname = req.body.lastname;
-    var username = req.body.username;
-    var email = req.body.email;
-    var phone = req.body.phone;
-    var password = req.body.psw;
-    var password_repeat = req.body.psw_repeat;
-
-    bcrypt.hash(password, 10, function(err, hash) {
-        // Store hash in database
-       
-        console.log("PRINTING HASH _________________________________________");
-        console.log(hash);
-
-        console.log(firstname);
-        console.log(email);
-        console.log(password);
-        console.log(password_repeat);
-        //console.log(req.file);
-        var newUser = new User({
-            firstname: firstname,
-            lastname: lastname,
-            username: username,
-            email: email,
-            phone: phone,
-            hash: hash
-            //profileimage: profileimage
-        });
-        
-       
-    })
-    //var profileimage = req.file.fileName;
-    
-     newUser.save().then((result) => {
-            res.send(result);
-        }, (error) => {
-            res.status(400).send(error);
-        });
-    
-    
-    //console.log(newUser);
-   // User.createUser(newUser, function(){
-   //     console.log(user);
-   // });
-    
-    res.location('/users/logged');
-    res.redirect('/users/logged');
-
+router.get('/logout', function(req, res){
+  req.logout();
+  req.flash('success', 'You are now logged out');
+  res.redirect('/users/login');
 });
-
 
 module.exports = router;

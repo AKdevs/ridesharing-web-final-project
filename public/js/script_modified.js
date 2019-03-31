@@ -70,7 +70,7 @@ function login_page(e) {
     
     if (i >= Users.length && flag_bool === false)
     {
-            alert("Please enter correct username and password")
+            window.alert("Please enter correct username and password")
     }
 
 }
@@ -97,7 +97,7 @@ function registration_page(e) {
     }
     else
     {
-        alert("Please make sure the passowrds match");
+        window.alert("Please make sure the passowrds match");
     }
 }
 
