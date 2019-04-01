@@ -136,6 +136,25 @@ router.post('/logged', function(req, res, next) {
     
 })
 
+
+/*router.get('/login',function(req,res){
+   res.render('login',{
+     title  : 'Login',
+     errors : req.flash('error')
+   });
+})*/
+
+
+router.get('/login',function(req,res){
+   res.render('login',{
+     title  : 'Login',
+     errors: req.flash('error')
+   });
+});
+
+
+
+
 router.post('/login',
   passport.authenticate('local',{failureRedirect:'/users/login', failureFlash: 'Invalid username or password'}),
   function(req, res) {
@@ -196,17 +215,13 @@ passport.use("login", new LocalStrategy(function(username, password, done){
 })*/
 
 
-router.get("/login", function(req, res){
-    console.log(req.session)
-    res.render("login" , {messages : req.flash("error")} );
-})
-
 
 
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
+
 
 passport.deserializeUser(function(id, done) {
   User.getUserById(id, function(err, user) {
