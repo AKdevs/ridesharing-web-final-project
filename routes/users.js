@@ -17,12 +17,14 @@ router.get('/register', function(req, res, next) {
   res.render('register',{title:'Register'});
 });
 
-router.get('/login', function(req, res, next) {
+/*router.get('/login', function(req, res, next) {
+    
   res.render('login', {title:'Login'});
-});
+});*/
 
 
 router.get('/logout', function(req, res, next) {
+    
   if (req.session) {
     // delete session object
     req.session.destroy(function(err) {
@@ -137,9 +139,70 @@ router.post('/logged', function(req, res, next) {
 router.post('/login',
   passport.authenticate('local',{failureRedirect:'/users/login', failureFlash: 'Invalid username or password'}),
   function(req, res) {
-    req.flash('success', 'You are now logged in');
-    res.redirect('/users/logged');
-});
+    
+    var errors = req.validationErrors();
+    
+    if(errors){
+        res.render('login', {
+            errors: errors
+        });
+    }
+    
+    
+    
+    else if(req.body.username === 'admin'){
+        return res.redirect('/admin/logged');
+    }
+    else{
+        req.flash('success', 'You are now logged in');
+        return res.redirect('/users/logged');
+        
+    }
+
+    
+})
+
+
+passport.use("login", new LocalStrategy(function(username, password, done){
+  User.findOne({username : username}, function(err, user){
+    if(err){return done(err)}
+    if(!user){
+        return done(null, false, {messages : "no such user" })
+    }
+    if(user.password != password){
+        return done(null, false, {messages : "invalid password"})
+    }else{
+        return done(null , user);
+    }
+  })
+}))
+
+
+
+/*router.post("/login", function(req, res, next){
+    passport.authenticate("login", function(err, user, info){
+        if(err){ return next(err);}
+        if(!user){return res.render("login", {messages : info.messages})}
+        req.logIn(user, function(err){
+            if(err){ return next(err); }
+            if(req.body.username === 'admin'){
+                console.log("dddddddddddddd")
+                return res.redirect('/admin/logged');
+            }
+            
+            return res.redirect('/users/logged');
+        })
+    })(req, res, next)
+})*/
+
+
+router.get("/login", function(req, res){
+    console.log(req.session)
+    res.render("login" , {messages : req.flash("error")} );
+})
+
+
+
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -170,6 +233,7 @@ passport.use(new LocalStrategy(function(username, password, done){
 }));
 
 router.post('/register', upload.single('profileimage') ,function(req, res, next) {
+    
   var firstname = req.body.firstname;
   var lastname = req.body.lastname;
   var phone = req.body.phone;
@@ -178,6 +242,7 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
   var password = req.body.password;
   var password2 = req.body.password2;
 
+    
   if(req.file){
   	console.log('Uploading File...');
   	var profileimage = req.file.filename;
@@ -185,43 +250,97 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
   	console.log('No File Uploaded...');
   	var profileimage = 'noimage.jpg';
   }
-
-  // Form Validator
-  req.checkBody('firstname','First Name field is required').notEmpty();
-  req.checkBody('lastname','Last Name field is required').notEmpty();
-  req.checkBody('email','Email is not valid').isEmail();
-  req.checkBody('username','Username field is required').notEmpty();
-  req.checkBody('password','Password field is required').notEmpty();
-  req.checkBody('password2','Passwords do not match').equals(req.body.password);
-
-  // Check Errors
-  var errors = req.validationErrors();
-
-  if(errors){
-  	res.render('register', {
-  		errors: errors
-  	});
-  } else{
-  	var newUser = new User({
-      firstname: firstname,
-      lastname: lastname,
-      phone: phone,
-      email: email,
-      username: username,
-      password: password,
-      profileimage: profileimage
-    });
-
-    User.createUser(newUser, function(err, user){
-      if(err) throw err;
-      console.log(user);
-    });
-
-    req.flash('success', 'You are now registered and can login');
-
-    res.location('/users/login');
-    res.redirect('/users/login');
+    
+  if(username==='admin'){
+    var err = new Error('You cant register as admin');
+    err.status = 401;
+    return next(err);
   }
+    
+  User.find({ 'username': username,'email': email }, function(err, user) {
+
+        if (err) {
+
+            console.log('Signup error');
+            return next(err);
+        }
+
+        //if user found.
+        if (user.length!=0) {
+          if(user[0].username){
+            console.log('Username already exists, username: ' + username);                         
+             }else{
+                console.log('EMAIL already exists, email: ' + email);      
+             }
+             console.log('Check 1');
+             var err = new Error('Username already exists');
+             err.status = 401;
+             console.log('Check 2');
+             return next(err);
+            
+
+        }
+      
+      else{
+          
+          
+          
+            // Form Validator
+          req.checkBody('firstname','First Name field is required').notEmpty();
+          req.checkBody('lastname','Last Name field is required').notEmpty();
+          req.checkBody('email','Email is not valid').isEmail();
+          req.checkBody('phone').isInt();
+          req.checkBody('username','Username field is required').notEmpty();
+          req.checkBody('password','Password field is required').notEmpty();
+          req.checkBody('password2','Passwords do not match').equals(req.body.password);
+
+
+
+          // Check Errors
+          var errors = req.validationErrors();
+
+
+
+
+          if(errors){
+            res.render('register', {
+                errors: errors
+            });
+          } else{
+            var newUser = new User({
+              firstname: firstname,
+              lastname: lastname,
+              phone: phone,
+              email: email,
+              username: username,
+              password: password,
+              profileimage: profileimage
+            });
+
+            User.createUser(newUser, function(err, user){
+              if(err) throw err;
+              console.log(user);
+            });
+
+            req.flash('success', 'You are now registered and can login');
+
+            res.location('/users/login');
+            res.redirect('/users/login');
+            }
+          
+          
+          
+          
+          
+          
+          
+          
+      }
+   });
+
+        
+    
+
 });
 
 router.get('/logout', function(req, res){
