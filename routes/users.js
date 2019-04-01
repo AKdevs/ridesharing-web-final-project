@@ -273,11 +273,11 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
   	var profileimage = 'noimage.jpg';
   }
     
-  if(username==='admin'){
+  /*if(username==='admin'){
     var err = new Error('You cant register as admin');
     err.status = 401;
     return next(err);
-  }
+  }*/
     
   User.find({ 'username': username,'email': email }, function(err, user) {
 
