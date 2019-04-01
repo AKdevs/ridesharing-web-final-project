@@ -13,6 +13,34 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.post('/logged', function(req,res,next) {
+    // console.log(req.body); fetch data from request body 
+    User.findOneAndRemove({username: req.body['User Name']}, function(err, user) {
+        console.log(user);
+        if(err){
+            console.log("User not found");
+            return next(err);
+        }
+        else{
+            User.find().then((docs) => {
+            console.log(docs.length);
+            var docwithoutAdmin =[];
+            for (var i=0; i<docs.length;i++)
+            {
+                if(docs[i].username != "admin")
+                {
+                    docwithoutAdmin.push(docs[i])
+                }
+            }
+            res.render('logged_admin', {users: docwithoutAdmin, len: docs.length});
+            }, (error) => {
+                console.log(error);
+            });
+        }
+    });
+
+    
+});
 
 router.get('/logged',  function(req, res, next) {
     
@@ -31,15 +59,20 @@ router.get('/logged',  function(req, res, next) {
         
         //Write code here for displaying and deletion of users and rides.
         
-            User.find({username: req.user.username}, function(err, docs){
-            console.log(docs)
-            if (err) {console.log("user not found"); res.status(404).send();}
-            else{
-                res.render('logged',{user: {"firstname": docs[0].firstname.toString(), "lastname": docs[0].lastname.toString(), "username": docs[0].username.toString(), "email": docs[0].email.toString(),"phone": docs[0].phone.toString() }});
-            }
-        });
-        
-        
+            User.find().then((docs) => {
+                console.log(docs.length);
+                var docwithoutAdmin =[];
+                for (var i=0; i<docs.length;i++)
+                {
+                    if(docs[i].username != "admin")
+                    {
+                        docwithoutAdmin.push(docs[i])
+                    }
+                }
+                res.render('logged_admin', {users: docwithoutAdmin, len: docs.length});
+            }, (error) => {
+                console.log(error);
+            });      
         
         
     }
