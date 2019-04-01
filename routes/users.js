@@ -13,9 +13,6 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/register', function(req, res, next) {
-  res.render('register',{title:'Register'});
-});
 
 /*router.get('/login', function(req, res, next) {
     
@@ -154,6 +151,16 @@ router.get('/login',function(req,res){
 
 
 
+router.get('/register',function(req,res){
+   res.render('register',{
+     title : 'Register',
+     errors: req.flash('error')
+   });
+});
+
+
+
+
 
 router.post('/login',
   passport.authenticate('local',{failureRedirect:'/users/login', failureFlash: 'Invalid username or password'}),
@@ -283,15 +290,18 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
         //if user found.
         if (user.length!=0) {
           if(user[0].username){
+            req.flash('failure', 'Username already exists');
             console.log('Username already exists, username: ' + username);                         
              }else{
+                req.flash('failure', 'email already exists');
                 console.log('EMAIL already exists, email: ' + email);      
              }
-             console.log('Check 1');
              var err = new Error('Username already exists');
              err.status = 401;
-             console.log('Check 2');
-             return next(err);
+             //return next(err);
+             res.render('register', {
+                errors: req.flash('failure')}
+             );
             
 
         }
