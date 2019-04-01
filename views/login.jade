@@ -18,8 +18,9 @@ html(lang='en')
         else
           a.btn.btn-primary.btn-outline-secondary(href='/users/register') Register
 
-        
+br
 block content
+center
  h2.page-header Login
  p Please login below
  if errors
@@ -27,9 +28,10 @@ block content
    div.alert.alert-danger Incorrect username or password
  form(method='post', action='/users/login')
   .form-group
-   label Username
-   input.form-control(name='username', type='text', placeholder='Enter Username')
+   label Username 
+   input#email.form_email(name='username', type='text', placeholder='Enter Username')
   .form-group
    label Password
-   input.form-control(name='password', type='password', placeholder='Enter Password')
+   input#password.form_password(name='password', type='password', placeholder='Enter Password')
+   <p>
   input.btn.btn-primary(type='submit', name='submit',value='Login')

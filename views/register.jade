@@ -9,13 +9,16 @@ html(lang='en')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
     link(rel='stylesheet', type='text/css', href='/css/bootstrap.min.css')
     link(rel='stylesheet', type='text/css', href='/css/main.css')
+    link(rel='stylesheet', type='text/css', href='/css/style.css')
   body
     nav.navbar.navbar-light.bg-light.static-top
       .container
         a.navbar-brand(href='/') UberZ
         a.btn.btn-primary.btn-outline-secondary(href='/users/login') Login
 
+br
 block content
+center
  h2.page-header Register
  p Please register using the form below
  if errors
@@ -26,28 +29,27 @@ block content
       div.alert.alert-danger Username taken already
 
  form(method='post', action='/users/register',enctype='multipart/form-data')
-  .form-group
-    label First Name
-    input.form-control(name='firstname', type='text', placeholder='Enter First Name')
-  .form-group
-   label Last Name
-   input.form-control(name='lastname', type='text', placeholder='Enter Last Name')
-  .form-group
-   label Phone
-   input.form-control(name='phone', type='number', placeholder='Enter Phone Number')
-  .form-group
-   label Email
-   input.form-control(name='email', type='email', placeholder='Enter Email')
-  .form-group
-   label Username
-   input.form-control(name='username', type='text', placeholder='Enter Username')
-  .form-group
-   label Password
-   input.form-control(name='password', type='password', placeholder='Enter Password')
-  .form-group
-   label Confirm Password
-   input.form-control(name='password2', type='password', placeholder='Confirm Password')
-  .form-group
-   label Profile Image
-   input.form-control(name='profileimage', type='file')
-  input.btn.btn-primary(type='submit', name='submit',value='Register')
+  .form_body_register
+    .form-group
+      label First Name
+      input.form_firstname(name='firstname', type='text', placeholder='Enter First Name')
+    .form-group
+    label Last Name
+    input.form_lastname(name='lastname', type='text', placeholder='Enter Last Name')
+    .form-group
+    label Phone
+    input.form_phone(name='phone', type='number', placeholder='Enter Phone Number')
+    .form-group
+    label Email
+    input.form_email(name='email', type='email', placeholder='Enter Email')
+    .form-group
+    label Username
+    input.form_username(name='username', type='text', placeholder='Enter Username')
+    .form-group
+    label Password
+    input.form_password(name='password', type='password', placeholder='Enter Password')
+    .form-group
+    label Confirm Password
+    input.form_password(name='password2', type='password', placeholder='Confirm Password')
+    p
+    input.form__register.btn.btn-primary(type='submit', name='submit',value='Register')
