@@ -15,7 +15,10 @@ html(lang='en')
         a.navbar-brand(href='#') UberZ
         a.navbar-brand(data-value='about', href='#about') About
         a.navbar-brand(data-value='team', href='#team') Team
-        a.btn.btn-primary(href='/users/login') Login
+        if user
+          a.btn.btn-primary(href='/users/login') Login
+        else
+          a.btn.btn-primary(href='/users/logout') Logout
     .container
       != messages()
       block content

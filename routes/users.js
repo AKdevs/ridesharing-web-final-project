@@ -10,6 +10,10 @@ var User = require('../models/user');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+    if(req.user){
+        res.location('/users/logged');
+        res.redirect('/users/logged');
+    }
   res.send('respond with a resource');
 });
 
@@ -142,7 +146,11 @@ router.post('/logged', function(req, res, next) {
 })*/
 
 
-router.get('/login',function(req,res){
+router.get('/login',function(req,res){   
+    if(req.user){
+        res.location('/users/logged');
+        res.redirect('/users/logged');
+    }
    res.render('login',{
      title  : 'Login',
      errors: req.flash('error')
@@ -152,6 +160,10 @@ router.get('/login',function(req,res){
 
 
 router.get('/register',function(req,res){
+    if(req.user){
+        res.location('/users/logged');
+        res.redirect('/users/logged');
+    }
    res.render('register',{
      title : 'Register',
      errors: req.flash('error')

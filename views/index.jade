@@ -1,5 +1,79 @@
-extends layout
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title UBER-Z
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css', integrity='sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4', crossorigin='anonymous')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
+    link(rel='stylesheet', type='text/css', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='/css/main.css')
+  body
+    nav.navbar.navbar-light.bg-light.static-top
+      .container
+        a.navbar-brand(href='#') UberZ
+        a.navbar-brand(data-value='about', href='#about') About
+        a.navbar-brand(data-value='team', href='#team') Team
+        if user
+          a.btn.btn-primary(href='/users/logout') Logout
+        else
+          a.btn.btn-primary(href='/users/register') Register
+          a.btn.btn-outline-secondary.btn-brand(data-value='login', href='/users/login') Login
 
-block content
-  h1 Members Area
-  p Welcome to the members area
+    #about.about
+      .container
+        h1.text-center UberZ
+        .row
+          .col-lg-8.col-md-8.col-sm-12.desc
+            h3 About
+            p
+              | This website will help you find riders going in the same direction to have a common meeting point. This way you can call UberX for a cheaper price by effectively splitting the upfront pricing cost by the number of people joining your ride. Similarly for Uber pool you can find another person to share the ride with and be able to approximately split the cost by two. This allows people to save on transportation costs. Get started by creating an account or login for returning users.
+    // portfolio
+    #portfolio.portfolio
+      h1.text-center Simple Intuitive UI
+      .container
+        .row
+          .col-lg-4.col-md-4.col-sm-12
+            img.img-fluid.rounded.img-thumbnail.border(src='img/Register.png')
+            span.text-muted Register
+          .col-lg-4.col-md-4.col-sm-12
+            img.img-fluid.rounded.img-thumbnail.border(src='img/Login.png')
+            span.text-muted Login
+          .col-lg-4.col-md-4.col-sm-12
+            img.img-fluid.rounded.img-thumbnail.border(src='img/Find.png')
+            span.text-muted Find or create a ride
+          .col-lg-4.col-md-4.col-sm-12
+            img.img-fluid.rounded.img-thumbnail.border(src='img/Create.png')
+            span.text-muted Create ride
+          .col-lg-4.col-md-4.col-sm-12
+            img.img-fluid.rounded.img-thumbnail.border(src='img/Search.png')
+            span.text-muted Search for ride
+          .col-lg-4.col-md-4.col-sm-12
+            img.img-fluid.rounded.img-thumbnail.border(src='img/Profile.png')
+            span.text-muted Update your profile
+    // Team section
+    #team.team
+      .container
+        h1.text-center Our Team
+        .row
+          .col-lg-3.col-md-3.col-sm-12.item
+            img.img-fluid(src='img/developer1.png', alt='team')
+            .des
+              | Kartikay
+          .col-lg-3.col-md-3.col-sm-12.item
+            img.img-fluid(src='img/developer2.png', alt='team')
+            .des
+              | Atharva
+          .col-lg-3.col-md-3.col-sm-12.item
+            img.img-fluid(src='img/developer3.png', alt='team')
+            .des
+              | Imran
+          .col-lg-3.col-md-3.col-sm-12.item
+            img.img-fluid(src='img/developer-4.png', alt='team')
+            .des
+              | Parth
+    // add Javasscript file from js file
+
+
+
