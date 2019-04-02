@@ -1,26 +1,97 @@
 var express = require('express');
 var router = express.Router();
-var multer = require('multer');
-var upload  = multer({dest:'./uploads/'});
-const bcrypt = require('bcrypt');
 
+const { ObjectID } = require('mongodb')
+const { mongoose } = require('../db/mongoose');
 
-const { Ride } = require('../models/ride');
+const { Ride } = require('../models/rides');
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.sendfile('./public/index.html');
-});
-
-router.get('/mainride', function(req, res, next) {
+router.get('/search', function(req, res, next) {
   res.sendfile('./public/main_page.html');
 });
 
-router.post('/createride', function(req, res, next) {
+router.get('/create', function(req, res, next) {
   res.sendfile('./public/create_ride.html');
 });
 
-router.get('/viewrides', function(req, res, next) {
+router.get('/view', function(req, res, next) {
   res.sendfile('./public/view_rides.html');
 });
+
+router.post('/', function(req, res, next) {
+  const ride = new Ride({
+    owner: req.body.owner,
+    members: req.body.members,
+    carType: req.body.carType,
+    origin: req.body.origin,
+    destination: req.body.destination,
+    seatsOccupied: req.body.seatsOccupied,
+    departureTime: req.body.departureTime,
+    cost: req.body.cost
+  })
+
+  ride.save().then((result) => {
+    res.send(result)
+  }, (error) => {
+		res.status(400).send(error)
+  })
+})
+
+router.put('/:id', (req, res) => {
+  const id = req.params.id;
+
+  const updatedRide = {
+    owner: req.body.owner,
+    members: req.body.members,
+    carType: req.body.carType,
+    origin: req.body.origin,
+    destination: req.body.destination,
+    seatsOccupied: req.body.seatsOccupied,
+    departureTime: req.body.departureTime,
+    cost: req.body.cost
+  }
+
+  Ride.findOneAndUpdate({_id: ObjectID(id)}, updatedRide).then((ride) =>{
+    res.send(ride);
+  }, (error) => {
+    res.status(404).send()
+  }).catch((error) => {
+    res.status(500).send()
+  })
+})
+
+/* Gets all rides */
+router.get('/', (req, res) => {
+  Ride.find({}).then((rides) => {
+    res.send(rides);
+  }).catch((error) => {
+    res.status(500).send()
+  })
+})
+
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
+  Ride.findById(id).then((ride) => {
+    if (!ride) {
+      res.status(404).send();
+    }
+    else {
+      res.send(ride);
+    }
+  })
+})
+
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+
+  Ride.findByIdAndDelete(id).then((ride) => {
+    res.send(ride);
+  }, (notfound) => {
+    res.status(404).send();
+  }).catch((error) => {
+    res.status(500).send();
+  })
+})
 
 module.exports = router;
