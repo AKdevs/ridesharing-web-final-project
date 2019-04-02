@@ -1,16 +1,21 @@
+const log = console.log
 var express = require('express');
 var router = express.Router();
-var multer = require('multer');
-var upload  = multer({dest:'./uploads/'});
 
 const mongoose = require('mongoose');
 
 const RideSchema = new mongoose.Schema({
+    members: {
+      type: [String]
+    },
+    owner: {
+      type: String
+    },
     carType: {
         type: String,
     },
     origin: {
-        {type: Double, type: Double}
+      type: String
     },
     destination: {
         type: String
@@ -22,10 +27,10 @@ const RideSchema = new mongoose.Schema({
         type: String
     },
     cost: {
-        type: Double
+        type: Number
     }
 });
 
-const User = mongoose.model('Ride', UserSchema);
+const Ride = mongoose.model('Ride', RideSchema);
 
 module.exports = { Ride };
