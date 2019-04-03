@@ -76,15 +76,6 @@ body h1{
 	margin-right:7.5vw;
 }
 
-#findDistTime{
-	margin-top:1vw;
-	display:block;
-	width:12vw;
-	font-size:1vw;
-	padding-left:1vw;
-	padding-right:1vw;
-}
-
 
 #emptyField1{
 	color:red;
@@ -99,29 +90,23 @@ body h1{
 }
 
 #distTimeInfo{
-	position:absolute;
 	margin-left:0vw;
-	width:38vw;
-	height:12vw;
-	border: 1px green solid;
-	float:right;
-	margin-right:1vw;
-	margin-bottom:2vw;
-	margin-left:54.5vw;
-	margin-top:5vw;
+	width:20vw;
+	height:2vw;
+	margin-bottom:1.5vw;
+	margin-left:7.5vw;
+	margin-top:8vw;
 	text-align:center;
-	padding-top:2vw;
-	padding-bottom:2vw;
+	padding-top:1vw;
+	padding-bottom:1vw;
 	display:none;
 }
 
 #distTimeInfo div{
 	position:absolute;
-	margin-left:10.5vw;
-	margin-right:10.5vw;
-	margin-top:1.5vw;
-	margin-bottom:1.5vw;
-	font-size:1.25vw;
+	margin-right:2.5vw;
+	margin-top:0vw;
+	font-size:1vw;
 }
 
 
