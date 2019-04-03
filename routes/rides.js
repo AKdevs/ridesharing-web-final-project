@@ -5,6 +5,7 @@ const { ObjectID } = require('mongodb')
 const { mongoose } = require('mongoose');
 
 const { Ride } = require('../models/rides');
+const { RideSearch } = require('../models/rides_search');
 
 /* GET users listing. */
 router.get('/search', function(req, res, next) {
@@ -29,6 +30,25 @@ router.post('/', function(req, res, next) {
     seatsOccupied: req.body.seatsOccupied,
     departureTime: req.body.departureTime,
     cost: req.body.cost
+  })
+
+  ride.save().then((result) => {
+    res.send(result)
+  }, (error) => {
+		res.status(400).send(error)
+  })
+})
+
+router.post('/search', function(req, res, next) {
+    
+  console.log("POST/SEARCH HERE CALL");
+  console.log(req.body.origin);
+  console.log(req.body.destination); 
+  console.log(req.body.seatsOccupied);
+  const ride = new RideSearch({
+    origin: req.body.origin,
+    destination: req.body.destination,
+    seatsOccupied: req.body.seatsOccupied
   })
 
   ride.save().then((result) => {

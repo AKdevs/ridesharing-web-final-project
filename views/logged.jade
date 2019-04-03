@@ -10,7 +10,8 @@ html(lang='en')
   body
     nav.navbar.navbar-light.bg-light.static-top
       .container
-        a.navbar-brand(href='/') Search for a Ride
+        a.navbar-brand(href='/rides/search') Search for a Ride
+        a.navbar-brand(href='/rides/create') Create  a Ride
         a.btn.btn-primary(href='/users/logout') Logout
     h1
       center Hi Welcome back, #{user.firstname} #{user.lastname}
@@ -44,4 +45,4 @@ html(lang='en')
         #passwordelement.form-control(type='password')
           label.header Password :
           input#password-field.form-control(type='password', name='password')
-        input(type='submit', name='upvote', value='Update')
+        input(class='btn-primary-delete', type='submit', name='upvote', value='Update')

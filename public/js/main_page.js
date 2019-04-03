@@ -5,7 +5,6 @@
 
 // global arrays
 
-
 var directionsService = new google.maps.DirectionsService();
 var directionsDisplay = new google.maps.DirectionsRenderer();
 /*-----------------------------------------------------------*/
@@ -14,10 +13,12 @@ const createRideBtn = document.querySelector('#createRideBtn');
 const viewRideBtn = document.querySelector('#viewRideBtn');
 const inputField1 = document.querySelector('#inputOrigin');
 const inputField2 = document.querySelector('#inputDestination');
+const seatsSelect = document.querySelector('#select_seats');
+var seats;
 
-
-createRideBtn.addEventListener('click',checkInputs);
+//createRideBtn.addEventListener('click',checkInputs);
 viewRideBtn.addEventListener('click',checkInputs);
+seatsSelect.addEventListener('click', selectSeats);
 inputField1.addEventListener("keyup", function(event) {
   event.preventDefault();
   if (event.keyCode === 13) {
@@ -73,12 +74,8 @@ function checkInputs(e){
 		emptyError1.style.display = 'none';
 		emptyError2.style.display = 'none';
 		
-		if(e.target.id == "createRideBtn"){
-			createRidePage();
-		}
-		
 		if(e.target.id == "viewRideBtn"){
-			viewRides();
+			searchRidePage();
 		}
 		if(e.type === "keyup"){
 		   distTimeInfos.style.display = 'block';
@@ -88,13 +85,77 @@ function checkInputs(e){
 	
 }
 
-function createRidePage(){
-	let input = document.querySelector('#inputOrigin').value;
-	let destination = document.querySelector('#inputDestination').value;
-	let info = input + '__' + destination;
-     url = 'create_ride.html?info=' + encodeURIComponent(info);
-	document.location.href = url;
+
+function selectSeats(e) {
+	e.preventDefault();
+    console.log("Inside select seats");
+	if(e.target.type == "button"){
+        console.log("Inside button seats");
+		seats = e.target.innerText;
+		e.target.classList = 'btn btn-success'
+		
+		const theParent = e.target.parentElement;
+		for (let i = 0; i < theParent.children.length; i++) {
+			if(theParent.children[i].id != e.target.id && theParent.children[i].type == "button"){
+				theParent.children[i].classList = 'btn btn-primary';
+			}
+		}
+	}
+    
+    console.log(seats);
+	
+
 }
+
+
+function searchRidePage(){
+	let origin = document.querySelector('#inputOrigin').value;
+	let destination = document.querySelector('#inputDestination').value;
+    console.log("INSIDE SEARCH RIDE PAGE")
+    console.log(origin);
+    console.log(destination);
+    console.log(seats);
+    
+    var url = '/rides/search';
+    // The data we are going to send in our request
+    let data = {
+        origin: origin,
+		destination: destination,
+        seatsOccupied: seats,
+    }
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: 'post', 
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+    fetch(request)
+    .then(function(res) {
+        // Handle response we get from the API
+        // Usually check the error codes to see what happened
+        if (res.status === 200) {
+            console.log('Added ride')
+			create();
+           
+        } else {
+            console.log('Could not add ride.');
+     
+        }
+        console.log(res)
+        
+    }).catch((error) => {
+        console.log(error)
+    })
+    
+	//let info = input + '__' + destination;
+     //url = 'create_ride.html?info=' + encodeURIComponent(info);
+	//document.location.href = '/rides/view';
+}
+
+
 
 function viewRides(){
 	document.location.href = 'view_rides.html';
