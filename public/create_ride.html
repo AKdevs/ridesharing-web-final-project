@@ -11,7 +11,9 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1vTT8vBAmIg5VLMejRO1GqUtU7hLiBLE&libraries=places"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
  </head>
  <body>
  
@@ -42,7 +44,7 @@
 	<hr class="bigHR"/>
 	
 	<div id="confirm_location">
-		<img id="google_maps" src="img/map_image2.PNG" alt="Image Not Found!">
+		<div id="google_maps"></div>
 	
 		<div id="location_info">
 			<div class="location_text">
@@ -60,11 +62,21 @@
 	<input type="time" id="appt" name="appt" value ="00:00:00">
 	
 	<div id="select_uber">
-		<p>Select your choice of Uber.</p>
-		<button id="uberx" type="button" class="btn btn-primary">UberX</button>
-		<button id="uberpool" type="button" class="btn btn-primary">UberPool</button>
-		<button id="wav" type="button" class="btn btn-primary">WAV</button>
+		<p>Select your choice of Uber and total number of seats occupied.</p>
+		
+		<div class="btn-group">
+		<button id = "uberx" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Action
+		</button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="#">1</a>
+    <a class="dropdown-item" href="#">2</a>
+    <a class="dropdown-item" href="#">3</a>
+  </div>
+</div>
+		
 		<button id="uberxl" type="button" class="btn btn-primary">UberXL</button>
+		<button id="uberpool" type="button" class="btn btn-primary">UberPool</button>
 		
 	</div>
 

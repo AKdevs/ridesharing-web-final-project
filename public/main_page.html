@@ -3,7 +3,7 @@
  <head>
  	<meta charset="utf-8">
     <title>Library</title>
-    <link rel="stylesheet" type="text/css" href="stylesheets/main_page.css">
+    <link rel="stylesheet" type="text/css" href="css/main_page.css">
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -11,6 +11,9 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1vTT8vBAmIg5VLMejRO1GqUtU7hLiBLE&libraries=places"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
  </head>
  <body>
 
@@ -35,10 +38,10 @@
 	<div id="create_fail" class="alert alert-danger">
 		<strong>Error!</strong> Empty fields detected.
 	</div>
-
+	
 	<div id="confirm_location">
 	<!-- Google Maps have been embedded for Front-End but this will be replaed with Google Maps API here when working on backend -->
-	<img id="google_maps" src="img/map_image.PNG" alt="Img not found">
+	<div id="google_maps"></div>
 		<div id="location_info">
 			<div class="location_text">
 				<p><span class='bold'>Starting Point:</span></p>
@@ -51,19 +54,14 @@
 				    <input type="email" class="form-control" id="inputDestination" aria-describedby="emailHelp" placeholder="Enter final destination">
 
 			</div>
-			<button id="findDistTime" type="button" class="btn btn-success">Find Distance & Time</button>
 
 			<div id="submitBtns">
 				<button id="createRideBtn" type="button" class="btn btn-primary">Create Ride</button>
 				<button id="viewRideBtn" type="button" class="btn btn-primary">View Available Rides</button>
 			</div>
-
-
-
 			<div id="distTimeInfo">
 				<div>
-				<p><strong>Total Ride Distance: </strong>40 km</p>
-				<p><strong>Total Ride Duration: </strong>19 mins</p>
+				<p id="distInfo"><strong>Total Ride Distance: </strong>40 km <strong>Total Ride Duration: </strong>19 mins</p>
 				</div>
 			</div>
 
@@ -71,8 +69,11 @@
 		</div>
 	</div>
 
-
- 	<script type="text/javascript" src="javascripts/main_page.js"></script>
+ 	<script type="text/javascript" src="js/main_page.js"></script>
+	<div id="map"></div>
+	
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRqD3RzY5tIaPAVV87pM6zgPMEY8Plih4&callback=initMap"
+    async defer></script>-->
 
  </body>
 </html>
