@@ -6,6 +6,7 @@ html(lang='en')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
     title Profile Page
     link#bootstrap-css(href='/css/bootstrap.min.css', rel='stylesheet')
+    link(rel='stylesheet', type='text/css', href='/css/bootstrap.min.css')
     link(rel='stylesheet', type='text/css', href='/css/logged_admin.css')
   body
     nav.navbar.navbar-light.bg-light.static-top
@@ -31,7 +32,7 @@ html(lang='en')
           user
           #usernameelement.form-control
             label.header User Name :
-            input#username-field.form-control(type='text', name='User Name', value=user.username)
-          input(type='submit', name='upvote', value='Delete')
+            input#username-field.form-control(type='text', name='User Name', value=user.username, readonly='true')
+          input(class='btn-primary', type='submit', name='upvote', value='Delete')
           br
         

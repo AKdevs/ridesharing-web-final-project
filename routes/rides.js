@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const { ObjectID } = require('mongodb')
-const { mongoose } = require('../db/mongoose');
+const { mongoose } = require('mongoose');
 
 const { Ride } = require('../models/rides');
 

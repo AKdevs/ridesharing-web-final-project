@@ -69,6 +69,18 @@ router.get('/logged',  function(req, res, next) {
         });
 });
 
+// router.get('/users/:username', function(req, res, next) {
+//     const username = req.params.username;
+//     console.log("in get method for user")
+//     User.find({username: req.user.username}, function(err, docs){
+//         console.log(docs)
+//         if (err) {console.log("user not found"); res.status(404).send();}
+//         else{
+//             res.send(docs);
+//         }
+//     });
+// })
+
 router.post('/logged', function(req, res, next) {
     console.log("USER LOGGED POST")
     //console.log(req.user);
