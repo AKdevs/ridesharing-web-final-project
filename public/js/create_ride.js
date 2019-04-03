@@ -1,5 +1,7 @@
 /* Create Ride - JS */
 
+var directionsService = new google.maps.DirectionsService();
+var directionsDisplay = new google.maps.DirectionsRenderer();
 
 // global counts
 let numberOfRides = 0; // total number of ride
@@ -49,7 +51,7 @@ let theTime;
 
 carSelect.addEventListener('click', selectCar);
 seatsSelect.addEventListener('click', selectSeats);
-submitBtn.addEventListener('click', create);
+submitBtn.addEventListener('click', addTicket);
 changeInfo.addEventListener('click',changeInfoPage);
 viewMyRide.addEventListener('click', viewTheRides);
 
@@ -77,6 +79,8 @@ window.onload = function () {
     document.querySelector('#ending').innerText = theEnd;
 	
 	calendarInitialization();
+	initMap();
+	findTheRoute();
 	
 }
 
@@ -139,7 +143,7 @@ function selectSeats(e) {
 
 }
 
-function create(e){
+function create(){
 	const errorMsg = document.querySelector('#create_fail');
 
 	let timeElem;
@@ -156,9 +160,6 @@ function create(e){
 	let hour = +theTime.substr(0, 2);
 	let theHour = (hour % 12)||12;
 	theTime = theHour + theTime.substr(2, 3) + isAmisPm;
-
-
-	rides.push(new theRides(theStart, theEnd, car, seats, theDate, theTime));
 	
 
 	//var times = new Date();
@@ -208,4 +209,78 @@ function displayTicket(){
 	
 	modalContent.appendChild(ticketContent);
 	
+}
+//request.user.username in route
+function addTicket() {
+    const url = '/';
+    // The data we are going to send in our request
+    let data = {
+		members: [],
+        owner: "testName",
+		carType: car,
+        origin: theStart,
+		destination: theEnd,
+        seatsOccupied: seats,
+		departureTime: new Date(),
+		cost: 100
+    }
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: 'post', 
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+    fetch(request)
+    .then(function(res) {
+        // Handle response we get from the API
+        // Usually check the error codes to see what happened
+        if (res.status === 200) {
+            console.log('Added student')
+			create();
+           
+        } else {
+            console.log('Could not add student.');
+     
+        }
+        console.log(res)
+        
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+var map;
+var theCoord = {lat: 43.6532, lng: -79.3832}
+function initMap() {
+map = new google.maps.Map(document.getElementById('google_maps'), {
+    center: theCoord,
+    zoom: 8
+});
+
+//initialize();
+
+directionsDisplay.setMap(map);
+}
+
+function findTheRoute() {
+    var myReq = {
+        origin: "Toronto, ON, Canada",//hard coded for now, replace with values passed from search ride page later after post works
+        destination: "Brampton, ON, Canada",
+        travelMode: google.maps.TravelMode.DRIVING,
+        unitSystem: google.maps.UnitSystem.IMPERIAL
+    }
+
+    directionsService.route(myReq, function (result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(result);
+        } else {
+            directionsDisplay.setDirections({ routes: [] });
+            map.setCenter(theCoord);
+			console.log("This address is not correct")
+        }
+    });
+
 }
