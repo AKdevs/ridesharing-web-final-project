@@ -12,14 +12,17 @@ html,h1,h2,h3,h4,h5,h6,a{
 
 h1{
 	font-family: "Raleway";
-	margin-left: 40%;
+}
+
+h2{
+	font-family: "Raleway";
+    margin-left: 4%;
 }
 
 label {
     
     margin-right: 5px;
 }
-
 
 .about{
 	margin: 4em 0;

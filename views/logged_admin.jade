@@ -8,31 +8,35 @@ html(lang='en')
     link#bootstrap-css(href='/css/bootstrap.min.css', rel='stylesheet')
     link(rel='stylesheet', type='text/css', href='/css/bootstrap.min.css')
     link(rel='stylesheet', type='text/css', href='/css/logged_admin.css')
+    link(rel='stylesheet', type='text/css', href='/css/main.css')
   body
     nav.navbar.navbar-light.bg-light.static-top
       .container
-        a.navbar-brand(href='view_rides_admin.html') View Rides
-        a.btn.btn-primary(href='index.html') Logout
+        a.navbar-brand.btn-outline-secondaryhref(href='view_rides_admin.html') View Rides
+        a.btn.btn-primary.btn-outline-secondary(href='index.html') Logout
     h1
       center Hi Welcome back, Admin 
     br
     h2
       Current Users on the System:
-    br
-    .containerText
-      each user in users
-        form(action='', method='post')
-          #firstnameelement.form-control
-            label.header First Name :
-            input#firstname-field.form-control(type='text', name='First Name', value=user.firstname, readonly='true')
-          user
-          #lastnameelement.form-control
-            label.header Last Name :
-            input#lastname-field.form-control(type='text', name='Last Name', value=user.lastname, readonly='true')
-          user
-          #usernameelement.form-control
-            label.header User Name :
-            input#username-field.form-control(type='text', name='User Name', value=user.username, readonly='true')
-          input(class='btn-primary', type='submit', name='upvote', value='Delete')
-          br
-        
+
+br
+block content
+center
+  .containerText
+    each user in users
+      form(action='', method='post')
+        #firstnameelement.form-control
+          label.header First Name :
+          input#firstname-field.form-control(type='text', name='First Name', value=user.firstname, readonly='true')
+        user
+        #lastnameelement.form-control
+          label.header Last Name :
+          input#lastname-field.form-control(type='text', name='Last Name', value=user.lastname, readonly='true')
+        user
+        #usernameelement.form-control
+          label.header User Name :
+          input#username-field.form-control(type='text', name='User Name', value=user.username, readonly='true')
+        input(class='btn-primary-delete', type='submit', name='upvote', value='Delete')
+        br
+      
