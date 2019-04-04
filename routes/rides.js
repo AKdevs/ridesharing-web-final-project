@@ -23,6 +23,12 @@ router.get('/own', function(req, res, next) {
   res.sendfile('your_rides.html');
 });
 
+router.get('/img/profilepic', function(req, res, next){
+           
+  res.send("Hello");
+           
+});
+
 /* GET users listing. */
 router.get('/search', function(req, res, next) {
 
