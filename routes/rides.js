@@ -9,6 +9,7 @@ const { Ride } = require('../models/rides');
 const { RideSearch } = require('../models/rides_search');
 
 var sse = new SSE();
+var searched = false;
 
 router.get('/stream', sse.init);
 
@@ -20,6 +21,12 @@ Ride.watch({fullDocument: 'updateLookup'}).
 });
 
 router.get('/own', function(req, res, next) {
+    
+   if(!req.user){
+        res.location('/users/login');
+        res.redirect('/users/login');
+    }
+    
   res.sendfile('./public/your_rides.html');
 });
 
@@ -63,10 +70,25 @@ router.get('/ridesearch/:owner', function(req, res, next) {
 
 
 router.get('/create', function(req, res, next) {
+    
+    if(!req.user){
+        res.location('/users/login');
+        res.redirect('/users/login');
+    }
+    
   res.sendfile('./public/create_ride.html');
+    
 });
 
 router.get('/view', function(req, res, next) {
+    
+    //console.log("VIEW RIDES PAGE");
+   if(!req.user || !searched){
+        res.location('/rides/search');
+        res.redirect('/rides/search');
+    }
+   searched = false;
+    
   res.sendfile('./public/view_rides.html');
 });
 
@@ -96,12 +118,20 @@ router.post('/search', function(req, res, next) {
     seatsOccupied: req.body.seatsOccupied,
       owner: req.user.username
   })
+  
+  searched = true;
 
   ride.save().then((result) => {
     res.send(result)
   }, (error) => {
 		res.status(400).send(error)
   })
+    
+  //res.location('/rides/view');
+  //res.redirect('/rides/view');
+    
+    
+    
 })
 
 router.put('/:id', (req, res) => {

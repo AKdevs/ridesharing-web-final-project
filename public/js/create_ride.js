@@ -36,6 +36,7 @@ const carSelect = document.querySelector('#select_uber');
 const seatsSelect = document.querySelector('#select_seats');
 const submitBtn = document.querySelector('#create_button');
 const viewMyRide = document.querySelector('#viewMyRide');
+const dtPicker = document.querySelector("#distTimeCostInfo");
 
 let car;
 let seats;
@@ -68,9 +69,29 @@ inputFieldTwo.addEventListener("keyup", function(event) {
   }
 })
 
+loggedInUser = "";
+
 /*-----------------------------------------------------------*/
 
 window.onload = function () {
+	
+  const url = '/users/getloggedusername';
+
+  fetch(url)
+  .then((res) => {
+    if (res.status === 200) {
+      return res.json()
+    }
+    else {
+      console.log("Not logged in");
+    }
+  })
+  .then((res) => {
+    loggedInUser = res;
+	console.log(loggedInUser.username);
+  }).catch((error) => {
+    console.log(error)
+  })
 	
 	calendarInitialization();
 	initMap();
@@ -78,6 +99,7 @@ window.onload = function () {
 	initializeTwo();
 	
 }
+
 
 
 function checkInputs2(e){
@@ -111,14 +133,18 @@ function checkInputs2(e){
 		
 		if(e.type === "keyup"){
 		   findTheRoute();
+		   
+
 		}
 	}
 	
 }
 
 function createTicketMethod(){
+	theCost = getCost();
+	console.log("$" + theCost);
 	let origin = document.querySelector('#inputOrigin2').value;
-	let destination = document.querySelector('#inputDestination2').value;
+    let destination = document.querySelector('#inputDestination2').value;
     console.log(origin);
     console.log(destination);
     console.log(seats);
@@ -127,13 +153,13 @@ function createTicketMethod(){
     // The data we are going to send in our request
     let data = {
 		members: [],
-		owner: "namee",
-		carType:"asdas",
+		owner: loggedInUser.username,
+		carType:car,
 		origin:origin,
 		destination:destination,
-		seatsOccupied:1,
-		departureTime:new Date(),
-		cost:4
+		seatsOccupied:seats,
+		departureTime: new Date(theDate+' '+theTime),
+		cost:theCost
     }
     // Create our request constructor with all the parameters we need
     const request = new Request(url, {
@@ -150,7 +176,9 @@ function createTicketMethod(){
         // Usually check the error codes to see what happened
         if (res.status === 200) {
             console.log('Added ride')
-			create();
+			
+		//$('#ticket_info').modal();
+		//	displayTicket();	
            
         } else {
             console.log('Could not add ride.');
@@ -223,7 +251,6 @@ function selectCar(e) {
 	
 }
 
-
 function initialize() {
       var input = document.getElementById('inputOrigin2');
       var autocomplete = new google.maps.places.Autocomplete(input);
@@ -267,6 +294,21 @@ function selectSeats(e) {
 
 }
 
+function getCost(){//assuming $0.15 per kilometer
+     if(car == "uberx"){
+		 return ((distOriginDest*0.621371)*0.97 + 0.4);
+	 }
+	 
+     if(car == "uberxl"){
+		 return ((distOriginDest*0.621371)*1.68 + 2.15);
+	 }
+
+     if(car == "uberpool"){
+		 return (((distOriginDest*0.621371)*0.97 + 0.4)*0.4);//around 40 percent of uberx
+	 }	 
+}
+
+
 function create(){
 	console.log("create entered")
 	const errorMsg = document.querySelector('#create_fail');
@@ -306,8 +348,7 @@ function create(){
 	else{
 		errorMsg.style.display = "none";
 		//jquery for the modal pop up
-		$('#ticket_info').modal();
-		displayTicket();
+		createTicketMethod();
 	}
 	
 }
@@ -317,6 +358,7 @@ function viewTheRides(){
 }
 
 function displayTicket(){
+	console.log("ENTERED DISPLAY TICKET")
 	const modalContent = document.querySelector('.modal-body');
 	const ticketContent = document.createElement('div');
 	ticketContent.className = "ticket";
@@ -347,16 +389,21 @@ map = new google.maps.Map(document.getElementById('google_maps'), {
 directionsDisplay.setMap(map);
 }
 
+
 function findTheRoute() {
+	const theBegin = document.querySelector('#inputOrigin2');
+	const theEnd = document.querySelector('#inputDestination2');
     var myReq = {
-        origin: "Toronto, ON, Canada",//hard coded for now, replace with values passed from search ride page later after post works
-        destination: "Brampton, ON, Canada",
+        origin: theBegin.value,//hard coded for now, replace with values passed from search ride page later after post works
+        destination: theEnd.value,
         travelMode: google.maps.TravelMode.DRIVING,
         unitSystem: google.maps.UnitSystem.IMPERIAL
     }
 
     directionsService.route(myReq, function (result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
+			distOriginDest = (result.routes[0].legs[0].distance.value / 1000);
+			dtPicker.innerHTML = "<p>The distance to be travelled is " + distOriginDest + " Km and your cost will be $ " + "</p>";
             directionsDisplay.setDirections(result);
         } else {
             directionsDisplay.setDirections({ routes: [] });
@@ -364,5 +411,7 @@ function findTheRoute() {
 			console.log("This address is not correct")
         }
     });
+	
+
 
 }

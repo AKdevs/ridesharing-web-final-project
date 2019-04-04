@@ -10,6 +10,10 @@ body h1{
 	text-align:center;
 }
 
+#distTimeCostInfo{
+	margin-left:0vw;
+}
+
 #create_success, #create_fail {
 	margin-left:7.5vw;
 	margin-right:7.5vw;
@@ -17,11 +21,23 @@ body h1{
 
 #google_maps{
 	width:45vw;
-	height:30vw;
+	height:35vw;
     margin-bottom: 4vw;
 	margin-left:7.5vw;
 	margin-right:3vw;
 	float:left;
+}
+
+#emptyField1{
+	color:red;
+	display:none;
+	font-size:1vw;
+}
+
+#emptyField2{
+	color:red;
+	display:none;
+	font-size:1vw;
 }
 
 #inputOrigin2{
