@@ -10,6 +10,7 @@ const { RideSearch } = require('../models/rides_search');
 /* GET users listing. */
 router.get('/search', function(req, res, next) {
   res.sendfile('./public/main_page.html');
+  //res.render(search_rides);
 });
 
 router.get('/create', function(req, res, next) {
@@ -20,9 +21,14 @@ router.get('/view', function(req, res, next) {
   res.sendfile('./public/view_rides.html');
 });
 
+
+router.get('/getloggedusername', function(req, res, next){
+    res.send(req.user.username);
+}
+           
 router.post('/create', function(req, res, next) {
   const ride = new Ride({
-    owner: req.body.username,
+    owner: req.user.username,
     members: req.body.members,
     carType: req.body.carType,
     origin: req.body.origin,
@@ -41,6 +47,7 @@ router.post('/create', function(req, res, next) {
 
 router.post('/search', function(req, res, next) {
   console.log("POST/SEARCH HERE CALL");
+  console.log(req.user.username);
   console.log(req.body.origin);
   console.log(req.body.destination); 
   console.log(req.body.seatsOccupied);

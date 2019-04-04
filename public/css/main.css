@@ -16,8 +16,12 @@ h1{
 
 h2{
 	font-family: "Raleway";
-    margin-left: 4%;
 }
+
+.page-header-display{
+    margin-left: 50px;
+}
+
 
 label {
     
