@@ -67,8 +67,6 @@ router.get('/logged',  function(req, res, next) {
                 res.render('logged',{user: {"firstname": docs[0].firstname.toString(), "lastname": docs[0].lastname.toString(), "username": docs[0].username.toString(), "email": docs[0].email.toString(),"phone": docs[0].phone.toString() }});
             }
         });
-        res.location('/users/getloggedusername');
-        res.redirect('/users/getloggedusername');
 });
 
 router.get('/getloggedusername', function(req, res, next){
