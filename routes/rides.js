@@ -72,7 +72,7 @@ router.post('/create', function(req, res, next) {
 })
 
 router.post('/search', function(req, res, next) {
-  console.log("POST/SEARCH HERE CALL");
+  //console.log("POST/SEARCH HERE CALL");
   console.log(req.user.username);
   console.log(req.body.origin);
   console.log(req.body.destination);
@@ -80,7 +80,8 @@ router.post('/search', function(req, res, next) {
   const ride = new RideSearch({
     origin: req.body.origin,
     destination: req.body.destination,
-    seatsOccupied: req.body.seatsOccupied
+    seatsOccupied: req.body.seatsOccupied,
+      owner: req.user.username
   })
 
   ride.save().then((result) => {

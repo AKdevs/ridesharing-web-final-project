@@ -15,6 +15,9 @@ const RideSearchSchema = new mongoose.Schema({
     },
     seatsOccupied: {
         type: Number
+    },
+    owner: {
+        type: String
     }
 });
 

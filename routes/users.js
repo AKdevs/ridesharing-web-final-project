@@ -70,8 +70,22 @@ router.get('/logged',  function(req, res, next) {
 
 router.get('/getloggedusername', function(req, res, next){
     
-    console.log(req.user.username);
-    res.send(req.user.username);
+    
+    if (!req.user) {
+    //console.log(req.user.username)
+        var err = new Error('You must be logged in to view this page.');
+        err.status = 401;
+        return next(err);
+    }
+    else {
+        console.log(req.user.username);
+        res.send(req.user.username);
+        
+    }
+    
+    
+//    console.log(req.user.username);
+//    res.send(req.user.username);
 })
 // router.get('/users/:username', function(req, res, next) {
 //     const username = req.params.username;
