@@ -326,7 +326,7 @@ function calculateTimeToExpiry(ride) {
 }
 
 function getUserAJAX(owner) {
-  const url = '/users/' + owner;
+  const url = '/users/search/' + owner;
 
   return fetch(url)
   .then((res) => {
@@ -345,11 +345,6 @@ function createPost(newPost) {
   let postArea;
   let postMarkup;
 
-  getUserAJAX(ride.owner).
-  then((user) => {
-    console.log(user);
-  })
-
   if (ride.members.includes(loggedInUser)) {
     postArea = joinedPostArea;
     postMarkup = getJoinedPostMarkup(ride);
@@ -361,6 +356,11 @@ function createPost(newPost) {
 
   const postContainer = createPostContainer(newPost.postNumber);
   postContainer.innerHTML = postMarkup;
+  getUserAJAX(ride.owner)
+  .then((user) => {
+    postContainer.querySelector('#name').innerText = user.firstname + " " + user.lastname;
+    postContainer.querySelector('#phone').innerText = user.phone;
+  })
 
   insertPost(allPosts, newPost);
   insertPostDOM(postArea, postContainer, allPosts);
@@ -575,15 +575,15 @@ function getOtherPostMarkup(ride) {
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
-          <strong> Name:</strong> Bob <br>
-          <strong>Time to call cab: </strong> ${expiryTimeString} <br>
+          <strong> Name: </strong> <span id="name"></span><br>
+          <strong>Phone Number</strong>: <span id='phone'></span><br>
+          <strong> Time to call cab: </strong> ${expiryTimeString} <br>
           <div class="distOrigin">
             <strong>Distance from origin: </strong> 24 km km<br>
           </div>
           <div class="distDest">
             <strong>Distance from destination: </strong>$ 24 km km <br>
           </div>
-          <strong>Phone Number</strong>: 911
         </div><!--post text container -->
         <div class="col-md-4 third-container">
             <div class="timer">
