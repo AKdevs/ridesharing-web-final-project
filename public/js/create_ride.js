@@ -212,7 +212,7 @@ function displayTicket(){
 }
 //request.user.username in route
 function addTicket() {
-    const url = '/';
+    const url = '/rides/create';
     // The data we are going to send in our request
     let data = {
 		members: [],

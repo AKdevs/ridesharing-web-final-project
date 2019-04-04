@@ -4,6 +4,8 @@ var router = express.Router();
 
 const mongoose = require('mongoose');
 
+mongoose.connect('mongodb://localhost/nodeauth');
+
 const RideSearchSchema = new mongoose.Schema({
     origin: {
       type: String

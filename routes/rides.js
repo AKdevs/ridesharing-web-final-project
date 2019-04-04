@@ -20,9 +20,9 @@ router.get('/view', function(req, res, next) {
   res.sendfile('./public/view_rides.html');
 });
 
-router.post('/', function(req, res, next) {
+router.post('/create', function(req, res, next) {
   const ride = new Ride({
-    owner: req.body.owner,
+    owner: req.body.username,
     members: req.body.members,
     carType: req.body.carType,
     origin: req.body.origin,
@@ -40,7 +40,6 @@ router.post('/', function(req, res, next) {
 })
 
 router.post('/search', function(req, res, next) {
-    
   console.log("POST/SEARCH HERE CALL");
   console.log(req.body.origin);
   console.log(req.body.destination); 
