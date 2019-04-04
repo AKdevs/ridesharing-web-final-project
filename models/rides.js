@@ -4,7 +4,7 @@ var router = express.Router();
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://heroku_zlpdsrkk:v18bops13jcmokef4cpquls8v4@ds127646.mlab.com:27646/heroku_zlpdsrkk');
+//mongoose.connect('mongodb://heroku_zlpdsrkk:v18bops13jcmokef4cpquls8v4@ds127646.mlab.com:27646/heroku_zlpdsrkk');
 
 const RideSchema = new mongoose.Schema({
     members: {

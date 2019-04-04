@@ -12,7 +12,7 @@ var upload = multer({dest: './uploads'});
 var flash = require('connect-flash');
 var bcrypt = require('bcryptjs');
 var mongo = require('mongodb');
-var mongoose = require('mongoose');
+const { mongoose } = require('./db/mongoose');
 var db = mongoose.connection;
 
 var routes = require('./routes/index');
@@ -20,7 +20,7 @@ var users = require('./routes/users');
 var admin = require('./routes/admin');
 var rides = require('./routes/rides')
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000
 
 var app = express();
 
