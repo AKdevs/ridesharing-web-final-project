@@ -13,9 +13,8 @@ es.onmessage = function (event) {
   const op = data.operationType;
 
   const post = findPostByRideId(rideId);
-  const owner = post.ride.owner;
 
-  if (owner !== loggedInUser) {
+  if (post === null) {
     return
   }
 

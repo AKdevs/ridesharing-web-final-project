@@ -1,62 +1,69 @@
 /* View rides */
-
-
-class countdownTimer {
-  constructor (hours, minutes, seconds) {
-    this.hours = hours;
-    this.minutes = minutes;
-    this.seconds = seconds;
-  }
-}
-
-class Ride {
-  constructor(type, creator, seatsOccupied, timer, origin, destination) {
-    this.type = type;
-    /* user id of the creator of the post */
-    this.creator = creator;
-    /* object storing userId as key and number of seats as value */
-    this.seatsOccupied = seatsOccupied;
-    this.timer = timer;
-    this.origin = origin;
-    this.destination = destination;
-    // Distance that the user's location is from this ride's starting point
-    // this field will be calculated based on the user and origin/destination
-    // parameters
-    this.userOriginDistance = parseFloat(Math.random().toFixed(2));
-    // Distance that the user's destination is from this ride's destination
-    this.userDestDistance = parseFloat(Math.random().toFixed(2));
-  }
-}
-
-let postNumber = 0;
-
 class Post {
   constructor(ride) {
     this.ride = ride;
-    // randomness for phase 1 simulation
-    const minutes = Math.floor(Math.random() * 5);
-    const seconds = Math.floor(Math.random() * 60);
-    this.timer = new countdownTimer(0, minutes, seconds);
-
-    this.seatsAvailable = carType[ride.type] - ride.seatsOccupied;
-    this.postNumber = postNumber++;
+    this.postNumber = Math.floor(Math.random() * 10000);
   }
 }
 
-const posts = []
+var es = new EventSource('/rides/stream');
+es.onmessage = function (event) {
+  const data = JSON.parse(event.data);
+  const rideId = data.documentKey._id;
+  const op = data.operationType;
+
+  const post = findPostByRideId(rideId);
+
+  if (op === 'insert') {
+    const rideDoc = data.fullDocument;
+    const newPost = new Post(rideDoc)
+    createPost(newPost);
+  }
+  else {
+    const post = findPostByRideId(rideId);
+    const postElement = findPostElementByPostId(post.postNumber);
+
+    postElement.parentElement.removeChild(postElement);
+    removePostById(allPosts, post.postNumber);
+
+    if (op === 'update')  {
+      // update op
+      const rideDoc = data.fullDocument;
+      post.ride = rideDoc;
+
+      createPost(post);
+    }
+  }
+
+  updateEmptyAlerts();
+}
+
+function findPostElementByRideId(rideId) {
+  const post = findPostByRideId(rideId);
+  return findPostElementByPostId(post.postNumber);
+}
+
+function findPostByRideId(rideId) {
+  const filteredPosts = allPosts.filter((post) => post.ride._id === rideId);
+
+  return filteredPosts[0];
+}
+
+function findPostElementByPostId(postId) {
+  const postElements = document.querySelectorAll('.post');
+  for (let i = 0; i < postElements.length; i++) {
+    if (getPostElementId(postElements[i]) === postId) {
+      return postElements[i];
+    }
+  }
+}
+
+const allPosts = []
 const postArea = document.querySelector('#post-area');
 
-postArea.addEventListener('click', removePostDOM);
+window.onload = createAllPosts();
 
-/* only applies to own rides */
-function removePostDOM(e) {
-  const button = e.target.parentElement;
-  if (button.classList.contains('close-button')) {
-    const postElement = button.parentElement.parentElement.parentElement;
-    postArea.removeChild(postElement);
-    removePost(parseInt(postElement.id));
-  }
-}
+postArea.addEventListener('click', removeRide);
 
 function removePost(postNumber) {
   for (let i = 0; i < posts.length; i++) {
@@ -91,8 +98,7 @@ function updateTimerDOM() {
 
     // timer expiry, remove the post
     if (hours == 0 && minutes == 0 && seconds == 0 || hours < 0) {
-      postArea.removeChild(postElement);
-      removePost(postNumber);
+      updateRideAJAX();
       return
     }
 
@@ -113,222 +119,47 @@ function findPostById() {
 /* timer functionality */
 setInterval(updateTimerDOM, 1000);
 
-/* Get the user that is logged in */
-const loggedInUser = getLoggedInUser();
-
-/* UberX/UberPool,  UberXL */
-const carType = [4, 6];
-
-/*-------------------- SERVER CALLS ---------------- */
-
-function getLoggedInUser() {
-  return getUser(1);
-}
-
-/* Server call that retrieves all user information */
-function getAllUsers() {
-  users = [];
-  const user1 = {
-    username: 'alex1',
-    name: 'Alex Smith',
-    phone: '905-383-3929'
-  }
-
-  const user2 = {
-    username: 'julian1',
-    name: 'Julian Edelman',
-    phone: '416-291-2012'
-  }
-
-  const user3 = {
-    username: 'pm1',
-    name: 'Peyton Manning',
-    phone: '647-392-3292'
-  }
-
-  const user4 = {
-    username: 'tb12',
-    name: 'Tom Brady',
-    phone: '215-291-3939'
-  }
-
-  users.push(user1);
-  users.push(user2);
-  users.push(user3);
-  users.push(user4);
-
-  return users;
-}
-
-/* Server call that retrieves information of users by user id */
-function getUser(username) {
-  const users = getAllUsers();
-  const users_filtered = users.filter((u) => u.username === username);
-  return (users_filtered.length === 0) ? -1 : users_filtered[0];
-}
-
-/* Server call that retrieves information of all rides currently in
-progress */
-function getAllRides() {
-  /* Server call will be used to get ride */
-  const rides = [];
-  const ride1 = new Ride(0, 'alex1', {'alex1': 2}, new Date(2020, 0, 3, 21, 0, 0),
-        '483 Godric Way, Toronto, ON, M7R485',
-        '4853 Baskerville Terrace, Markham, ON, L3RC3C');
-
-  const ride2 = new Ride(1, 'julian1', {'julian1': 1}, new Date(2020, 0, 3, 21, 20, 0),
-        'City Centre Bus Terminal, ON, L5U1F8',
-        'Union Station, Toronto, ON, M1UH83');
-
-  const ride3 = new Ride(1, 'pm1', {'pm1': 3}, new Date(2020, 0, 3, 21, 15, 0),
-        'City Centre Bus Terminal, ON, L5U1F8',
-        'Union Station, Toronto, ON, M1UH83');
-
-  const ride4 = new Ride(0, 'tb12', {'tb12': 1}, new Date(2020, 0, 3, 21, 5, 0),
-        'City Centre Bus Terminal, ON, L5U1F8',
-        'Union Station, Toronto, ON, M1UH83');
-
-  rides.push(ride1);
-  rides.push(ride2);
-  rides.push(ride3);
-  rides.push(ride4);
-
-  return rides;
-}
-
-/* ------------------------ END OF SERVER CALLS -------------------- */
-
-/* Create posts of all rides currrently in progress. The rides will
-be retrieved by making a server call -- getAllRides() */
-function displayAllPosts() {
-  const rides = getAllRides();
-  for (let i = 0; i < rides.length; i++) {
-    createPost(rides[i]);
-  }
+const carType = {
+  "UberX": 4,
+  "UberXL": 6,
+  "UberSELECT": 4,
+  "UberBLACK": 4
 }
 
 /* Specify current time, just for simulation purposes */
 var currentTime = new Date(2020, 0, 3, 20, 55, 52);
 
-/* Code execution begins here */
-displayAllPosts();
-/* Code execution ends here */
-
-function createPost(ride) {
-  const newPost = new Post(ride);
-  // const seatsAvailable = getSeatsAvailable(ride);
-  const seatsAvailable = 3;
-  const joinedUsers = ride.seatsOccupied;
-  const creator = getUser(ride.creator);
-
-  /* Convert time difference to readable format, sourced from
-  https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript */
-  const timerDifferenceSeconds = (ride.timer - currentTime) / 1000;
-  const date = new Date(null);
-  date.setSeconds(timerDifferenceSeconds); // specify value for SECONDS here
-  const timeString = date.toISOString().substr(11, 8).split(':');
-  const hourString = timeString[0];
-  const minuteString = timeString[1];
-  const secondString = timeString[2];
-
-  const expiryTimeString = ride.timer.toLocaleString("en-US").split(', ')[1];
-
-  const postMarkup = `
-      <div class="card">
-      <div class="card-header bg-default">
-        <div class="timer">
-          <h4> ${hourString}:${minuteString}:${secondString}</h4>
-        </div>
-        <button type="button" class="close close-button" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="card-body shadow-sm bg-white rounded">
-      <div class="post-container row ">
-        <div class="col-md-2 img-container">
-          <img class="profilePic img-fluid rounded" src="img/profilepic.jpeg">
-        </div>
-        <div class="col-md-5 text-container">
-          <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
-          <strong> Name:</strong> ${creator.name} <br>
-          <strong>Time to call cab: </strong> ${expiryTimeString} <br>
-          <strong>Phone Number</strong>: ${creator.phone}
-        </div><!--post text container -->
-        <div class="col-md-4 third-container">
-          </div>
-        </div> <!--post container -->
-        </div> <!--card-body-->
-      </div> <!--card -->
-    `
-    /* Create new post element */
-    const postContainer = document.createElement('div');
-    postContainer.classList.add('col-md-10');
-    postContainer.classList.add('post');
-    postContainer.id = newPost.postNumber;
-    postContainer.innerHTML = postMarkup;
-
-    /* Insert into array and DOM */
-    posts.push(newPost);
-    postArea.appendChild(postContainer);
-}
-
-
-var es = new EventSource('/rides/stream');
-es.onmessage = function (event) {
-  const data = JSON.parse(event.data);
-  const rideId = data.documentKey._id;
-  const op = data.operationType;
-
-  if (op === 'insert') {
-    const rideDoc = data.fullDocument;
-    const newPost = new Post(rideDoc)
-    createPost(newPost);
-  }
-  else {
-    const post = findPostByRideId(rideId);
-    const postElement = findPostElementByPostId(post.postNumber);
-
-    if (op === 'delete') {
-      postElement.parentElement.removeChild(postElement);
-      removePostById(allPosts, post.postNumber);
-    }
-    else if (op === 'update')  {
-      const rideDoc = data.fullDocument;
-      postElement.parentElement.removeChild(postElement);
-      removePostById(allPosts, post.postNumber);
-
-      post.ride = rideDoc;
-
-      createPost(post);
+/* Remove post from the array */
+function removePostById(posts, postNumber) {
+  for (let i = 0; i < posts.length; i++) {
+    if (posts[i].postNumber === postNumber) {
+       posts.splice(i, 1);
+       return
     }
   }
-
-  updateEmptyAlerts();
 }
-
-
-class Post {
-  constructor(ride) {
-    this.ride = ride;
-    this.postNumber = Math.floor(Math.random() * 10000);
-    this.isOwn = 0;
-    this.isJoined = 0;
-  }
-}
-
 
 function removeRide(e) {
   e.preventDefault();
-  if (e.target.classList.contains('btn')) {
-    const button = e.target;
+  if (e.target.parentElement.classList.contains('close-button')) {
+    const button = e.target.parentElement;
 
     const postElement = getPostElementFromButton(button);
+    console.log(postElement)
     const post = getPostById(allPosts, getPostElementId(postElement));
 
     removeRideAJAX(post.ride);
   }
 }
 
+function getPostElementId(postElement) {
+  return parseInt(postElement.id);
+}
+
+function getPostById(posts, id) {
+  const foundPost = posts.filter((post) => post.postNumber === id);
+  return (foundPost.length === 0) ? -1 : foundPost[0];
+}
 
 function removeRideAJAX(ride) {
   const url = '/rides/' + ride._id;
@@ -354,41 +185,104 @@ function removeRideAJAX(ride) {
   })
 }
 
+function getPostElementFromButton(button) {
+  return button.parentElement.parentElement.parentElement;
+}
+
+function getPostMarkup(ride) {
+  const seatsAvailable =  carType[ride.carType] - ride.seatsOccupied;
+
+  /* Convert time difference to readable format, sourced from
+  https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript */
+  const timerDifferenceSeconds = (ride.departureTime - new Date()) / 1000;
+  const date = new Date(null);
+  date.setSeconds(timerDifferenceSeconds); // specify value for SECONDS here
+  const timeString = date.toISOString().substr(11, 8).split(':');
+  const hourString = timeString[0];
+  const minuteString = timeString[1];
+  const secondString = timeString[2];
+
+  const expiryTimeString = new Date(ride.departureTime).toLocaleString("en-US").split(', ')[1];
+
+  const postMarkup = `
+      <div class="card">
+      <div class="card-header bg-default">
+        <div class="timer">
+          <h4> ${hourString}:${minuteString}:${secondString}</h4>
+        </div>
+        <button type="button" class="close close-button" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="card-body shadow-sm bg-white rounded">
+      <div class="post-container row ">
+        <div class="col-md-2 img-container">
+          <img class="profilePic img-fluid rounded" src="img/profilepic.jpeg">
+        </div>
+        <div class="col-md-5 text-container">
+          <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
+          <strong> Name:</strong> ${ride.owner.name} <br>
+          <strong>Time to call cab: </strong> ${expiryTimeString} <br>
+          <strong>Phone Number</strong>: ${ride.owner.phone}
+        </div><!--post text container -->
+        <div class="col-md-4 third-container">
+          </div>
+        </div> <!--post container -->
+        </div> <!--card-body-->
+      </div> <!--card -->
+    `
+
+    return postMarkup;
+}
 
 function createPost(newPost) {
   const ride = newPost.ride;
 
-  let postArea;
-  let postMarkup;
-
-  if (ride.members.includes(loggedInUser)) {
-    postArea = joinedPostArea;
-    postMarkup = getJoinedPostMarkup(ride);
-  }
-  else {
-    postArea = otherPostArea;
-    postMarkup = getOtherPostMarkup(ride);
-  }
+  const postMarkup = getPostMarkup(ride);
 
   const postContainer = createPostContainer(newPost.postNumber);
   postContainer.innerHTML = postMarkup;
-  getUserAJAX(ride.owner)
-  .then((user) => {
-    postContainer.querySelector('#name').innerText = user.firstname + " " + user.lastname;
-    postContainer.querySelector('#phone').innerText = user.phone;
 
-    return findDistance(userOrigin, ride.origin);
-  })
-  .then((distanceFromOrigin) => {
-    postContainer.querySelector('#distanceFromOrigin').innerText = distanceFromOrigin;
-    return findDistance(userDest, ride.destination);
-  })
-  .then((distanceFromDest) => {
-    postContainer.querySelector('#distanceFromDest').innerText = distanceFromDest;
-  }).catch((error) => {
-    console.log(error);
-  })
-  insertPost(allPosts, newPost);
-  insertPostDOM(postArea, postContainer, allPosts);
+  allPosts.push(newPost);
+  postArea.appendChild(postContainer);
 }
 
+/* Create new post element with id */
+function createPostContainer(id) {
+  const postContainer = document.createElement('div');
+  postContainer.classList.add('col-md-10');
+  postContainer.classList.add('post');
+  postContainer.id = id;
+
+  return postContainer;
+}
+
+function createAllPosts() {
+  const url = '/rides';
+  fetch(url)
+  .then((res) => {
+      if (res.status === 200) {
+         return res.json()
+     } else {
+          alert('Could not get rides')
+     }
+  })
+  .then((rides) => {
+    for (let i = 0; i < rides.length; i++) {
+      const newPost = new Post(rides[i]);
+      createPost(newPost);
+    }
+    updateEmptyAlerts();
+  }).catch((error) => {
+      console.log(error)
+  })
+}
+
+function updateEmptyAlerts() {
+  isPostAreaEmpty(postArea) ? $('#alert-empty').show() : $('#alert-empty').hide();
+}
+
+function isPostAreaEmpty(postArea) {
+  const posts = postArea.getElementsByClassName('post');
+  return posts.length === 0;
+}
