@@ -7,12 +7,23 @@ html(lang='en')
     title Profile Page
     link#bootstrap-css(href='/css/bootstrap.min.css', rel='stylesheet')
     link(rel='stylesheet', type='text/css', href='/css/logged.css')
+    link(rel='stylesheet', type='text/css', href='/css/main.css')
   body
-    nav.navbar.navbar-light.bg-light.static-top
-      .container
-          a.btn.btn-primary.btn-outline-secondary(href='/rides/search') Search for a Ride
-          a.btn.btn-primary.btn-outline-secondary(href='/rides/create') Create  a Ride
-          a.btn.btn-primary(href='/users/logout') Logout
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      a.navbar-brand(href='/') UberZ
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNavAltMarkup', aria-controls='navbarNavAltMarkup', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      #navbarNavAltMarkup.collapse.navbar-collapse
+        .navbar-nav
+          a.nav-item.nav-link.active(href='/rides/search')
+            | Search for a Ride
+            span.sr-only (current)
+          a.nav-item.nav-link.active(href='/rides/create')
+            | Create Ride 
+            span.sr-only (current)
+      a#logOutBtn.btn.btn-primary(href='/users/logout') Logout
+      
+      
     h1.shift
       center Hi Welcome back, #{user.firstname} #{user.lastname}
     br

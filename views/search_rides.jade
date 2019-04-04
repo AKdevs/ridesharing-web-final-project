@@ -14,7 +14,7 @@ html(lang='en')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
   body
     nav.navbar.navbar-expand-lg.navbar-light.bg-light
-      a.navbar-brand(href='#') UberZ
+      a.navbar-brand(href='/') UberZ
       button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNavAltMarkup', aria-controls='navbarNavAltMarkup', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarNavAltMarkup.collapse.navbar-collapse
@@ -25,7 +25,7 @@ html(lang='en')
           a.nav-item.nav-link.active(href='/rides/create')
             | Create Ride 
             span.sr-only (current)
-      a#logOutBtn.btn.btn-primary(href='index.html') Logout
+      a#logOutBtn.btn.btn-primary(href='/users/logout') Logout
     h1 Hey #{user.firstname} #{user.lastname}! Where do you plan to go?
     p#subtitle Please enter your starting point and destination.
     hr

@@ -29,7 +29,6 @@ router.get('/logout', function(req, res, next) {
   if (req.session) {
     // delete session object
     req.session.destroy(function(err) {
-        console.log("DESTROTYYYYYYYYYYY")
       if(err) {
         return next(err);
       } else {
@@ -70,6 +69,8 @@ router.get('/logged',  function(req, res, next) {
 });
 
 router.get('/getloggedusername', function(req, res, next){
+    
+    console.log(req.user.username);
     res.send(req.user.username);
 })
 // router.get('/users/:username', function(req, res, next) {
@@ -334,10 +335,7 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
         }
 
       else{
-
-
-
-            // Form Validator
+       // Form Validator
           req.checkBody('firstname','First Name field is required').notEmpty();
           req.checkBody('lastname','Last Name field is required').notEmpty();
           req.checkBody('email','Email is not valid').isEmail();
