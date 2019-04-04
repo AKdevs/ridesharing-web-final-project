@@ -24,7 +24,7 @@ router.get('/view', function(req, res, next) {
 
 router.get('/getloggedusername', function(req, res, next){
     res.send(req.user.username);
-}
+})
            
 router.post('/create', function(req, res, next) {
   const ride = new Ride({
