@@ -92,7 +92,7 @@ router.get('/getloggedusername', function(req, res, next){
         });
 })
 
-router.get('/:username', function(req, res, next) {
+router.get('/search/:username', function(req, res, next) {
     const username = req.params.username;
     console.log(username);
     console.log("in get method for user")
