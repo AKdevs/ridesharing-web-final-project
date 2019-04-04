@@ -22,17 +22,12 @@ es.onmessage = function (event) {
   else {
     const post = findPostByRideId(rideId);
     const postElement = findPostElementByPostId(post.postNumber);
+    postElement.parentElement.removeChild(postElement);
+    removePostById(allPosts, post.postNumber);
 
-    if (op === 'delete') {
-      postElement.parentElement.removeChild(postElement);
-      removePostById(allPosts, post.postNumber);
-    }
-    else if (op === 'update')  {
+    if (op === 'update')  {
       // update op
       const rideDoc = data.fullDocument;
-      postElement.parentElement.removeChild(postElement);
-      removePostById(allPosts, post.postNumber);
-
       post.ride = rideDoc;
 
       createPost(post);
