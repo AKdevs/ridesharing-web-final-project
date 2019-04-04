@@ -362,7 +362,7 @@ function getOwnPostMarkup(ride) {
       <div class="card-body shadow-sm bg-white rounded">
       <div class="post-container row ">
         <div class="col-md-2 img-container">
-          <img class="profilePic img-fluid rounded" src="img/profilepic.jpeg">
+          <img class="profilePic img-fluid rounded" src="/profilepic.jpeg">
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
