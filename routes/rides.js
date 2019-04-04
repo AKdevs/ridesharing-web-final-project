@@ -80,11 +80,6 @@ router.post('/create', function(req, res, next) {
 })
 
 router.post('/search', function(req, res, next) {
-  //console.log("POST/SEARCH HERE CALL");
-  console.log(req.user.username);
-  console.log(req.body.origin);
-  console.log(req.body.destination);
-  console.log(req.body.seatsOccupied);
   const ride = new RideSearch({
     origin: req.body.origin,
     destination: req.body.destination,
@@ -148,6 +143,18 @@ router.delete('/:id', (req, res) => {
 
   Ride.findByIdAndDelete(id).then((ride) => {
     res.send(ride);
+  }, (notfound) => {
+    res.status(404).send();
+  }).catch((error) => {
+    res.status(500).send();
+  })
+})
+
+router.delete('/ridesearch/:id', (req, res) => {
+  const id = req.params.id;
+
+  RideSearch.findByIdAndDelete(id).then((rideQuery) => {
+    res.send(rideQuery);
   }, (notfound) => {
     res.status(404).send();
   }).catch((error) => {
