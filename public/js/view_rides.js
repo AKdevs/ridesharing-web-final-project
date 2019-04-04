@@ -1,3 +1,5 @@
+// import { findDistance } from "./google_maps_api.js";
+var directionsService = new google.maps.DirectionsService();
 /* View rides */
 class Post {
   constructor(ride) {
@@ -314,7 +316,7 @@ function calculateTimeToExpiry(ride) {
   /* Convert time difference to readable format, sourced from
   https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript */
   const depTime = new Date(ride.departureTime)
-  const timerDifferenceSeconds = (depTime - currentTime) / 1000;
+  const timerDifferenceSeconds = (depTime - new Date()) / 1000;
   const date = new Date(null);
   date.setSeconds(timerDifferenceSeconds); // specify value for SECONDS here
   const timeString = date.toISOString().substr(11, 8).split(':');
@@ -360,8 +362,18 @@ function createPost(newPost) {
   .then((user) => {
     postContainer.querySelector('#name').innerText = user.firstname + " " + user.lastname;
     postContainer.querySelector('#phone').innerText = user.phone;
-  })
 
+    return findDistance(userOrigin, ride.origin);
+  })
+  .then((distanceFromOrigin) => {
+    postContainer.querySelector('#distanceFromOrigin').innerText = distanceFromOrigin;
+    return findDistance(userDest, ride.destination);
+  })
+  .then((distanceFromDest) => {
+    postContainer.querySelector('#distanceFromDest').innerText = distanceFromDest;
+  }).catch((error) => {
+    console.log(error);
+  })
   insertPost(allPosts, newPost);
   insertPostDOM(postArea, postContainer, allPosts);
 }
@@ -425,21 +437,6 @@ function insertPostDOM(postArea, postElement, postArray) {
   }
 }
 
-/*
-1) get logged getloggedusername
-2) get user info based on 1)
-3) get all search ride queries from db
-4)
-
-for creation of every post
-1) get User object from username
-2) get google maps API distance between points
-3) then only do you create the mark up and
-return this Promise
-
-Based on above Promise, insert post onto DOM
-
-*/
 /*** AJAX Calls ***/
 function createAllPosts() {
   const url = '/rides';
@@ -531,15 +528,11 @@ function getJoinedPostMarkup(ride) {
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
-          <strong> Name:</strong> Bob <br>
-          <strong>Time to call cab: </strong> ${expiryTimeString} <br>
-          <div class="distOrigin">
-            <strong>Distance from origin: </strong> 24 km km<br>
-          </div>
-          <div class="distDest">
-            <strong>Distance from destination: </strong>$ 24 km km <br>
-          </div>
-          <strong>Phone Number</strong>: 911
+          <strong> Name: </strong> <span id="name"></span><br>
+          <strong>Phone Number</strong>: <span id='phone'></span><br>
+          <strong> Time to call cab: </strong> ${expiryTimeString} <br>
+          <strong>Distance from origin: </strong><span id='distanceFromOrigin'></span> km<br>
+          <strong>Distance from destination: </strong><span id='distanceFromDest'></span> km<br>
         </div><!--post text container -->
         <div class="col-md-4 third-container">
             <div class="timer">
@@ -578,12 +571,8 @@ function getOtherPostMarkup(ride) {
           <strong> Name: </strong> <span id="name"></span><br>
           <strong>Phone Number</strong>: <span id='phone'></span><br>
           <strong> Time to call cab: </strong> ${expiryTimeString} <br>
-          <div class="distOrigin">
-            <strong>Distance from origin: </strong> 24 km km<br>
-          </div>
-          <div class="distDest">
-            <strong>Distance from destination: </strong>$ 24 km km <br>
-          </div>
+          <strong>Distance from origin: </strong><span id='distanceFromOrigin'></span> km<br>
+          <strong>Distance from destination: </strong><span id='distanceFromDest'></span> km<br>
         </div><!--post text container -->
         <div class="col-md-4 third-container">
             <div class="timer">
@@ -596,4 +585,26 @@ function getOtherPostMarkup(ride) {
       </div> <!--card -->
     `
     return postMarkup;
+}
+
+function findDistance(addr1, addr2) {
+  var myreq = {
+      origin: addr1,
+      destination: addr2,
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.IMPERIAL
+  }
+
+  return new Promise((resolve, reject) => {
+    directionsService.route(myreq, function (result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+  		    const finalRes = (result.routes[0].legs[0].distance.value / 1000).toString();
+          resolve(finalRes);
+        }
+        else {
+          console.log("Could not find address");
+          reject(404);
+        }
+    });
+  })
 }
