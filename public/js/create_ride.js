@@ -53,6 +53,7 @@ let theEnd = inputFieldTwo.value;
 carSelect.addEventListener('click', selectCar);
 seatsSelect.addEventListener('click', selectSeats);
 viewMyRide.addEventListener('click', viewTheRides);
+submitBtn.addEventListener('click', createTicketMethod)
 
 inputFieldOne.addEventListener("keyup", function(event) {
   event.preventDefault();
@@ -113,6 +114,58 @@ function checkInputs2(e){
 		}
 	}
 	
+}
+
+function createTicketMethod(){
+	let origin = document.querySelector('#inputOrigin2').value;
+	let destination = document.querySelector('#inputDestination2').value;
+    console.log(origin);
+    console.log(destination);
+    console.log(seats);
+    
+    var url = '/rides/create';
+    // The data we are going to send in our request
+    let data = {
+		members: [],
+		owner: "namee",
+		carType:car,
+		origin:origin,
+		destination:destination,
+		seatsOccupied:seats,
+		departureTime:new Date(),
+		cost:4
+    }
+    // Create our request constructor with all the parameters we need
+    const request = new Request(url, {
+        method: 'post', 
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+    });
+    fetch(request)
+    .then(function(res) {
+        // Handle response we get from the API
+        // Usually check the error codes to see what happened
+        if (res.status === 200) {
+            console.log('Added ride')
+			create();
+           
+        } else {
+            console.log('Could not add ride.');
+     
+        }
+        console.log(res)
+        
+    }).catch((error) => {
+        console.log(error)
+    })
+    
+	//let info = input + '__' + destination;
+     //url = 'create_ride.html?info=' + encodeURIComponent(info);
+	//document.location.href = '/rides/view';
+    //document.location.href = '/rides/view';
 }
 
 function calendarInitialization(){
@@ -215,6 +268,7 @@ function selectSeats(e) {
 }
 
 function create(){
+	console.log("create entered")
 	const errorMsg = document.querySelector('#create_fail');
 
 	let timeElem;
@@ -244,9 +298,10 @@ function create(){
 	//}
 	console.log(theTime);
 	console.log(theDate);
-	if(theDate == ""|| typeof theStart === 'undefined' || theStart == "" || theEnd == "" || typeof theEnd === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined' || typeof theDate === 'undefined' || typeof theTime === 'undefined'){
+	if(theDate == "" || typeof theStart === 'undefined' || theStart == "" || theEnd == "" || typeof theEnd === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined' || typeof theDate === 'undefined' || typeof theTime === 'undefined'){
 		errorMsg.style.display = "block";
 		scroll(0,0);
+		console.log("null vals")
 	}
 	else{
 		errorMsg.style.display = "none";
