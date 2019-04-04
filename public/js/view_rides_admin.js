@@ -145,7 +145,6 @@ function removeRide(e) {
     const button = e.target.parentElement;
 
     const postElement = getPostElementFromButton(button);
-    console.log(postElement)
     const post = getPostById(allPosts, getPostElementId(postElement));
 
     removeRideAJAX(post.ride);
