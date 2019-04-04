@@ -23,6 +23,14 @@ h2{
 }
 
 
+.navbar-brand{
+	margin-left:7vw;
+}
+
+#logOutBtn{
+	margin-right:7vw;
+}
+
 label {
     
     margin-right: 5px;

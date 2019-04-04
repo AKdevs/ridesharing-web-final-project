@@ -20,7 +20,7 @@ Ride.watch({fullDocument: 'updateLookup'}).
 });
 
 router.get('/own', function(req, res, next) {
-  res.sendfile('your_rides.html');
+  res.sendfile('./public/your_rides.html');
 });
 
 

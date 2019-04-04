@@ -12,11 +12,10 @@ html(lang='en')
   body
     nav.navbar.navbar-light.bg-light.static-top
       .container
-        a.navbar-brand(href='#') UberZ
+        a.navbar-brand(href='/') UberZ
         a.navbar-brand(data-value='about', href='#about') About
         a.navbar-brand(data-value='team', href='#team') Team
         if user
-          a.btn.btn-primary.btn-outline-secondary.btn-brand(href='/users/logged') My Profile
           a.btn.btn-primary(href='/users/logout') Logout
         else
           a.btn.btn-primary(href='/users/register') Register
@@ -48,7 +47,7 @@ html(lang='en')
             img.img-fluid.rounded.img-thumbnail.border(src='img/Create.png')
             span.text-muted Create ride
           .col-lg-4.col-md-4.col-sm-12
-            img.img-fluid.rounded.img-thumbnail.border(src='img/Search.png')
+            img.img-fluid.rounded.img-thumbnail.border(src='img/Find.png')
             span.text-muted Search for ride
           .col-lg-4.col-md-4.col-sm-12
             img.img-fluid.rounded.img-thumbnail.border(src='img/Profile.png')

@@ -6,7 +6,7 @@ class Post {
   }
 }
 
-var es = new EventSource('/stream');
+var es = new EventSource('/rides/stream');
 es.onmessage = function (event) {
   const data = JSON.parse(event.data);
   const rideId = data.documentKey._id;

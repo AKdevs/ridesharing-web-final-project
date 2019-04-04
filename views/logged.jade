@@ -5,8 +5,8 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(http-equiv='X-UA-Compatible', content='ie=edge')
     title Profile Page
-    link#bootstrap-css(href='/css/bootstrap.min.css', rel='stylesheet')
     link(rel='stylesheet', type='text/css', href='/css/logged.css')
+    link(rel='stylesheet', type='text/css', href='/css/bootstrap.min.css')
     link(rel='stylesheet', type='text/css', href='/css/main.css')
   body
     nav.navbar.navbar-expand-lg.navbar-light.bg-light
@@ -16,20 +16,21 @@ html(lang='en')
       #navbarNavAltMarkup.collapse.navbar-collapse
         .navbar-nav
           a.nav-item.nav-link.active(href='/rides/search')
-            | Search for a Ride
+            | Search Rides
             span.sr-only (current)
           a.nav-item.nav-link.active(href='/rides/create')
-            | Create Ride 
+            | Create Rides
             span.sr-only (current)
-      a#logOutBtn.btn.btn-primary(href='/users/logout') Logout
-      
-      
+          a.nav-item.nav-link.active(href='/rides/own')
+            | Your rides 
+            span.sr-only (current)
+      a#logOutBtn.btn.btn-primary(href='/users/logout') Logout   
     h1.shift
       center Hi Welcome back, #{user.firstname} #{user.lastname}
     br
     br
     .pic-container.pic-medium.pic-circle
-      img.pic(src='../uploads/dcf7d468f21d09833edb949e4cc4c288', alt='')
+      img.pic(src='/img/user.png', alt='')
       .pic-overlay
         a
           i.fa.fa-window-close-o(aria-hidden='true')
