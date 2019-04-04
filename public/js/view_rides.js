@@ -87,7 +87,7 @@ window.onload = function() {
     loggedInUser = user.username;
     return loggedInUser;
   })
-  .then((username) => {
+  .then(() => {
     return getSearchQueryAJAX();
   })
   .then((res) => {
@@ -189,7 +189,7 @@ function leaveRide(e) {
 
     post.ride.seatsOccupied -= numPassengers;
     post.ride.members = post.ride.members.filter((member) => {
-      member !== getLoggedInUser()
+      member !== loggedInUser
     });
 
     updateRideAJAX(post.ride);
@@ -223,7 +223,7 @@ function joinRide(e) {
 
     // update ride
     post.ride.seatsOccupied += numPassengers;
-    post.ride.members.push(getLoggedInUser());
+    post.ride.members.push(loggedInUser);
 
     updateRideAJAX(post.ride);
   }
@@ -298,17 +298,13 @@ function generateTimerMarkup(timerObj) {
 setInterval(updateTimerDOM, 1000);
 
 /* Get the user that is logged in */
-var loggedInUser = getLoggedInUser();
+var loggedInUser;
 
 const carType = {
   "UberX": 4,
   "UberXL": 6,
   "UberSELECT": 4,
   "UberBLACK": 4
-}
-
-function getLoggedInUser() {
-  return "ak33";
 }
 
 /* Specify current time, just for simulation purposes */
@@ -348,11 +344,11 @@ function createPost(newPost) {
 
   let postArea;
   let postMarkup;
-  //
-  // getUserAJAX(ride.owner).
-  // then((user) => {
-  //   console.log(user);
-  // })
+
+  getUserAJAX(ride.owner).
+  then((user) => {
+    console.log(user);
+  })
 
   if (ride.members.includes(loggedInUser)) {
     postArea = joinedPostArea;
@@ -429,10 +425,6 @@ function insertPostDOM(postArea, postElement, postArray) {
   }
 }
 
-function updateSeatSelector() {
-  isPostAreaEmpty(joinedPostArea) ? enableSeatButtons() : disableSeatButtons();
-}
-
 /*
 1) get logged getloggedusername
 2) get user info based on 1)
@@ -464,7 +456,6 @@ function createAllPosts() {
       const newPost = new Post(rides[i]);
       createPost(newPost);
     }
-    updateSeatSelector();
     updateEmptyAlerts();
   }).catch((error) => {
       console.log(error)
