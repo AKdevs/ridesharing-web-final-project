@@ -192,8 +192,8 @@ function createTicketMethod(){
     
 	//let info = input + '__' + destination;
      //url = 'create_ride.html?info=' + encodeURIComponent(info);
-	//document.location.href = '/rides/view';
-    //document.location.href = '/rides/view';
+	document.location.href = '/rides/own';
+    document.location.href = '/rides/own';
 }
 
 function calendarInitialization(){
