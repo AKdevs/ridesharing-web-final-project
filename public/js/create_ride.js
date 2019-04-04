@@ -148,6 +148,8 @@ function createTicketMethod(){
     console.log(origin);
     console.log(destination);
     console.log(seats);
+	console.log('TICKET INFO')
+	console.log(new Date(theDate + ' ' + theTime));
     
     var url = '/rides/create';
     // The data we are going to send in our request
@@ -158,10 +160,11 @@ function createTicketMethod(){
 		origin:origin,
 		destination:destination,
 		seatsOccupied:seats,
-		departureTime: new Date(theDate+' '+theTime),
+		departureTime: new Date(theDate+theTime),
 		cost:theCost
     }
     // Create our request constructor with all the parameters we need
+	
     const request = new Request(url, {
         method: 'post', 
         body: JSON.stringify(data),
@@ -192,8 +195,8 @@ function createTicketMethod(){
     
 	//let info = input + '__' + destination;
      //url = 'create_ride.html?info=' + encodeURIComponent(info);
-	document.location.href = '/rides/own';
-    document.location.href = '/rides/own';
+	//document.location.href = '/rides/view';
+    //document.location.href = '/rides/view';
 }
 
 function calendarInitialization(){
@@ -295,17 +298,20 @@ function selectSeats(e) {
 }
 
 function getCost(){//assuming $0.15 per kilometer
-     if(car == "uberx"){
+console.log("CARRR" + car)
+     if(car === "UberX"){
 		 return ((distOriginDest*0.621371)*0.97 + 0.4);
 	 }
 	 
-     if(car == "uberxl"){
+     if(car === "UberXL"){
 		 return ((distOriginDest*0.621371)*1.68 + 2.15);
 	 }
 
-     if(car == "uberpool"){
+     if(car === "Uberpool"){
 		 return (((distOriginDest*0.621371)*0.97 + 0.4)*0.4);//around 40 percent of uberx
 	 }	 
+	 
+	 return 0
 }
 
 
@@ -317,6 +323,9 @@ function create(){
 	theDate = document.querySelector('input[type="date"]').value;
 	theTime = document.querySelector('input[type="time"]').value;
 	
+	console.log("THE DATE" + theDate)
+	console.log("THE TIME" + theTime)
+	
     let isAmisPm = " AM";
     if(theTime.substring(0,2) < 12){
         isAmisPm = " AM";
@@ -324,9 +333,17 @@ function create(){
         isAmisPm = " PM";   
     }
     
-	let hour = +theTime.substr(0, 2);
-	let theHour = (hour % 12)||12;
+	hour = +theTime.substr(0, 2);
+	theMinute = +theTime.substr(2, 4);
+	theSeconds = +theTime.substr(4, 6);
+	theHour = (hour % 12)||12;
+	
+	date = +theDate.substr(0, 2);
+	month = +theDate.substr(2, 4);
+	year = +theDate.substr(4, 6);
+	
 	theTime = theHour + theTime.substr(2, 3) + isAmisPm;
+	
 	
 
 	//var times = new Date();
@@ -340,6 +357,9 @@ function create(){
 	//}
 	console.log(theTime);
 	console.log(theDate);
+	
+	
+	
 	if(theDate == "" || typeof theStart === 'undefined' || theStart == "" || theEnd == "" || typeof theEnd === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined' || typeof theDate === 'undefined' || typeof theTime === 'undefined'){
 		errorMsg.style.display = "block";
 		scroll(0,0);
@@ -403,7 +423,7 @@ function findTheRoute() {
     directionsService.route(myReq, function (result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
 			distOriginDest = (result.routes[0].legs[0].distance.value / 1000);
-			dtPicker.innerHTML = "<p>The distance to be travelled is " + distOriginDest + " Km and your cost will be $ " + "</p>";
+			dtPicker.innerHTML = "<p>Distance to be travelled is " + distOriginDest + " Km and time duration is " + (result.routes[0].legs[0].duration.text) + "</p>";
             directionsDisplay.setDirections(result);
         } else {
             directionsDisplay.setDirections({ routes: [] });
