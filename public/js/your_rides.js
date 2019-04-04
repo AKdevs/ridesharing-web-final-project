@@ -14,7 +14,7 @@ es.onmessage = function (event) {
 
   if (op === 'insert') {
     const rideDoc = data.fullDocument;
-    if (rideDoc.owner === getLoggedInUser()) {
+    if (rideDoc.owner === loggedInUser) {
       const newPost = new Post(rideDoc)
       createPost(newPost);
     }
@@ -61,7 +61,29 @@ var allPosts = [];
 
 const ownPostArea = document.querySelector('#own-post-area');
 
-window.onload = createAllPosts();
+window.onload = function() {
+  const url = '/users/getloggedusername';
+
+  fetch(url)
+  .then((res) => {
+    if (res.status === 200) {
+      return res.json()
+    }
+    else {
+      console.log("Not logged in");
+    }
+  })
+  .then((user) => {
+    loggedInUser = user.username;
+    return loggedInUser;
+  })
+  .then((res) => {
+    createAllPosts();
+  }).catch((error) => {
+    console.log(error)
+  })
+}
+
 ownPostArea.addEventListener('click', removeRide);
 
 function removeRide(e) {
@@ -159,7 +181,7 @@ function generateTimerMarkup(timerObj) {
 setInterval(updateTimerDOM, 1000);
 
 /* Get the user that is logged in */
-const loggedInUser = getLoggedInUser();
+var loggedInUser = getLoggedInUser();
 
 const carType = {
   "UberX": 4,

@@ -22,8 +22,10 @@ es.onmessage = function (event) {
 
   if (op === 'insert') {
     const rideDoc = data.fullDocument;
-    const newPost = new Post(rideDoc)
-    createPost(newPost);
+    if (rideDoc.owner !== loggedInUser) {
+      const newPost = new Post(rideDoc)
+      createPost(newPost);
+    }
   }
   else {
     const post = findPostByRideId(rideId);
