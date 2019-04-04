@@ -128,7 +128,7 @@ function getSearchQueryAJAX() {
     numSeats = searchQuery.seatsOccupied;
     numSeatsLabel.innerText = numSeats;
 
-    // deleteSearchQueryAJAX(searchQuery);
+    deleteSearchQueryAJAX(searchQuery);
   }).catch((error) => {
     console.log(error)
   })
@@ -453,8 +453,10 @@ function createAllPosts() {
   })
   .then((rides) => {
     for (let i = 0; i < rides.length; i++) {
-      const newPost = new Post(rides[i]);
-      createPost(newPost);
+      if (rides[i].owner !== loggedInUser) {
+        const newPost = new Post(rides[i]);
+        createPost(newPost);
+      }
     }
     updateEmptyAlerts();
   }).catch((error) => {
