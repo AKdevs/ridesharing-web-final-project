@@ -79,9 +79,6 @@ router.get('/getloggedusername', function(req, res, next){
         err.status = 401;
         return next(err);
     }
-      console.log("Username of the person is")
-      console.log(req.user.username);
-      //console.log(req.body.firstname);
         User.find({username: req.user.username}, function(err, docs){
             console.log(docs)
             if (err) {console.log("user not found"); res.status(404).send();}
