@@ -123,30 +123,37 @@ function getSearchQueryAJAX() {
     numSeats = searchQuery.seatsOccupied;
     numSeatsLabel.innerText = numSeats;
 
-    deleteSearchQueryAJAX(searchQuery);
+    // deleteSearchQueryAJAX(searchQuery);
   }).catch((error) => {
     console.log(error)
   })
 }
 
-deleteSearchQueryAJAX(searchQuery) {
-  // const url = '/rides/ridesearch/' + searchQuery._id;
-  //
-  // const request = {
-  //
-  // }
-  //
-  // fetch(url, request)
-  // .then
+function deleteSearchQueryAJAX(searchQuery) {
+  const url = '/rides/ridesearch/' + searchQuery._id;
 
+  const request = new Request(url, {
+      method: 'delete',
+      headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+      },
+  });
+
+  fetch(request)
+  .then((res) => {
+      if (res.status === 200) {
+         return res.json()
+     } else {
+          alert('Could not remove query')
+     }
+  }).catch((error) => {
+      console.log(error)
+  })
 }
 
 joinedPostArea.addEventListener('click', leaveRide);
 otherPostArea.addEventListener('click', joinRide);
-// for passenger seat number selection
-$('#seat-selector label').on('click', function() {
-  numPassengers = parseInt(this.innerText);
-});
 
 function removeRide(e) {
   e.preventDefault();
@@ -157,21 +164,6 @@ function removeRide(e) {
     const post = getPostById(allPosts, getPostElementId(postElement));
 
     removeRideAJAX(post.ride);
-  }
-}
-
-
-function disableSeatButtons() {
-  const seatButtons = seatSelector.getElementsByTagName('label');
-  for (let i = 0; i < seatButtons.length; i++) {
-    seatButtons[i].classList.add('Disabled');
-  }
-}
-
-function enableSeatButtons() {
-  const seatButtons = seatSelector.getElementsByTagName('label');
-  for (let i = 0; i < seatButtons.length; i++) {
-    seatButtons[i].classList.remove('Disabled');
   }
 }
 
@@ -203,13 +195,6 @@ function leaveRide(e) {
     updateRideAJAX(post.ride);
   }
 }
-
-function enableSeatButtonsIfNoJoined() {
-  if (isPostAreaEmpty(joinedPostArea)) {
-    enableSeatButtons();
-  }
-}
-
 
 /* Remove post from the array */
 function removePostById(posts, postNumber) {
