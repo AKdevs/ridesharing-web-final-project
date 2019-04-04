@@ -54,7 +54,7 @@ let theEnd = inputFieldTwo.value;
 carSelect.addEventListener('click', selectCar);
 seatsSelect.addEventListener('click', selectSeats);
 viewMyRide.addEventListener('click', viewTheRides);
-submitBtn.addEventListener('click', createTicketMethod)
+submitBtn.addEventListener('click', myCreate)
 
 inputFieldOne.addEventListener("keyup", function(event) {
   event.preventDefault();
@@ -100,6 +100,27 @@ window.onload = function () {
 	
 }
 
+function myCreate(){
+	const errorMsg = document.querySelector('#create_fail');
+	const inputFieldOne2 = document.querySelector('#inputOrigin2');
+const inputFieldTwo2 = document.querySelector('#inputDestination2');
+
+let theStart2 = inputFieldOne2.value;
+let theEnd2 = inputFieldTwo2.value;
+		if(typeof theStart2 === 'undefined' || theStart2 == "" || theEnd2 == "" || typeof theEnd2 === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined'){
+		errorMsg.style.display = "block";
+		console.log(theDate)
+		console.log(seats)
+		console.log(theTime)
+		scroll(0,0);
+		console.log("null vals")
+	}
+	else{
+		errorMsg.style.display = "none";
+		//jquery for the modal pop up
+		createTicketMethod();
+	}
+}
 
 
 function checkInputs2(e){
@@ -140,7 +161,9 @@ function checkInputs2(e){
 	
 }
 
+var distOriginDest;
 function createTicketMethod(){
+	console.log("DISTORIGINDEST IN CRETE METHOD" + distOriginDest);
 	theCost = getCost();
 	console.log("$" + theCost);
 	let origin = document.querySelector('#inputOrigin2').value;
@@ -153,6 +176,7 @@ function createTicketMethod(){
 	theDate = document.querySelector('input[type="date"]').value;
 	theTime = document.querySelector('input[type="time"]').value;
     console.log(new Date(theDate + " " + theTime))
+	console.log(new Date(theDate + theTime))
     var url = '/rides/create';
     // The data we are going to send in our request
     let data = {
@@ -162,7 +186,7 @@ function createTicketMethod(){
 		origin:origin,
 		destination:destination,
 		seatsOccupied:seats,
-		departureTime: new Date(theDate+theTime),
+		departureTime: new Date(theDate+" "+theTime),
 		cost:theCost
     }
     // Create our request constructor with all the parameters we need
@@ -248,6 +272,10 @@ function selectCar(e) {
 	    else if(e.target.id == "uberpool"){
 			theSeatInfo.innerHTML = '<p>Select total number of seats.</p><button id="one" type="button" class="btn btn-primary">1</button>'
 		}
+		
+	const theBegin = document.querySelector('#inputOrigin2');
+	const theEnd = document.querySelector('#inputDestination2');
+	getDist(theBegin, theEnd);
 		
 		
 	}
@@ -360,7 +388,7 @@ function create(){
 	
 	
 	
-	if(theDate == "" || typeof theStart === 'undefined' || theStart == "" || theEnd == "" || typeof theEnd === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined' || typeof theDate === 'undefined' || typeof theTime === 'undefined'){
+	if(typeof theStart === 'undefined' || theStart == "" || theEnd == "" || typeof theEnd === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined'){
 		errorMsg.style.display = "block";
 		scroll(0,0);
 		console.log("null vals")
@@ -434,4 +462,28 @@ function findTheRoute() {
 	
 
 
+}
+
+
+function getDist(addr1, addr2) {
+  var myreq = {
+      origin: addr1.value,
+      destination: addr2.value,
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.IMPERIAL
+  }
+console.log('INNNN')
+  return new Promise((resolve, reject) => {
+    directionsService.route(myreq, function (result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+  		    distOriginDest = (result.routes[0].legs[0].distance.value / 1000).toString();
+			console.log('INNN' + distOriginDest)
+         
+        }
+        else {
+          console.log("Could not find address");
+          reject(404);
+        }
+    });
+  })
 }
