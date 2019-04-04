@@ -128,10 +128,10 @@ function createTicketMethod(){
     let data = {
 		members: [],
 		owner: "namee",
-		carType:car,
+		carType:"asdas",
 		origin:origin,
 		destination:destination,
-		seatsOccupied:seats,
+		seatsOccupied:1,
 		departureTime:new Date(),
 		cost:4
     }
@@ -284,7 +284,7 @@ function create(){
     
 	let hour = +theTime.substr(0, 2);
 	let theHour = (hour % 12)||12;
-	theTime = theHour + theTime.stubstr(2, 3) + isAmisPm;
+	theTime = theHour + theTime.substr(2, 3) + isAmisPm;
 	
 
 	//var times = new Date();
