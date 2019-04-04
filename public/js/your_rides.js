@@ -181,17 +181,13 @@ function generateTimerMarkup(timerObj) {
 setInterval(updateTimerDOM, 1000);
 
 /* Get the user that is logged in */
-var loggedInUser = getLoggedInUser();
+var loggedInUser;
 
 const carType = {
   "UberX": 4,
   "UberXL": 6,
   "UberSELECT": 4,
   "UberBLACK": 4
-}
-
-function getLoggedInUser() {
-  return "ak33";
 }
 
 /* Specify current time, just for simulation purposes */
@@ -302,7 +298,7 @@ function createAllPosts() {
   })
   .then((rides) => {
     for (let i = 0; i < rides.length; i++) {
-      if (rides[i].owner === getLoggedInUser()) {
+      if (rides[i].owner === loggedInUser) {
         const newPost = new Post(rides[i]);
         createPost(newPost);
       }
