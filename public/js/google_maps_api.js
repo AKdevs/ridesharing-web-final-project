@@ -1,6 +1,6 @@
 var directionsService = new google.maps.DirectionsService();
 
-function findDistanceBetweenTwoAddress(addr1, addr2) {
+function findDistance(addr1, addr2) {
   var myreq = {
       origin: addr1,
       destination: addr2,

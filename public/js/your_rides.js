@@ -224,6 +224,10 @@ function createPost(newPost) {
   const postContainer = createPostContainer(newPost.postNumber);
   postContainer.innerHTML = postMarkup;
 
+  findDistance(ride.origin, ride.destination).then((distance) => {
+    postContainer.querySelector('#distance').innerText = distance;
+  }).catch((err) => console.log(err));
+
   insertPost(allPosts, newPost);
   insertPostDOM(postArea, postContainer, allPosts);
 }
@@ -366,6 +370,7 @@ function removeRideAJAX(ride) {
 
 function getOwnPostMarkup(ride) {
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
+  const splitcost = (ride.cost / ride.seatsOccupied).toFixed(2);
 
   const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
 
@@ -385,6 +390,7 @@ function getOwnPostMarkup(ride) {
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
+          <strong> Cost Per Person </strong>: <span id="cost">$${splitcost}</span> <br>
           <strong> Time to call cab: </strong> ${expiryTimeString} <br>
           <strong> Total Distance: </strong><span id='distance'></span> km<br>
         </div><!--post text container -->

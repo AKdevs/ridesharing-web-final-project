@@ -517,8 +517,8 @@ function removeRideAJAX(ride) {
 
 
 function getJoinedPostMarkup(ride) {
-  console.log(ride)
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
+  const splitcost = (ride.cost / ride.seatsOccupied).toFixed(2);
 
   const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
 
@@ -540,6 +540,7 @@ function getJoinedPostMarkup(ride) {
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
+          <strong> Cost Per Person </strong>: <span id="cost">$ ${splitcost}</span> <br>
           <strong> Name: </strong> <span id="name"></span><br>
           <strong>Phone Number</strong>: <span id='phone'></span><br>
           <strong> Time to call cab: </strong> ${expiryTimeString} <br>
@@ -561,6 +562,10 @@ function getJoinedPostMarkup(ride) {
 
 function getOtherPostMarkup(ride) {
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
+  console.log(ride.cost)
+  console.log(ride.seatsOccupied)
+  const splitcost = (ride.cost / ride.seatsOccupied).toFixed(2);
+  console.log(splitcost)
 
   const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
 
@@ -580,6 +585,7 @@ function getOtherPostMarkup(ride) {
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
+          <strong> Cost </strong>: $<span id="cost"> ${splitcost}</span> <br>
           <strong> Name: </strong> <span id="name"></span><br>
           <strong>Phone Number</strong>: <span id='phone'></span><br>
           <strong> Time to call cab: </strong> ${expiryTimeString} <br>
