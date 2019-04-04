@@ -507,6 +507,8 @@ function removeRideAJAX(ride) {
       console.log(error)
   })
 }
+
+
 function getJoinedPostMarkup(ride) {
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
 

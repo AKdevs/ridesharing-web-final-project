@@ -271,3 +271,124 @@ function createPost(ride) {
     posts.push(newPost);
     postArea.appendChild(postContainer);
 }
+
+
+var es = new EventSource('/rides/stream');
+es.onmessage = function (event) {
+  const data = JSON.parse(event.data);
+  const rideId = data.documentKey._id;
+  const op = data.operationType;
+
+  if (op === 'insert') {
+    const rideDoc = data.fullDocument;
+    const newPost = new Post(rideDoc)
+    createPost(newPost);
+  }
+  else {
+    const post = findPostByRideId(rideId);
+    const postElement = findPostElementByPostId(post.postNumber);
+
+    if (op === 'delete') {
+      postElement.parentElement.removeChild(postElement);
+      removePostById(allPosts, post.postNumber);
+    }
+    else if (op === 'update')  {
+      const rideDoc = data.fullDocument;
+      postElement.parentElement.removeChild(postElement);
+      removePostById(allPosts, post.postNumber);
+
+      post.ride = rideDoc;
+
+      createPost(post);
+    }
+  }
+
+  updateEmptyAlerts();
+}
+
+
+class Post {
+  constructor(ride) {
+    this.ride = ride;
+    this.postNumber = Math.floor(Math.random() * 10000);
+    this.isOwn = 0;
+    this.isJoined = 0;
+  }
+}
+
+
+function removeRide(e) {
+  e.preventDefault();
+  if (e.target.classList.contains('btn')) {
+    const button = e.target;
+
+    const postElement = getPostElementFromButton(button);
+    const post = getPostById(allPosts, getPostElementId(postElement));
+
+    removeRideAJAX(post.ride);
+  }
+}
+
+
+function removeRideAJAX(ride) {
+  const url = '/rides/' + ride._id;
+
+  const request = new Request(url, {
+      method: 'delete',
+      body: JSON.stringify(ride),
+      headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+      },
+  });
+
+  return fetch(request)
+  .then((res) => {
+      if (res.status === 200) {
+         return res.json()
+     } else {
+          alert('Could not remove ride')
+     }
+  }).catch((error) => {
+      console.log(error)
+  })
+}
+
+
+function createPost(newPost) {
+  const ride = newPost.ride;
+
+  let postArea;
+  let postMarkup;
+
+  if (ride.members.includes(loggedInUser)) {
+    postArea = joinedPostArea;
+    postMarkup = getJoinedPostMarkup(ride);
+  }
+  else {
+    postArea = otherPostArea;
+    postMarkup = getOtherPostMarkup(ride);
+  }
+
+  const postContainer = createPostContainer(newPost.postNumber);
+  postContainer.innerHTML = postMarkup;
+  getUserAJAX(ride.owner)
+  .then((user) => {
+    postContainer.querySelector('#name').innerText = user.firstname + " " + user.lastname;
+    postContainer.querySelector('#phone').innerText = user.phone;
+
+    return findDistance(userOrigin, ride.origin);
+  })
+  .then((distanceFromOrigin) => {
+    postContainer.querySelector('#distanceFromOrigin').innerText = distanceFromOrigin;
+    return findDistance(userDest, ride.destination);
+  })
+  .then((distanceFromDest) => {
+    postContainer.querySelector('#distanceFromDest').innerText = distanceFromDest;
+  }).catch((error) => {
+    console.log(error);
+  })
+  insertPost(allPosts, newPost);
+  insertPostDOM(postArea, postContainer, allPosts);
+}
+

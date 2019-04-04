@@ -31,6 +31,27 @@ router.get('/own', function(req, res, next) {
 });
 
 
+router.get('/admin', function(req, res, next) {
+    
+    if(!req.user || !req.session){
+    
+            var err = new Error('You must be logged in as admin to view this page.');
+            err.status = 401;
+            return next(err);
+    }else if(req.user.username !=='admin'){
+        
+            var err = new Error('You must be logged in as admin to view this page.');
+            err.status = 401;
+            return next(err);
+        
+    }else {
+    res.sendfile('./public/view_rides_admin.html');
+    }
+});
+
+
+
+
 
 router.get('/profilepic.jpeg', function(req, res){
 
