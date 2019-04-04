@@ -20,7 +20,14 @@ var users = require('./routes/users');
 var admin = require('./routes/admin');
 var rides = require('./routes/rides')
 
+const port = process.env.PORT || 3000
+
 var app = express();
+
+app.listen(port, "0.0.0.0", function() {
+console.log("Listening on Port 3000");
+});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -118,6 +125,8 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+
 
 
 module.exports = app;
