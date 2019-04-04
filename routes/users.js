@@ -97,10 +97,9 @@ router.get('/search/:username', function(req, res, next) {
     console.log(username);
     console.log("in get method for user")
     User.find({username: req.params.username}, function(err, docs){
-        console.log(docs)
         if (err) {console.log("user not found"); res.status(404).send();}
         else{
-            res.send(docs);
+            res.send(docs[0]);
         }
     });
 })
