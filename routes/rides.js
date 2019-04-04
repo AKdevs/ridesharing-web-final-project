@@ -27,7 +27,7 @@ router.get('/own', function(req, res, next) {
 
 router.get('/profilepic.jpeg', function(req, res){
         
-    res.sendfile(path.resolve(path.resolve(__dirname,'/img/profilepic.jpeg')));
+    res.sendfile(path.resolve(path.resolve(__dirname,'profilepic.jpeg')));
   //res.sendfile('/img/profilepic.jpeg');
   //res.send("Hello");
            
