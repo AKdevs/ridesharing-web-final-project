@@ -25,8 +25,8 @@ router.get('/own', function(req, res, next) {
 
 /* GET users listing. */
 router.get('/search', function(req, res, next) {
-    
-    
+
+
    if(!req.user){
         res.location('/users/login');
         res.redirect('/users/login');
@@ -35,13 +35,21 @@ router.get('/search', function(req, res, next) {
      title  : 'Search rides',
      errors: req.flash('error')
    });
-    
-    
+
+
   //res.sendfile('./public/main_page.html');
   //res.render(search_rides);
 });
 
+router.get('/ridesearch/:owner', function(req, res, next) {
+  const ownerUsername = req.params.owner;
 
+  RideSearch.find({owner: ownerUsername}).then((rides) => {
+    res.send(rides[0]);
+  }).catch((error) => {
+    res.status(500).send()
+  })
+})
 
 
 router.get('/create', function(req, res, next) {

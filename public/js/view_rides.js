@@ -8,12 +8,11 @@ class Post {
   }
 }
 
-var es = new EventSource('/stream');
+var es = new EventSource('/rides/stream');
 es.onmessage = function (event) {
   const data = JSON.parse(event.data);
   const rideId = data.documentKey._id;
   const op = data.operationType;
-
 
   if (op === 'insert') {
     const rideDoc = data.fullDocument;
@@ -65,6 +64,9 @@ function findPostElementByPostId(postId) {
 var allPosts = [];
 var numPassengers = 1;
 
+const userOriginLabel = document.querySelector('#user-origin-info')
+const userDestLabel = document.querySelector('#user-dest-info')
+const numSeatsLabel = document.querySelector('#num-seats');
 const joinedPostArea = document.querySelector('#joined-post-area');
 const otherPostArea = document.querySelector('#other-post-area');
 const seatSelector = document.querySelector('#seat-selector');
@@ -81,13 +83,62 @@ window.onload = function() {
       console.log("Not logged in");
     }
   })
+  .then((user) => {
+    loggedInUser = user.username;
+    return loggedInUser;
+  })
+  .then((username) => {
+    return getSearchQueryAJAX();
+  })
   .then((res) => {
-    loggedInUser = res;
-    console.log(loggedInUser);
     createAllPosts();
   }).catch((error) => {
     console.log(error)
   })
+}
+
+var userOrigin;
+var userDest;
+var numSeats;
+
+function getSearchQueryAJAX() {
+  const url = '/rides/ridesearch/' + loggedInUser;
+
+  return fetch(url)
+  .then((res) => {
+    if (res.status === 200) {
+      return res.json()
+    }
+    else {
+      console.log("Query not found");
+    }
+  })
+  .then((searchQuery) => {
+    userOrigin = searchQuery.origin;
+    userOriginLabel.innerText = userOrigin;
+
+    userDest = searchQuery.destination;
+    userDestLabel.innerText = userDest;
+
+    numSeats = searchQuery.seatsOccupied;
+    numSeatsLabel.innerText = numSeats;
+
+    deleteSearchQueryAJAX(searchQuery);
+  }).catch((error) => {
+    console.log(error)
+  })
+}
+
+deleteSearchQueryAJAX(searchQuery) {
+  // const url = '/rides/ridesearch/' + searchQuery._id;
+  //
+  // const request = {
+  //
+  // }
+  //
+  // fetch(url, request)
+  // .then
+
 }
 
 joinedPostArea.addEventListener('click', leaveRide);
@@ -262,7 +313,7 @@ function generateTimerMarkup(timerObj) {
 setInterval(updateTimerDOM, 1000);
 
 /* Get the user that is logged in */
-const loggedInUser = getLoggedInUser();
+var loggedInUser = getLoggedInUser();
 
 const carType = {
   "UberX": 4,
