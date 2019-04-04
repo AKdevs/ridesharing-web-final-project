@@ -149,8 +149,10 @@ function createTicketMethod(){
     console.log(destination);
     console.log(seats);
 	console.log('TICKET INFO')
-	console.log(new Date(theDate + ' ' + theTime));
-    
+	
+	theDate = document.querySelector('input[type="date"]').value;
+	theTime = document.querySelector('input[type="time"]').value;
+    console.log(new Date(theDate + " " + theTime))
     var url = '/rides/create';
     // The data we are going to send in our request
     let data = {
@@ -182,6 +184,7 @@ function createTicketMethod(){
 			
 		//$('#ticket_info').modal();
 		//	displayTicket();	
+		
            
         } else {
             console.log('Could not add ride.');
@@ -193,10 +196,7 @@ function createTicketMethod(){
         console.log(error)
     })
     
-	//let info = input + '__' + destination;
-     //url = 'create_ride.html?info=' + encodeURIComponent(info);
-	//document.location.href = '/rides/view';
-    //document.location.href = '/rides/view';
+    document.location.href = '/rides/own';
 }
 
 function calendarInitialization(){
@@ -246,7 +246,7 @@ function selectCar(e) {
 
 		}
 	    else if(e.target.id == "uberpool"){
-			theSeatInfo.innerHTML = ''
+			theSeatInfo.innerHTML = '<p>Select total number of seats.</p><button id="one" type="button" class="btn btn-primary">1</button>'
 		}
 		
 		
