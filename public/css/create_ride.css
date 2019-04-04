@@ -24,6 +24,16 @@ body h1{
 	float:left;
 }
 
+#inputOrigin2{
+	width:38vw;
+	margin-bottom:1vw;
+}
+
+#inputDestination2{
+	width:38vw;
+	margin-bottom:1vw;
+}
+
 #location_info{
 	position:relative;
 	margin-left: 0vw;
