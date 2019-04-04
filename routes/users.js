@@ -10,9 +10,10 @@ var User = require('../models/user');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    if(req.user){
-        res.location('/users/logged');
-        res.redirect('/users/logged');
+    
+    if(!req.user){
+        res.location('/users/login');
+        res.redirect('/users/login');
     }
   res.send('respond with a resource');
 });
