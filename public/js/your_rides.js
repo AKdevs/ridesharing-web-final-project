@@ -12,6 +12,13 @@ es.onmessage = function (event) {
   const rideId = data.documentKey._id;
   const op = data.operationType;
 
+  const post = findPostByRideId(rideId);
+  const owner = post.ride.owner;
+
+  if (owner !== loggedInUser) {
+    return
+  }
+
   if (op === 'insert') {
     const rideDoc = data.fullDocument;
     if (rideDoc.owner === loggedInUser) {
