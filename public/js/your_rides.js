@@ -366,11 +366,8 @@ function getOwnPostMarkup(ride) {
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
-          <strong> Name:</strong><span id="people-joined"> </span><br>
-          <strong>Time to call cab: </strong> ${expiryTimeString} <br>
-          <div class="dist">
-            <strong>Distance: </strong> 24 km km<br>
-          </div>
+          <strong> Time to call cab: </strong> ${expiryTimeString} <br>
+          <strong> Total Distance: </strong><span id='distance'></span> km<br>
         </div><!--post text container -->
         <div class="col-md-4 third-container">
             <div class="timer">
