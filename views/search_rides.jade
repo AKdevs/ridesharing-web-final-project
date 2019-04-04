@@ -1,0 +1,68 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Library
+    link(rel='stylesheet', type='text/css', href='/css/main_page.css')
+    link(rel='stylesheet', type='text/css', href='/css/main.css')
+    // link rel="stylesheet" type="text/css" href="/css/style.css"
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T', crossorigin='anonymous')
+    script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js', integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN', crossorigin='anonymous')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q', crossorigin='anonymous')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js', integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl', crossorigin='anonymous')
+    script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC1vTT8vBAmIg5VLMejRO1GqUtU7hLiBLE&libraries=places')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+  body
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      a.navbar-brand(href='#') UberZ
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNavAltMarkup', aria-controls='navbarNavAltMarkup', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      #navbarNavAltMarkup.collapse.navbar-collapse
+        .navbar-nav
+          a.nav-item.nav-link.active(href='/users/logged')
+            | My Profile 
+            span.sr-only (current)
+          a.nav-item.nav-link.active(href='/rides/create')
+            | Create Ride 
+            span.sr-only (current)
+      a#logOutBtn.btn.btn-primary(href='index.html') Logout
+    h1 Hey #{user.firstname} #{user.lastname}! Where do you plan to go?
+    p#subtitle Please enter your starting point and destination.
+    hr
+    #create_fail.alert.alert-danger
+      strong Error!
+      |  Empty fields detected.
+    #confirm_location
+      // Google Maps have been embedded for Front-End but this will be replaed with Google Maps API here when working on backend
+      #google_maps
+      #location_info
+        .location_text
+          p
+            span.bold Starting Point:
+          p#emptyField1 Empty!
+          input#inputOrigin.form-control(type='email', aria-describedby='emailHelp', placeholder='Enter origin')
+        .location_text
+          p
+            span.bold Destination:
+          p#emptyField2 Empty!
+          input#inputDestination.form-control(type='email', aria-describedby='emailHelp', placeholder='Enter final destination')
+        #select_seats
+          p Select total number of seats.
+          button#one.btn.btn-primary(type='button') 1
+          button#two.btn.btn-primary(type='button') 2
+          button#three.btn.btn-primary(type='button') 3
+          button#four.btn.btn-primary(type='button') 4
+        #submitBtns
+          button#viewRideBtn.btn.btn-primary(type='button') View Available Rides
+        #distTimeInfo
+          div
+            p#distInfo
+              strong Total Ride Distance: 
+              | 40 km 
+              strong Total Ride Duration: 
+              | 19 mins
+    script(type='text/javascript', src='/js/main_page.js')
+    #map
+    //
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRqD3RzY5tIaPAVV87pM6zgPMEY8Plih4&callback=initMap"
+      async defer></script>
