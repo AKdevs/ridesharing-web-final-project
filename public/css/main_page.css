@@ -132,3 +132,8 @@ body hr{
 	color:gray;
 }
 
+#select_seats button{
+	margin-right:10px;
+	margin-top:0vw;
+	margin-bottom:1vw;
+}
