@@ -5,8 +5,12 @@ class Post {
   constructor(ride) {
     this.ride = ride;
     this.postNumber = Math.floor(Math.random() * 10000);
-    this.isOwn = 0;
-    this.isJoined = 0;
+    this.seatsAvailable = 0;
+    this.expiryTime = Date(null);
+    this.ownerName = "";
+    this.ownerPhone = "";
+    this.distanceFromOrigin = 0;
+    this.distanceFromDest = 0;
   }
 }
 
@@ -64,7 +68,6 @@ function findPostElementByPostId(postId) {
 }
 
 var allPosts = [];
-var numPassengers = 1;
 
 const userOriginLabel = document.querySelector('#user-origin-info')
 const userDestLabel = document.querySelector('#user-dest-info')
@@ -189,7 +192,7 @@ function leaveRide(e) {
     const postElement = getPostElementFromButton(button);
     const post = getPostById(allPosts, getPostElementId(postElement));
 
-    post.ride.seatsOccupied -= numPassengers;
+    post.ride.seatsOccupied -= numSeats;
     post.ride.members = post.ride.members.filter((member) => {
       member !== loggedInUser
     });
@@ -224,7 +227,7 @@ function joinRide(e) {
     }
 
     // update ride
-    post.ride.seatsOccupied += numPassengers;
+    post.ride.seatsOccupied += numSeats;
     post.ride.members.push(loggedInUser);
 
     updateRideAJAX(post.ride);
@@ -232,11 +235,11 @@ function joinRide(e) {
 }
 
 function updateSeatCountOnJoin(ride) {
-  ride.seatsOccupied += numPassengers;
+  ride.seatsOccupied += numSeats;
 }
 function calculateNewSeatsAvailable2(ride) {
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
-  return seatsAvailable - numPassengers;
+  return seatsAvailable - numSeats;
 }
 
 function updateTimer(hours, minutes, seconds) {
@@ -510,11 +513,14 @@ function removeRideAJAX(ride) {
 
 
 function getJoinedPostMarkup(ride) {
+  console.log(ride)
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
 
   const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
 
   const expiryTimeString = new Date(ride.departureTime).toLocaleString("en-US").split(', ')[1];
+  console.log(ride.departureTime)
+  console.log(expiryTimeString);
   const postMarkup = `
       <div class="card">
       <div class="card-header bg-default address">
