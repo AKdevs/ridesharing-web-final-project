@@ -129,6 +129,7 @@ function getSearchQueryAJAX() {
 
     numSeats = searchQuery.seatsOccupied;
     numSeatsLabel.innerText = numSeats;
+    console.log("BRO")
 
     deleteSearchQueryAJAX(searchQuery);
   }).catch((error) => {
@@ -562,10 +563,7 @@ function getJoinedPostMarkup(ride) {
 
 function getOtherPostMarkup(ride) {
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
-  console.log(ride.cost)
-  console.log(ride.seatsOccupied)
   const splitcost = (ride.cost / ride.seatsOccupied).toFixed(2);
-  console.log(splitcost)
 
   const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
 
