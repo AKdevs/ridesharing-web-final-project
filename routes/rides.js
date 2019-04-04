@@ -9,9 +9,24 @@ const { RideSearch } = require('../models/rides_search');
 
 /* GET users listing. */
 router.get('/search', function(req, res, next) {
-  res.sendfile('./public/main_page.html');
+    
+    
+   if(!req.user){
+        res.location('/users/login');
+        res.redirect('/users/login');
+    }
+   res.render('search_rides',{
+     title  : 'Search rides',
+     errors: req.flash('error')
+   });
+    
+    
+  //res.sendfile('./public/main_page.html');
   //res.render(search_rides);
 });
+
+
+
 
 router.get('/create', function(req, res, next) {
   res.sendfile('./public/create_ride.html');
