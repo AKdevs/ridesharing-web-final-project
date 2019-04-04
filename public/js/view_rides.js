@@ -129,7 +129,6 @@ function getSearchQueryAJAX() {
   })
 }
 
-<<<<<<< HEAD
 function deleteSearchQueryAJAX(searchQuery) {
   const url = '/rides/ridesearch/' + searchQuery._id;
 
@@ -152,19 +151,6 @@ function deleteSearchQueryAJAX(searchQuery) {
       console.log(error)
   })
 }
-=======
-//deleteSearchQueryAJAX(searchQuery) {
-  // const url = '/rides/ridesearch/' + searchQuery._id;
-  //
-  // const request = {
-  //
-  // }
-  //
-  // fetch(url, request)
-  // .then
-
-//}
->>>>>>> 1738195b51fecd9ab2fdb8b3fe14538cef9b57af
 
 joinedPostArea.addEventListener('click', leaveRide);
 otherPostArea.addEventListener('click', joinRide);
