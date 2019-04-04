@@ -3,8 +3,6 @@ class Post {
   constructor(ride) {
     this.ride = ride;
     this.postNumber = Math.floor(Math.random() * 10000);
-    this.isOwn = 0;
-    this.isJoined = 0;
   }
 }
 
@@ -14,11 +12,12 @@ es.onmessage = function (event) {
   const rideId = data.documentKey._id;
   const op = data.operationType;
 
-
   if (op === 'insert') {
     const rideDoc = data.fullDocument;
-    const newPost = new Post(rideDoc)
-    createPost(newPost);
+    if (rideDoc.owner === getLoggedInUser()) {
+      const newPost = new Post(rideDoc)
+      createPost(newPost);
+    }
   }
   else {
     const post = findPostByRideId(rideId);
@@ -29,6 +28,7 @@ es.onmessage = function (event) {
       removePostById(allPosts, post.postNumber);
     }
     else if (op === 'update')  {
+      // update op
       const rideDoc = data.fullDocument;
       postElement.parentElement.removeChild(postElement);
       removePostById(allPosts, post.postNumber);
@@ -63,39 +63,11 @@ function findPostElementByPostId(postId) {
 }
 
 var allPosts = [];
-var numPassengers = 1;
 
-const joinedPostArea = document.querySelector('#joined-post-area');
-const otherPostArea = document.querySelector('#other-post-area');
-const seatSelector = document.querySelector('#seat-selector');
+const ownPostArea = document.querySelector('#own-post-area');
 
-window.onload = function() {
-  const url = '/users/getloggedusername';
-
-  fetch(url)
-  .then((res) => {
-    if (res.status === 200) {
-      return res.json()
-    }
-    else {
-      console.log("Not logged in");
-    }
-  })
-  .then((res) => {
-    loggedInUser = res;
-    console.log(loggedInUser);
-    createAllPosts();
-  }).catch((error) => {
-    console.log(error)
-  })
-}
-
-joinedPostArea.addEventListener('click', leaveRide);
-otherPostArea.addEventListener('click', joinRide);
-// for passenger seat number selection
-$('#seat-selector label').on('click', function() {
-  numPassengers = parseInt(this.innerText);
-});
+window.onload = createAllPosts();
+ownPostArea.addEventListener('click', removeRide);
 
 function removeRide(e) {
   e.preventDefault();
@@ -106,21 +78,6 @@ function removeRide(e) {
     const post = getPostById(allPosts, getPostElementId(postElement));
 
     removeRideAJAX(post.ride);
-  }
-}
-
-
-function disableSeatButtons() {
-  const seatButtons = seatSelector.getElementsByTagName('label');
-  for (let i = 0; i < seatButtons.length; i++) {
-    seatButtons[i].classList.add('Disabled');
-  }
-}
-
-function enableSeatButtons() {
-  const seatButtons = seatSelector.getElementsByTagName('label');
-  for (let i = 0; i < seatButtons.length; i++) {
-    seatButtons[i].classList.remove('Disabled');
   }
 }
 
@@ -137,29 +94,6 @@ function isPostAreaEmpty(postArea) {
   return posts.length === 0;
 }
 
-function leaveRide(e) {
-  if (e.target.classList.contains('btn')) {
-    const button = e.target;
-
-    const postElement = getPostElementFromButton(button);
-    const post = getPostById(allPosts, getPostElementId(postElement));
-
-    post.ride.seatsOccupied -= numPassengers;
-    post.ride.members = post.ride.members.filter((member) => {
-      member !== getLoggedInUser()
-    });
-
-    updateRideAJAX(post.ride);
-  }
-}
-
-function enableSeatButtonsIfNoJoined() {
-  if (isPostAreaEmpty(joinedPostArea)) {
-    enableSeatButtons();
-  }
-}
-
-
 /* Remove post from the array */
 function removePostById(posts, postNumber) {
   for (let i = 0; i < posts.length; i++) {
@@ -168,37 +102,6 @@ function removePostById(posts, postNumber) {
        return
     }
   }
-}
-
-function joinRide(e) {
-  if (e.target.classList.contains('btn')) {
-    const button = e.target;
-
-    const postElement = getPostElementFromButton(button);
-    const post = getPostById(allPosts, getPostElementId(postElement));
-
-    /* Calculate seats remaining */
-    const newSeatsAvailable = calculateNewSeatsAvailable2(post.ride);
-
-    if (newSeatsAvailable < 0) {
-      alert('Could not join ride. Not enough available seats.')
-      return
-    }
-
-    // update ride
-    post.ride.seatsOccupied += numPassengers;
-    post.ride.members.push(getLoggedInUser());
-
-    updateRideAJAX(post.ride);
-  }
-}
-
-function updateSeatCountOnJoin(ride) {
-  ride.seatsOccupied += numPassengers;
-}
-function calculateNewSeatsAvailable2(ride) {
-  const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
-  return seatsAvailable - numPassengers;
 }
 
 function updateTimer(hours, minutes, seconds) {
@@ -240,8 +143,7 @@ function updateTimerDOM() {
 }
 
 function updateEmptyAlerts() {
-  isPostAreaEmpty(joinedPostArea) ? $('#alert-joined').show() : $('#alert-joined').hide();
-  isPostAreaEmpty(otherPostArea) ? $('#alert-other').show() : $('#alert-other').hide();
+  isPostAreaEmpty(ownPostArea) ? $('#alert-own').show() : $('#alert-own').hide();
 }
 
 function timerExpired(timerObj) {
@@ -293,39 +195,12 @@ function calculateTimeToExpiry(ride) {
   return { 'hourString': hourString, 'minuteString': minuteString, 'secondString': secondString };
 }
 
-function getUserAJAX(owner) {
-  const url = '/users/' + owner;
-
-  return fetch(url)
-  .then((res) => {
-    if (res.status === 200) {
-      return res.json()
-    } else {
-      alert('Could not find user');
-    }
-  });
-}
-
 /* Create new post, add it to the DOM */
 function createPost(newPost) {
   const ride = newPost.ride;
 
-  let postArea;
-  let postMarkup;
-  //
-  // getUserAJAX(ride.owner).
-  // then((user) => {
-  //   console.log(user);
-  // })
-
-  if (ride.members.includes(loggedInUser)) {
-    postArea = joinedPostArea;
-    postMarkup = getJoinedPostMarkup(ride);
-  }
-  else {
-    postArea = otherPostArea;
-    postMarkup = getOtherPostMarkup(ride);
-  }
+  const postArea = ownPostArea;
+  const postMarkup = getOwnPostMarkup(ride);
 
   const postContainer = createPostContainer(newPost.postNumber);
   postContainer.innerHTML = postMarkup;
@@ -397,21 +272,6 @@ function updateSeatSelector() {
   isPostAreaEmpty(joinedPostArea) ? enableSeatButtons() : disableSeatButtons();
 }
 
-/*
-1) get logged getloggedusername
-2) get user info based on 1)
-3) get all search ride queries from db
-4)
-
-for creation of every post
-1) get User object from username
-2) get google maps API distance between points
-3) then only do you create the mark up and
-return this Promise
-
-Based on above Promise, insert post onto DOM
-
-*/
 /*** AJAX Calls ***/
 function createAllPosts() {
   const url = '/rides';
@@ -425,10 +285,11 @@ function createAllPosts() {
   })
   .then((rides) => {
     for (let i = 0; i < rides.length; i++) {
-      const newPost = new Post(rides[i]);
-      createPost(newPost);
+      if (rides[i].owner === getLoggedInUser()) {
+        const newPost = new Post(rides[i]);
+        createPost(newPost);
+      }
     }
-    updateSeatSelector();
     updateEmptyAlerts();
   }).catch((error) => {
       console.log(error)
@@ -483,51 +344,8 @@ function removeRideAJAX(ride) {
       console.log(error)
   })
 }
-function getJoinedPostMarkup(ride) {
-  const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
 
-  const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
-
-  const expiryTimeString = new Date(ride.departureTime).toLocaleString("en-US").split(', ')[1];
-  const postMarkup = `
-      <div class="card">
-      <div class="card-header bg-default address">
-        <div class="address">
-          <h5><strong>Starting Point:</strong> ${ride.origin}</h5>
-          <h5><strong>Destination:</strong> ${ride.destination}</h5>
-        </div>
-      </div>
-      <div class="card-body shadow-sm bg-white rounded">
-      <div class="post-container row ">
-        <div class="col-md-2 img-container">
-          <img class="profilePic img-fluid rounded" src="/img/profilepic.jpeg">
-        </div>
-        <div class="col-md-5 text-container">
-          <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
-          <strong> Name:</strong> Bob <br>
-          <strong>Time to call cab: </strong> ${expiryTimeString} <br>
-          <div class="distOrigin">
-            <strong>Distance from origin: </strong> 24 km km<br>
-          </div>
-          <div class="distDest">
-            <strong>Distance from destination: </strong>$ 24 km km <br>
-          </div>
-          <strong>Phone Number</strong>: 911
-        </div><!--post text container -->
-        <div class="col-md-4 third-container">
-            <div class="timer">
-              <h1> ${hourString}:${minuteString}:${secondString}</h1>
-            </div>
-            <button class="btn btn-block btn-danger btn-leave"> Leave </button>
-          </div>
-        </div> <!--post container -->
-        </div> <!--card-body-->
-      </div> <!--card -->
-    `
-    return postMarkup;
-}
-
-function getOtherPostMarkup(ride) {
+function getOwnPostMarkup(ride) {
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
 
   const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
@@ -548,21 +366,17 @@ function getOtherPostMarkup(ride) {
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
-          <strong> Name:</strong> Bob <br>
+          <strong> Name:</strong><span id="people-joined"> </span><br>
           <strong>Time to call cab: </strong> ${expiryTimeString} <br>
-          <div class="distOrigin">
-            <strong>Distance from origin: </strong> 24 km km<br>
+          <div class="dist">
+            <strong>Distance: </strong> 24 km km<br>
           </div>
-          <div class="distDest">
-            <strong>Distance from destination: </strong>$ 24 km km <br>
-          </div>
-          <strong>Phone Number</strong>: 911
         </div><!--post text container -->
         <div class="col-md-4 third-container">
             <div class="timer">
               <h1> ${hourString}:${minuteString}:${secondString}</h1>
             </div>
-            <button class="btn btn-block btn-success btn-join"> Join </button>
+            <button class="btn btn-block btn-danger btn-remove"> Remove </button>
           </div>
         </div> <!--post container -->
         </div> <!--card-body-->

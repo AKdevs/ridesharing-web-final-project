@@ -19,13 +19,13 @@ router.get('/', function(req, res, next) {
 
 
 /*router.get('/login', function(req, res, next) {
-    
+
   res.render('login', {title:'Login'});
 });*/
 
 
 router.get('/logout', function(req, res, next) {
-    
+
   if (req.session) {
     // delete session object
     req.session.destroy(function(err) {
@@ -52,7 +52,7 @@ function requiresLogin(req, res, next) {
 
 
 router.get('/logged',  function(req, res, next) {
-    
+
     if(!req.user || !req.session){
         var err = new Error('You must be logged in to view this page.');
         err.status = 401;
@@ -69,6 +69,9 @@ router.get('/logged',  function(req, res, next) {
         });
 });
 
+router.get('/getloggedusername', function(req, res, next){
+    res.send(req.user.username);
+})
 // router.get('/users/:username', function(req, res, next) {
 //     const username = req.params.username;
 //     console.log("in get method for user")
@@ -140,13 +143,13 @@ router.post('/logged', function(req, res, next) {
             else{console.log("error in updating info");}
 
             });
-            
+
         }
 
-        
-        
+
+
     });
-    
+
 })
 
 
@@ -158,7 +161,7 @@ router.post('/logged', function(req, res, next) {
 })*/
 
 
-router.get('/login',function(req,res){   
+router.get('/login',function(req,res){
     if(req.user){
         res.location('/users/logged');
         res.redirect('/users/logged');
@@ -189,27 +192,27 @@ router.get('/register',function(req,res){
 router.post('/login',
   passport.authenticate('local',{failureRedirect:'/users/login', failureFlash: 'Invalid username or password'}),
   function(req, res) {
-    
+
     var errors = req.validationErrors();
-    
+
     if(errors){
         res.render('login', {
             errors: errors
         });
     }
-    
-    
-    
+
+
+
     else if(req.body.username === 'admin'){
         return res.redirect('/admin/logged');
     }
     else{
         req.flash('success', 'You are now logged in');
         return res.redirect('/users/logged');
-        
+
     }
 
-    
+
 })
 
 
@@ -239,7 +242,7 @@ passport.use("login", new LocalStrategy(function(username, password, done){
                 console.log("dddddddddddddd")
                 return res.redirect('/admin/logged');
             }
-            
+
             return res.redirect('/users/logged');
         })
     })(req, res, next)
@@ -279,7 +282,7 @@ passport.use(new LocalStrategy(function(username, password, done){
 }));
 
 router.post('/register', upload.single('profileimage') ,function(req, res, next) {
-    
+
   var firstname = req.body.firstname;
   var lastname = req.body.lastname;
   var phone = req.body.phone;
@@ -288,7 +291,7 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
   var password = req.body.password;
   var password2 = req.body.password2;
 
-    
+
   if(req.file){
   	console.log('Uploading File...');
   	var profileimage = req.file.filename;
@@ -296,13 +299,13 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
   	console.log('No File Uploaded...');
   	var profileimage = 'noimage.jpg';
   }
-    
+
   /*if(username==='admin'){
     var err = new Error('You cant register as admin');
     err.status = 401;
     return next(err);
   }*/
-    
+
   User.find({ 'username': username,'email': email }, function(err, user) {
 
         if (err) {
@@ -315,10 +318,10 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
         if (user.length!=0) {
           if(user[0].username){
             req.flash('failure', 'Username already exists');
-            console.log('Username already exists, username: ' + username);                         
+            console.log('Username already exists, username: ' + username);
              }else{
                 req.flash('failure', 'email already exists');
-                console.log('EMAIL already exists, email: ' + email);      
+                console.log('EMAIL already exists, email: ' + email);
              }
              var err = new Error('Username already exists');
              err.status = 401;
@@ -326,14 +329,14 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
              res.render('register', {
                 errors: req.flash('failure')}
              );
-            
+
 
         }
-      
+
       else{
-          
-          
-          
+
+
+
             // Form Validator
           req.checkBody('firstname','First Name field is required').notEmpty();
           req.checkBody('lastname','Last Name field is required').notEmpty();
@@ -376,19 +379,19 @@ router.post('/register', upload.single('profileimage') ,function(req, res, next)
             res.location('/users/login');
             res.redirect('/users/login');
             }
-          
-          
-          
-          
-          
-          
-          
-          
+
+
+
+
+
+
+
+
       }
    });
 
-        
-    
+
+
 
 });
 

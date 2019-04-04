@@ -1,11 +1,27 @@
 var express = require('express');
 var router = express.Router();
+var SSE = require('express-sse');
 
 const { ObjectID } = require('mongodb')
 const { mongoose } = require('mongoose');
 
 const { Ride } = require('../models/rides');
 const { RideSearch } = require('../models/rides_search');
+
+var sse = new SSE();
+
+router.get('/stream', sse.init);
+
+/* Listen for database changes */
+Ride.watch({fullDocument: 'updateLookup'}).
+    on('change', data => {
+      console.log(data);
+      sse.send(data);
+});
+
+router.get('/own', function(req, res, next) {
+  res.sendfile('your_rides.html');
+});
 
 /* GET users listing. */
 router.get('/search', function(req, res, next) {
@@ -21,11 +37,6 @@ router.get('/view', function(req, res, next) {
   res.sendfile('./public/view_rides.html');
 });
 
-
-router.get('/getloggedusername', function(req, res, next){
-    res.send(req.user.username);
-})
-           
 router.post('/create', function(req, res, next) {
   const ride = new Ride({
     owner: req.user.username,
@@ -49,7 +60,7 @@ router.post('/search', function(req, res, next) {
   console.log("POST/SEARCH HERE CALL");
   console.log(req.user.username);
   console.log(req.body.origin);
-  console.log(req.body.destination); 
+  console.log(req.body.destination);
   console.log(req.body.seatsOccupied);
   const ride = new RideSearch({
     origin: req.body.origin,
