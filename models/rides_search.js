@@ -18,7 +18,8 @@ const RideSearchSchema = new mongoose.Schema({
     },
     owner: {
         type: String
-    }
+    },
+    time : { type : Date, default: Date.now }
 });
 
 const RideSearch = mongoose.model('RideSearch', RideSearchSchema);

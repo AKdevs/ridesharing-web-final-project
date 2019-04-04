@@ -129,6 +129,7 @@ function getSearchQueryAJAX() {
   })
 }
 
+<<<<<<< HEAD
 function deleteSearchQueryAJAX(searchQuery) {
   const url = '/rides/ridesearch/' + searchQuery._id;
 
@@ -151,6 +152,19 @@ function deleteSearchQueryAJAX(searchQuery) {
       console.log(error)
   })
 }
+=======
+//deleteSearchQueryAJAX(searchQuery) {
+  // const url = '/rides/ridesearch/' + searchQuery._id;
+  //
+  // const request = {
+  //
+  // }
+  //
+  // fetch(url, request)
+  // .then
+
+//}
+>>>>>>> 1738195b51fecd9ab2fdb8b3fe14538cef9b57af
 
 joinedPostArea.addEventListener('click', leaveRide);
 otherPostArea.addEventListener('click', joinRide);
@@ -536,7 +550,7 @@ function getJoinedPostMarkup(ride) {
       <div class="card-body shadow-sm bg-white rounded">
       <div class="post-container row ">
         <div class="col-md-2 img-container">
-          <img class="profilePic img-fluid rounded" src="/img/profilepic.jpeg">
+          <img class="profilePic img-fluid rounded" src="/img/profilepic">
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
@@ -580,7 +594,7 @@ function getOtherPostMarkup(ride) {
       <div class="card-body shadow-sm bg-white rounded">
       <div class="post-container row ">
         <div class="col-md-2 img-container">
-          <img class="profilePic img-fluid rounded" src="img/profilepic.jpeg">
+          <img class="profilePic img-fluid rounded" src="img/profilepic">
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
