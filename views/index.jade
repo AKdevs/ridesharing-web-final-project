@@ -17,6 +17,7 @@ html(lang='en')
         a.navbar-brand(data-value='team', href='#team') Team
         if user
           a.btn.btn-primary(href='/users/logout') Logout
+          a.btn.btn-primary(href='/users/logged') My Profile
         else
           a.btn.btn-primary(href='/users/register') Register
           a.btn.btn-outline-secondary.btn-brand(data-value='login', href='/users/login') Login
