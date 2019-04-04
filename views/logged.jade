@@ -10,10 +10,10 @@ html(lang='en')
   body
     nav.navbar.navbar-light.bg-light.static-top
       .container
-        a.navbar-brand(href='/rides/search') Search for a Ride
-        a.navbar-brand(href='/rides/create') Create  a Ride
-        a.btn.btn-primary(href='/users/logout') Logout
-    h1
+          a.btn.btn-primary.btn-outline-secondary(href='/rides/search') Search for a Ride
+          a.btn.btn-primary.btn-outline-secondary(href='/rides/create') Create  a Ride
+          a.btn.btn-primary(href='/users/logout') Logout
+    h1.shift
       center Hi Welcome back, #{user.firstname} #{user.lastname}
     br
     br
@@ -25,7 +25,7 @@ html(lang='en')
         a
           i.fa.fa-pencil-square-o(aria-hidden='true')
     form(action='', method='post')
-      .containerText
+      .containerTextleft
         #firstnameelement.form-control
           label.header First Name :
           input#firstname-field.form-control(type='text', name='First Name', value='#{user.firstname}')
@@ -35,7 +35,7 @@ html(lang='en')
         #usernameelement.form-control
           label.header User Name :
           input#username-field.form-control(type='text', name='User Name', value='#{user.username}', readonly='true')
-      .containerText
+      .containerTextright
         #phoneelement.form-control
           label.header Phone :
           input#phone-field.form-control(type='text', name='Phone', value='#{user.phone}')

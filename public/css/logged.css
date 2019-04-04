@@ -9,9 +9,19 @@
 	float: left;
 }
 
-.containerText{
+.containerTextleft{
+	 float: left; 
+	 margin-left: 400px;
+     margin-bottom: 5px;
+}
+
+.containerTextright{
 	 float: left; 
 	 margin-left: 50px;
+}
+
+.form-control{
+    margin-bottom: 5px;
 }
 
 .updateButton {
@@ -21,4 +31,10 @@
   margin-left: -60px;
   margin-top: 25px;
   margin-bottom: 50px;
+}
+
+
+h1.shift{
+    
+    margin-top:15px;
 }
