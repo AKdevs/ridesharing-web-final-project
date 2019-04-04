@@ -29,58 +29,89 @@ class theRides {
 
 
 const locationInfo = document.querySelector('#location_info');
-const origin = locationInfo.querySelector('#starting').textContent;
-const destination = locationInfo.querySelector('#ending').textContent;
 
 const createRide = locationInfo.querySelector('#ticket_info');
 
 const carSelect = document.querySelector('#select_uber');
 const seatsSelect = document.querySelector('#select_seats');
 const submitBtn = document.querySelector('#create_button');
-const changeInfo = document.querySelector('#change_info');
 const viewMyRide = document.querySelector('#viewMyRide');
 
 let car;
 let seats;
-let theStart = "10 Kings College Street, Toronto";
-let theEnd = "122 St.George Street, Toronto";
 let theDate;
 let theTime;
+
+const inputFieldOne = document.querySelector('#inputOrigin2');
+const inputFieldTwo = document.querySelector('#inputDestination2');
+
+let theStart = inputFieldOne.value;
+let theEnd = inputFieldTwo.value;
 
 /* Event listeners for button submit and button click */
 
 carSelect.addEventListener('click', selectCar);
 seatsSelect.addEventListener('click', selectSeats);
-submitBtn.addEventListener('click', addTicket);
-changeInfo.addEventListener('click',changeInfoPage);
 viewMyRide.addEventListener('click', viewTheRides);
+
+inputFieldOne.addEventListener("keyup", function(event) {
+  event.preventDefault();
+  if (event.keyCode === 13) {
+    checkInputs2(event);
+  }
+})
+inputFieldTwo.addEventListener("keyup", function(event) {
+  event.preventDefault();
+  if (event.keyCode === 13) {
+    checkInputs2(event);
+  }
+})
 
 /*-----------------------------------------------------------*/
 
 window.onload = function () {
 	
-    var url = document.location.href,
-        params = url.split('?')[1].split('&'),
-        data = {}, tmp;
-    for (var i = 0, l = params.length; i < l; i++) {
-         tmp = params[i].split('=');
-         data[tmp[0]] = tmp[1];
-    }
-	
-	const rcvd = data.info.split('__');
-	
-	theStart = decodeURIComponent(rcvd[0]);
-	theEnd = decodeURIComponent(rcvd[1]);
-	
-	document.querySelector('#starting').innerText = "";
-    document.querySelector('#ending').innerText= "";	
-	
-    document.querySelector('#starting').innerText = theStart;
-    document.querySelector('#ending').innerText = theEnd;
-	
 	calendarInitialization();
 	initMap();
-	findTheRoute();
+	initialize();
+	initializeTwo();
+	
+}
+
+
+function checkInputs2(e){
+	const startingValue = document.querySelector('#inputOrigin2').value;
+	const endingValue = document.querySelector('#inputDestination2').value;
+		
+	const emptyError = document.querySelector('#create_fail');
+	const emptyError1 = document.querySelector('#emptyField1');
+	const emptyError2 = document.querySelector('#emptyField2');
+	
+	
+	if(startingValue == '' && endingValue == ''){
+		emptyError.style.display = 'block';
+		emptyError1.style.display = 'block';
+		emptyError2.style.display = 'block';
+	}
+	else if(startingValue == ''){
+		emptyError.style.display = 'block';
+		emptyError1.style.display = 'block';
+		emptyError2.style.display = 'none';
+	}
+	else if(endingValue == ''){
+		emptyError.style.display = 'block';
+		emptyError1.style.display = 'none';
+		emptyError2.style.display = 'block';
+	}
+	else{
+		emptyError.style.display = 'none';
+		emptyError1.style.display = 'none';
+		emptyError2.style.display = 'none';
+		
+		if(e.type === "keyup"){
+		   findTheRoute();
+		}
+	}
 	
 }
 
@@ -120,8 +151,47 @@ function selectCar(e) {
 				theParent.children[i].classList = 'btn btn-primary';
 			}
 		}
+		
+		
+		const theSeatInfo = document.querySelector('#select_seats')
+		if(e.target.id == "uberxl"){
+			theSeatInfo.innerHTML = '<p>Select total number of seats.</p><button id="one" type="button" class="btn btn-primary">1</button><button id="two" type="button" class="btn btn-primary">2</button><button id="three" type="button" class="btn btn-primary">3</button><button id="four" type="button" class="btn btn-primary">4</button><button id="four" type="button" class="btn btn-primary">5</button>'
+		}
+		else if(e.target.id == "uberx"){
+			theSeatInfo.innerHTML = '<p>Select total number of seats.</p><button id="one" type="button" class="btn btn-primary">1</button><button id="two" type="button" class="btn btn-primary">2</button><button id="three" type="button" class="btn btn-primary">3</button>'
+
+		}
+	    else if(e.target.id == "uberpool"){
+			theSeatInfo.innerHTML = ''
+		}
+		
+		
 	}
 	
+}
+
+
+function initialize() {
+      var input = document.getElementById('inputOrigin2');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+
+        autocomplete.bindTo('bounds', map);
+        autocomplete.setFields(
+            ['address_components', 'geometry', 'icon', 'name']);
+        google.maps.event.addListener(autocomplete, 'place_changed', function(){
+         var place = autocomplete.getPlace();
+      })
+}
+
+function initializeTwo() {
+      var inputTwo = document.getElementById('inputDestination2');
+      var autocompleteTwo = new google.maps.places.Autocomplete(inputTwo);
+        autocompleteTwo.bindTo('bounds', map);
+        autocompleteTwo.setFields(
+            ['address_components', 'geometry', 'icon', 'name']);
+      google.maps.event.addListener(autocompleteTwo, 'place_changed', function(){
+         var placeTwo = autocompleteTwo.getPlace();
+      })
 }
 
 // Changes book patron information, and calls 
@@ -138,6 +208,7 @@ function selectSeats(e) {
 				theParent.children[i].classList = 'btn btn-primary';
 			}
 		}
+		
 	}
 	
 
@@ -159,7 +230,7 @@ function create(){
     
 	let hour = +theTime.substr(0, 2);
 	let theHour = (hour % 12)||12;
-	theTime = theHour + theTime.substr(2, 3) + isAmisPm;
+	theTime = theHour + theTime.stubstr(2, 3) + isAmisPm;
 	
 
 	//var times = new Date();
@@ -173,7 +244,7 @@ function create(){
 	//}
 	console.log(theTime);
 	console.log(theDate);
-	if(theDate == ""| typeof theStart === 'undefined' || theStart == "" || theEnd == "" || typeof theEnd === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined' || typeof theDate === 'undefined' || typeof theTime === 'undefined'){
+	if(theDate == ""|| typeof theStart === 'undefined' || theStart == "" || theEnd == "" || typeof theEnd === 'undefined' || typeof car === 'undefined' || typeof seats === 'undefined' || typeof theDate === 'undefined' || typeof theTime === 'undefined'){
 		errorMsg.style.display = "block";
 		scroll(0,0);
 	}
@@ -184,10 +255,6 @@ function create(){
 		displayTicket();
 	}
 	
-}
-
-function changeInfoPage(){
-	document.location.href = 'main_page.html';
 }
 
 function viewTheRides(){
@@ -210,47 +277,7 @@ function displayTicket(){
 	modalContent.appendChild(ticketContent);
 	
 }
-//request.user.username in route
-function addTicket() {
-    const url = '/rides/create';
-    // The data we are going to send in our request
-    let data = {
-		members: [],
-        owner: "testName",
-		carType: car,
-        origin: theStart,
-		destination: theEnd,
-        seatsOccupied: seats,
-		departureTime: new Date(),
-		cost: 100
-    }
-    // Create our request constructor with all the parameters we need
-    const request = new Request(url, {
-        method: 'post', 
-        body: JSON.stringify(data),
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        },
-    });
-    fetch(request)
-    .then(function(res) {
-        // Handle response we get from the API
-        // Usually check the error codes to see what happened
-        if (res.status === 200) {
-            console.log('Added student')
-			create();
-           
-        } else {
-            console.log('Could not add student.');
-     
-        }
-        console.log(res)
-        
-    }).catch((error) => {
-        console.log(error)
-    })
-}
+
 
 var map;
 var theCoord = {lat: 43.6532, lng: -79.3832}
