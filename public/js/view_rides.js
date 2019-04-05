@@ -150,7 +150,6 @@ function deleteSearchQueryAJAX(searchQuery) {
 
   fetch(request)
   .then((res) => {
-      console.log("MAN")
       if (res.status === 200) {
          return res.json()
      } else {
@@ -158,7 +157,6 @@ function deleteSearchQueryAJAX(searchQuery) {
      }
   })
   .then((json) => {
-    console.log(json);
   }).catch((error) => {
       console.log(error)
   })
@@ -528,8 +526,6 @@ function getJoinedPostMarkup(ride) {
   const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
 
   const expiryTimeString = new Date(ride.departureTime).toLocaleString("en-US").split(', ')[1];
-  console.log(ride.departureTime)
-  console.log(expiryTimeString);
   const postMarkup = `
       <div class="card">
       <div class="card-header bg-default address">
@@ -567,6 +563,8 @@ function getJoinedPostMarkup(ride) {
 
 function getOtherPostMarkup(ride) {
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
+  console.log(ride.cost);
+  console.log(ride.seatsOccupied);
   const splitcost = (ride.cost / ride.seatsOccupied).toFixed(2);
 
   const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
@@ -576,7 +574,7 @@ function getOtherPostMarkup(ride) {
       <div class="card">
       <div class="card-header bg-default address">
         <div class="address">
-          <h5><strong>Starting Point:</strong> ${ride.origin}</h5>
+          <h5><strong>Starting Point:</strong > ${ride.origin}</h5>
           <h5><strong>Destination:</strong> ${ride.destination}</h5>
         </div>
       </div>
