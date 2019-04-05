@@ -2,11 +2,14 @@ How to use application:
 
 When you load the website, you will be greeted by the home page which has the sections: about, team, and UI screenshots to show ease of use. At the top there is a navbar which allows you to go to the register page or the login page.
 
-Once at the register page, you will be asked to enter your infomation: first name, lastname, phone number, email, username, password and confirm password. If any of the input fields are mistyped, mismatched, user already exists or any other issue, the issues will be reported back to the user once they click enter.
+Once at the register page, you will be asked to enter your infomation: first name, lastname, phone number, email, username, password and confirm password. If any of the input fields are mistyped, mismatched, user already exists or any other issue, the issues will be reported back to the user once they click enter. Your username is unique, and a user won't be able to register if a username has been previously taken.
 
-Please note, mock users have been created for testing purposes. Their information is as follows:
+Please note, mock users and mock rides have been created for testing purposes. 
 
-The users have been created with the password "qwerty".
+
+Users information is as follows:
+
+These sample users have been created with the password "qwerty".
 Please note, user names are case sensitive.
 
 Full Name - Username - Email
@@ -31,7 +34,7 @@ From the /users/logged page the navbar has the following three sections: search 
 Search rides:
 From this page you will be greeted with a google map of GTA, and you can enter your starting point and destination point. Both starting and destination point inputs have auto fill using the Google API. Once both points are set, the map will show the route between points A to B on the map. These points are displayed using a marker. Along with the distance in kilometers and the total ride duration in minutes. The user can now select the number of rides they need and click, 'view available rides'.
 
-Once the user has clicked view available rides, the app will direct you to /rides/view. which will display which route you have selected and how many passengers. This page also displays the currently joined and the available rides. currently joined are rides, that you have currently joined and available rides are all other rides in the area of your choosing. In the available rides section, you can see the number of available seats, name of ride owner, phone number, time when uber/ cab is called, distance from your origin and distance from your destination. If this is a ride you want to share, then click join, and you will be immediately joined into their ride and this will be seen as their user card jumps from avaiable rides to currently joined. If you wish to leave the ride you can do that as well.
+Once the user has clicked view available rides, the app will direct you to /rides/view. which will display which route you have selected and how many passengers you selected. This page also displays the currently joined and the available rides. Currently joined are rides, that you have currently joined and available rides are all other rides in the area of your choosing. In the available rides section, you can see the number of available seats, name of ride owner, phone number, time when uber/ cab is called, distance from your origin and distance from your destination. If this is a ride you want to share, then click join, and you will be immediately joined into their ride and this will be seen as their user card jumps from avaiable rides to currently joined. If you wish to leave the ride you can do that as well by clicking the leave button.
 
 Create a ride:
 If the user wishes to create a ride, they are presented with an interactive map that they can use to learn more about their ride. The user is prompted to enter their origin and destination. As the user enters input text, they are presented with autocomplete options to choose from.  Once they press "Enter", they are presented with their route and endpoints on the map. The distance and the ride duration will be shown on the page as well. These functions use Google Maps API. For creating a ride, the user also needs to add the date and time for their ride, the choice of uberX, uberXL or uberpool and the total number of seats. Once the other fields are entered and selected the user can click create and their ride is now stored in the database. Other users can now see their post. You will be redirected to the 'your rides' page where you can see your post and remove if you no longer need the service.

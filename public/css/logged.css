@@ -6,12 +6,13 @@
 }
 
 .pic-container.pic-medium.pic-circle{
+    margin-left: 50px;
 	float: left;
 }
 
 .containerTextleft{
 	 float: left; 
-	 margin-left: 10px;
+	 margin-left: 100px;
      margin-bottom: 5px;
 }
 
