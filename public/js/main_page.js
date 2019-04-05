@@ -43,13 +43,13 @@ window.onload = function () {
 function checkInputs(e){
 	const startingValue = document.querySelector('#inputOrigin').value;
 	const endingValue = document.querySelector('#inputDestination').value;
-		
+
 	const emptyError = document.querySelector('#create_fail');
 	const emptyError1 = document.querySelector('#emptyField1');
 	const emptyError2 = document.querySelector('#emptyField2');
 	const distTimeInfos = document.querySelector('#distTimeInfo');
-	
-	
+
+
 	if(startingValue == '' && endingValue == ''){
 		emptyError.style.display = 'block';
 		emptyError1.style.display = 'block';
@@ -72,7 +72,7 @@ function checkInputs(e){
 		emptyError.style.display = 'none';
 		emptyError1.style.display = 'none';
 		emptyError2.style.display = 'none';
-		
+
 		if(e.target.id == "viewRideBtn"){
 			searchRidePage();
 		}
@@ -81,18 +81,18 @@ function checkInputs(e){
 		   findTheRoute();
 		}
 	}
-	
+
 }
 
 
 function selectSeats(e) {
 	e.preventDefault();
-    
+
 	if(e.target.type == "button"){
-        
+
 		seats = e.target.innerText;
 		e.target.classList = 'btn btn-success'
-		
+
 		const theParent = e.target.parentElement;
 		for (let i = 0; i < theParent.children.length; i++) {
 			if(theParent.children[i].id != e.target.id && theParent.children[i].type == "button"){
@@ -100,9 +100,9 @@ function selectSeats(e) {
 			}
 		}
 	}
-    
-    
-	
+
+
+
 
 }
 
@@ -110,7 +110,7 @@ function selectSeats(e) {
 function searchRidePage(){
 	let origin = document.querySelector('#inputOrigin').value;
 	let destination = document.querySelector('#inputDestination').value;
-    
+
     var url = '/rides/search';
     // The data we are going to send in our request
     let data = {
@@ -120,7 +120,7 @@ function searchRidePage(){
     }
     // Create our request constructor with all the parameters we need
     const request = new Request(url, {
-        method: 'post', 
+        method: 'post',
         body: JSON.stringify(data),
         headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -133,19 +133,17 @@ function searchRidePage(){
         // Usually check the error codes to see what happened
         if (res.status === 200) {
             console.log('view rides now')
-			document.location.href = '/rides/view'
-           
+			      document.location.href = '/rides/view'
+
         } else {
             console.log('Could not add ride.');
-     
+
         }
         console.log(res)
-        
+
     }).catch((error) => {
         console.log(error)
     })
-	document.location.href = '/rides/view';
-    
 }
 
 
