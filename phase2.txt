@@ -25,3 +25,55 @@ From all the rides pages, you can go back to your profile page and change your p
 
 If the user is an Admin user:
 Once the admin user is logged in, the admin can see users of the system and delete them if they wish to do so. all deleted users are taken off the system/ database and can no longer login or create/join rides.
+
+Overview of routes:
+
+GET / : get main page 
+localhost:3000/
+
+redirects to login page
+
+GET /logout : logout the currently logged user
+localhost:3000/logout
+
+if the user is currently loggin in, i.e. the request has a current session, destroy the session and log them out. redirect app back to home page.
+
+GET /logged : logged in user page
+localhost:3000/logged
+
+Check if the user is logged in, if the user is logged in then get the username from the req session username and send back the params of the user and send back to logged.jade so that it can be shown on the client side. 
+
+POST /logged : logged in user page
+localhost:3000/logged 
+
+On update of user info, new infomation is posted to this function and all changed fields are sent to the database and user object is updated.
+
+GET /getloggedusername : 
+localhost:3000/getloggedusername
+
+// TODO : add 
+
+GET /search/:username : search for a user by username
+localhost:3000/search/:username 
+
+From the param username entered, find user by username and return the user object from database
+
+GET /login: login page
+localhost:3000/login
+
+If user is already logged in, redirect to the logged page, if the user is not logged in, redirect to login page.
+
+POST /login: login page
+localhost:3000/login
+
+On login, check if the credentials are matching and correct. If the regular user is correct then redirect to logged page for a normal user, if the entered user is an admin, then redirect to admin page. 
+
+GET /register : register new user page
+localhost:3000/register
+
+If user is already logged in, redirect to the logged page, if the user is not logged in, redirect to the logged page. 
+
+POST /register : register new user
+localhost:3000/register
+
+posting entered credentials of the new user, checks if the user does not already exist, and if no other errors then user is created in database and then redirect to login page.   
