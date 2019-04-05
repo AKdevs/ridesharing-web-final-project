@@ -1,22 +1,22 @@
-How to use application: 
+How to use application:
 
 When you load the website, you will be greeted by the home page which has the sections: about, team, and UI screenshots to show ease of use. At the top there is a navbar which allows you to go to the register page or the login page.
 
-Once at the register page, you will be asked to enter your infomation: first name, lastname, phone number, email, username, password and confirm password. If any of the input fields are mistyped, mismatched, user already exists or any other issue, the issues will be reported back to the user once they click enter. 
+Once at the register page, you will be asked to enter your infomation: first name, lastname, phone number, email, username, password and confirm password. If any of the input fields are mistyped, mismatched, user already exists or any other issue, the issues will be reported back to the user once they click enter.
 
-On succussful registration, you will be asked to enter your credentials and login. 
-If you are already a user, click the login button from the navbar and you can login. 
+On succussful registration, you will be asked to enter your credentials and login.
+If you are already a user, click the login button from the navbar and you can login.
 
-Once at the login page, you will be asked to enter your username and password, if the username and password do not match the account or if the username does not exist then an error message will be displayed to the user. 
+Once at the login page, you will be asked to enter your username and password, if the username and password do not match the account or if the username does not exist then an error message will be displayed to the user.
 
-On successful login, for a non admin user. You will see your information that you entered during registration. From this page you can change your information and on update this change will be persisted to the database. all fields except for username are changable. 
+On successful login, for a non admin user. You will see your information that you entered during registration. From this page you can change your information and on update this change will be persisted to the database. all fields except for username are changable.
 
-From the /users/logged page the navbar has the following three sections: search rides, create rides, your rides. 
+From the /users/logged page the navbar has the following three sections: search rides, create rides, your rides.
 
 Search rides:
 From this page you will be greeted with a google map of GTA, and you can enter your starting point and destination point. Both starting and destination point inputs have auto fill using the Google API. Once both points are set, the map will show the route between A to B on the map. along with the distance in kilometers and the total ride duration in minutes. The user can now select the number of rides they need and click, 'view available rides'.
 
-Once the user has clicked view available rides, the app will direct you to /rides/view. which will display which route you have selected and how many passengers. This page also displays the currently joined and the available rides. currently joined are rides, that you have currently joined and available rides are all other rides in the area of your choosing. In the available rides section, you can see the number of available seats, name of ride owner, phone number, time when uber/ cab is called, distance from your origin and distance from your destination. If this is a ride you want to share, then click join, and you will be immediately joined into their ride and this will be seen as their user card jumps from avaiable rides to currently joined. If you wish to leave the ride you can do that as well. 
+Once the user has clicked view available rides, the app will direct you to /rides/view. which will display which route you have selected and how many passengers. This page also displays the currently joined and the available rides. currently joined are rides, that you have currently joined and available rides are all other rides in the area of your choosing. In the available rides section, you can see the number of available seats, name of ride owner, phone number, time when uber/ cab is called, distance from your origin and distance from your destination. If this is a ride you want to share, then click join, and you will be immediately joined into their ride and this will be seen as their user card jumps from avaiable rides to currently joined. If you wish to leave the ride you can do that as well.
 
 Create a ride:
 If the user wishes to create a ride then again the page is similar to the search for the where you can see the map and the start and end points are reflected back to the user by the map. For creating a ride, the user also needs to add the date and time for their ride, the choice of uberX, uberXL or uberpool and the total number of seats. Once the start and end points are entered the distance and the cost will be shown on the page. once the other fields are entered and selected the user can click create and their ride is now stored in the database and other users can see their post. You will be redirected to the 'your rides' page where you can see your post and remove if you no longer need the service.
@@ -26,9 +26,15 @@ From all the rides pages, you can go back to your profile page and change your p
 If the user is an Admin user:
 Once the admin user is logged in, the admin can see users of the system and delete them if they wish to do so. all deleted users are taken off the system/ database and can no longer login or create/join rides.
 
+View Rides:
+Depending on whether the user wants to create a ride or simply find one, there are two pages available for viewing rides. On the "Your Rides"
+page, the user can view and remove the rides they have created. They can see the number of people who have joined, and also the cost
+per person. When searching for a ride, the user will be redirected to a page that lists all rides available. On this page,
+the user can select or join whichever rides, and the cost will be updated to correspondingly.
+
 Overview of routes:
 
-GET / : get main page 
+GET / : get main page
 localhost:3000/
 
 redirects to login page
@@ -41,20 +47,20 @@ if the user is currently loggin in, i.e. the request has a current session, dest
 GET /logged : logged in user page
 localhost:3000/logged
 
-Check if the user is logged in, if the user is logged in then get the username from the req session username and send back the params of the user and send back to logged.jade so that it can be shown on the client side. 
+Check if the user is logged in, if the user is logged in then get the username from the req session username and send back the params of the user and send back to logged.jade so that it can be shown on the client side.
 
 POST /logged : logged in user page
-localhost:3000/logged 
+localhost:3000/logged
 
 On update of user info, new infomation is posted to this function and all changed fields are sent to the database and user object is updated.
 
-GET /getloggedusername : 
+GET /getloggedusername :
 localhost:3000/getloggedusername
 
-// TODO : add 
+// TODO : add
 
 GET /search/:username : search for a user by username
-localhost:3000/search/:username 
+localhost:3000/search/:username
 
 From the param username entered, find user by username and return the user object from database
 
@@ -66,14 +72,18 @@ If user is already logged in, redirect to the logged page, if the user is not lo
 POST /login: login page
 localhost:3000/login
 
-On login, check if the credentials are matching and correct. If the regular user is correct then redirect to logged page for a normal user, if the entered user is an admin, then redirect to admin page. 
+On login, check if the credentials are matching and correct. If the regular user is correct then redirect to logged page for a normal user, if the entered user is an admin, then redirect to admin page.
 
 GET /register : register new user page
 localhost:3000/register
 
-If user is already logged in, redirect to the logged page, if the user is not logged in, redirect to the logged page. 
+If user is already logged in, redirect to the logged page, if the user is not logged in, redirect to the logged page.
 
 POST /register : register new user
 localhost:3000/register
 
-posting entered credentials of the new user, checks if the user does not already exist, and if no other errors then user is created in database and then redirect to login page.   
+posting entered credentials of the new user, checks if the user does not already exist, and if no other errors then user is created in database and then redirect to login page.
+
+
+GET, POST, PUT, DELETE /rides
+These routes perform retrieval, creation, replacement, and removal of rides from the database. 
