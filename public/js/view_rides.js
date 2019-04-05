@@ -563,8 +563,6 @@ function getJoinedPostMarkup(ride) {
 
 function getOtherPostMarkup(ride) {
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
-  console.log(ride.cost);
-  console.log(ride.seatsOccupied);
   const splitcost = (ride.cost / ride.seatsOccupied).toFixed(2);
 
   const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
