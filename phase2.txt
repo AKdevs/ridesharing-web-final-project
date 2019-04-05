@@ -4,7 +4,20 @@ When you load the website, you will be greeted by the home page which has the se
 
 Once at the register page, you will be asked to enter your infomation: first name, lastname, phone number, email, username, password and confirm password. If any of the input fields are mistyped, mismatched, user already exists or any other issue, the issues will be reported back to the user once they click enter.
 
-Note: Mock data of users has been added in mockdata.txt file.
+Please note, mock users have been created for testing purposes. Their information is as follows:
+
+The users have been created with the password "qwerty".
+Please note, user names are case sensitive.
+
+Full Name - Username - Email
+
+James Smith - James - smith@hotmail.com
+Maria Garcia - Maria - maria@hotmail.com
+David John - David - john@hotmail.com
+Britney Lockhart - Britney - lockhart@hotmail.com
+Kevin Hart - Kevin - hart@hotmail.com
+Dave Al - Dave - al@hotmail.com
+Jennifer Lawrence - Jennifer - lawrence@hotmail.com
 
 On succussful registration, you will be asked to enter your credentials and login.
 If you are already a user, click the login button from the navbar and you can login.
