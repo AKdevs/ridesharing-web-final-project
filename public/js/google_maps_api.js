@@ -15,8 +15,7 @@ function findDistance(addr1, addr2) {
           resolve(finalRes);
         }
         else {
-          console.log("Could not find address");
-          reject(404);
+          reject("Could not find address");
         }
     });
   })
