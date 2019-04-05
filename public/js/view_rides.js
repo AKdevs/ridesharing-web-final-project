@@ -129,7 +129,6 @@ function getSearchQueryAJAX() {
 
     numSeats = searchQuery.seatsOccupied;
     numSeatsLabel.innerText = numSeats;
-    console.log("BRO")
 
     deleteSearchQueryAJAX(searchQuery);
   }).catch((error) => {
@@ -146,15 +145,20 @@ function deleteSearchQueryAJAX(searchQuery) {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
       },
+      body: JSON.stringify(searchQuery)
   });
 
   fetch(request)
   .then((res) => {
+      console.log("MAN")
       if (res.status === 200) {
          return res.json()
      } else {
           alert('Could not remove query')
      }
+  })
+  .then((json) => {
+    console.log(json);
   }).catch((error) => {
       console.log(error)
   })

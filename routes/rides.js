@@ -21,29 +21,29 @@ Ride.watch({fullDocument: 'updateLookup'}).
 });
 
 router.get('/own', function(req, res, next) {
-    
+
    if(!req.user){
         res.location('/users/login');
         res.redirect('/users/login');
     }
-    
+
   res.sendfile('./public/your_rides.html');
 });
 
 
 router.get('/admin', function(req, res, next) {
-    
+
     if(!req.user || !req.session){
-    
+
             var err = new Error('You must be logged in as admin to view this page.');
             err.status = 401;
             return next(err);
     }else if(req.user.username !=='admin'){
-        
+
             var err = new Error('You must be logged in as admin to view this page.');
             err.status = 401;
             return next(err);
-        
+
     }else {
     res.sendfile('./public/view_rides_admin.html');
     }
@@ -91,25 +91,25 @@ router.get('/ridesearch/:owner', function(req, res, next) {
 
 
 router.get('/create', function(req, res, next) {
-    
+
     if(!req.user){
         res.location('/users/login');
         res.redirect('/users/login');
     }
-    
+
   res.sendfile('./public/create_ride.html');
-    
+
 });
 
 router.get('/view', function(req, res, next) {
-    
+
     //console.log("VIEW RIDES PAGE");
    if(!req.user || !searched){
         res.location('/rides/search');
         res.redirect('/rides/search');
     }
    searched = false;
-    
+
   res.sendfile('./public/view_rides.html');
 });
 
@@ -139,7 +139,7 @@ router.post('/search', function(req, res, next) {
     seatsOccupied: req.body.seatsOccupied,
       owner: req.user.username
   })
-  
+
   searched = true;
 
   ride.save().then((result) => {
@@ -147,12 +147,12 @@ router.post('/search', function(req, res, next) {
   }, (error) => {
 		res.status(400).send(error)
   })
-    
+
   //res.location('/rides/view');
   //res.redirect('/rides/view');
-    
-    
-    
+
+
+
 })
 
 router.put('/:id', (req, res) => {
