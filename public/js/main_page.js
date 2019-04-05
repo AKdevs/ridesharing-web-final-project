@@ -16,7 +16,6 @@ const inputField2 = document.querySelector('#inputDestination');
 const seatsSelect = document.querySelector('#select_seats');
 var seats;
 
-//createRideBtn.addEventListener('click',checkInputs);
 viewRideBtn.addEventListener('click',checkInputs);
 seatsSelect.addEventListener('click', selectSeats);
 inputField1.addEventListener("keyup", function(event) {
@@ -88,9 +87,9 @@ function checkInputs(e){
 
 function selectSeats(e) {
 	e.preventDefault();
-    console.log("Inside select seats");
+    
 	if(e.target.type == "button"){
-        console.log("Inside button seats");
+        
 		seats = e.target.innerText;
 		e.target.classList = 'btn btn-success'
 		
@@ -102,7 +101,7 @@ function selectSeats(e) {
 		}
 	}
     
-    console.log(seats);
+    
 	
 
 }
@@ -111,10 +110,6 @@ function selectSeats(e) {
 function searchRidePage(){
 	let origin = document.querySelector('#inputOrigin').value;
 	let destination = document.querySelector('#inputDestination').value;
-    console.log("INSIDE SEARCH RIDE PAGE")
-    console.log(origin);
-    console.log(destination);
-    console.log(seats);
     
     var url = '/rides/search';
     // The data we are going to send in our request
@@ -137,8 +132,8 @@ function searchRidePage(){
         // Handle response we get from the API
         // Usually check the error codes to see what happened
         if (res.status === 200) {
-            console.log('Added ride')
-			create();
+            console.log('view rides now')
+			document.location.href = '/rides/view'
            
         } else {
             console.log('Could not add ride.');
@@ -149,18 +144,10 @@ function searchRidePage(){
     }).catch((error) => {
         console.log(error)
     })
-    
-	//let info = input + '__' + destination;
-     //url = 'create_ride.html?info=' + encodeURIComponent(info);
 	document.location.href = '/rides/view';
-    document.location.href = '/rides/view';
+    
 }
 
-
-
-function viewRides(){
-	document.location.href = 'view_rides.html';
-}
 
 var map;
 var theCoord = {lat: 43.6532, lng: -79.3832}
@@ -169,8 +156,6 @@ map = new google.maps.Map(document.getElementById('google_maps'), {
     center: theCoord,
     zoom: 8
 });
-
-//initialize();
 
 directionsDisplay.setMap(map);
 }
@@ -216,7 +201,6 @@ function findTheRoute() {
         } else {
             directionsDisplay.setDirections({routes:[]});
             map.setCenter(theCoord);
-			console.log("This address is not valid")
         }
     });
 
