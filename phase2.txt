@@ -35,6 +35,7 @@ Depending on whether the user wants to create a ride or simply find one, there a
 page, the user can view and remove the rides they have created. They can see the number of people who have joined, and also the cost
 per person. When searching for a ride, the user will be redirected to a page that lists all rides available. On this page,
 the user can select or join whichever rides, and the cost will be updated to correspondingly.
+An admin has the option to go to view rides page and delete a ride.
 
 Overview of routes:
 
