@@ -141,10 +141,6 @@ function updateTimer(hours, minutes, seconds) {
   return { 'hours': hours, 'minutes': minutes, 'seconds': seconds }
 }
 
-function updateCurrentTime() {
-  currentTime = addSeconds(currentTime, 1);
-}
-
 /* Updates all timers on DOM */
 function updateTimerDOM() {
   const postElements = document.querySelectorAll('.post');
@@ -196,14 +192,11 @@ const carType = {
   "UberBLACK": 4
 }
 
-/* Specify current time, just for simulation purposes */
-var currentTime = new Date(2020, 0, 3, 20, 55, 52);
-
 function calculateTimeToExpiry(ride) {
   /* Convert time difference to readable format, sourced from
   https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript */
   const depTime = new Date(ride.departureTime)
-  const timerDifferenceSeconds = (depTime - currentTime) / 1000;
+  const timerDifferenceSeconds = (depTime - new Date()) / 1000;
   const date = new Date(null);
   date.setSeconds(timerDifferenceSeconds); // specify value for SECONDS here
   const timeString = date.toISOString().substr(11, 8).split(':');
@@ -297,15 +290,7 @@ function updateSeatSelector() {
 
 /*** AJAX Calls ***/
 function createAllPosts() {
-  const url = '/rides';
-  fetch(url)
-  .then((res) => {
-      if (res.status === 200) {
-         return res.json()
-     } else {
-          alert('Could not get rides')
-     }
-  })
+  getRidesAJAX()
   .then((rides) => {
     for (let i = 0; i < rides.length; i++) {
       if (rides[i].owner === loggedInUser) {
@@ -314,55 +299,6 @@ function createAllPosts() {
       }
     }
     updateEmptyAlerts();
-  }).catch((error) => {
-      console.log(error)
-  })
-}
-
-function updateRideAJAX(ride) {
-  const url = '/rides/' + ride._id;
-
-  const request = new Request(url, {
-      method: 'put',
-      body: JSON.stringify(ride),
-      headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-      },
-  });
-
-  fetch(request)
-  .then((res) => {
-      if (res.status === 200) {
-         return res.json()
-     } else {
-          alert('Could not update ride')
-     }
-  }).catch((error) => {
-      console.log(error)
-  })
-}
-
-
-function removeRideAJAX(ride) {
-  const url = '/rides/' + ride._id;
-
-  const request = new Request(url, {
-      method: 'delete',
-      body: JSON.stringify(ride),
-      headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-      },
-  });
-
-  return fetch(request)
-  .then((res) => {
-      if (res.status === 200) {
-         return res.json()
-     } else {
-          alert('Could not remove ride')
-     }
   }).catch((error) => {
       console.log(error)
   })

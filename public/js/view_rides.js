@@ -261,9 +261,6 @@ function updateTimer(hours, minutes, seconds) {
   return { 'hours': hours, 'minutes': minutes, 'seconds': seconds }
 }
 
-function updateCurrentTime() {
-  currentTime = addSeconds(currentTime, 1);
-}
 
 /* Updates all timers on DOM */
 function updateTimerDOM() {
@@ -317,9 +314,6 @@ const carType = {
   "UberBLACK": 4
 }
 
-/* Specify current time, just for simulation purposes */
-var currentTime = new Date(2020, 0, 3, 20, 55, 52);
-
 function calculateTimeToExpiry(ride) {
   /* Convert time difference to readable format, sourced from
   https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript */
@@ -335,17 +329,43 @@ function calculateTimeToExpiry(ride) {
   return { 'hourString': hourString, 'minuteString': minuteString, 'secondString': secondString };
 }
 
-function getUserAJAX(owner) {
-  const url = '/users/search/' + owner;
 
-  return fetch(url)
-  .then((res) => {
-    if (res.status === 200) {
-      return res.json()
-    } else {
-      alert('Could not find user');
-    }
-  });
+function renderPost(post) {
+  let postArea;
+  let postMarkup;
+
+  if (ride.members.includes(loggedInUser)) {
+    postArea = joinedPostArea;
+    postMarkup = getJoinedPostMarkup(ride);
+  }
+  else {
+    postArea = otherPostArea;
+    postMarkup = getOtherPostMarkup(ride);
+  }
+
+}
+
+function createPost(post) {
+  const ride = post.ride;
+
+  getUserAJAX(ride.owner)
+  .then((user) => {
+    post.ownerName = user.firstname + " " + user.lastname;
+    post.ownerPhone = user.phone;
+
+    return findDistance(userOrigin, ride.origin);
+  })
+  .then((distanceFromOrigin) => {
+    postContainer.querySelector('#distanceFromOrigin').innerText = distanceFromOrigin;
+    return findDistance(userDest, ride.destination);
+  })
+  .then((distanceFromDest) => {
+    postContainer.querySelector('#distanceFromDest').innerText = distanceFromDest;
+  }).catch((error) => {
+    console.log(error);
+  })
+  insertPost(allPosts, newPost);
+  insertPostDOM(postArea, postContainer, allPosts);
 }
 
 /* Create new post, add it to the DOM */
@@ -447,15 +467,7 @@ function insertPostDOM(postArea, postElement, postArray) {
 
 /*** AJAX Calls ***/
 function createAllPosts() {
-  const url = '/rides';
-  fetch(url)
-  .then((res) => {
-      if (res.status === 200) {
-         return res.json()
-     } else {
-          alert('Could not get rides')
-     }
-  })
+  getRidesAJAX()
   .then((rides) => {
     for (let i = 0; i < rides.length; i++) {
       if (rides[i].owner !== loggedInUser) {
@@ -468,56 +480,6 @@ function createAllPosts() {
       console.log(error)
   })
 }
-
-function updateRideAJAX(ride) {
-  const url = '/rides/' + ride._id;
-
-  const request = new Request(url, {
-      method: 'put',
-      body: JSON.stringify(ride),
-      headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-      },
-  });
-
-  fetch(request)
-  .then((res) => {
-      if (res.status === 200) {
-         return res.json()
-     } else {
-          alert('Could not update ride')
-     }
-  }).catch((error) => {
-      console.log(error)
-  })
-}
-
-
-function removeRideAJAX(ride) {
-  const url = '/rides/' + ride._id;
-
-  const request = new Request(url, {
-      method: 'delete',
-      body: JSON.stringify(ride),
-      headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-      },
-  });
-
-  return fetch(request)
-  .then((res) => {
-      if (res.status === 200) {
-         return res.json()
-     } else {
-          alert('Could not remove ride')
-     }
-  }).catch((error) => {
-      console.log(error)
-  })
-}
-
 
 function getJoinedPostMarkup(ride) {
   const seatsAvailable = carType[ride.carType] - ride.seatsOccupied;
@@ -601,26 +563,4 @@ function getOtherPostMarkup(ride) {
       </div> <!--card -->
     `
     return postMarkup;
-}
-
-function findDistance(addr1, addr2) {
-  var myreq = {
-      origin: addr1,
-      destination: addr2,
-      travelMode: google.maps.TravelMode.DRIVING,
-      unitSystem: google.maps.UnitSystem.IMPERIAL
-  }
-
-  return new Promise((resolve, reject) => {
-    directionsService.route(myreq, function (result, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-  		    const finalRes = (result.routes[0].legs[0].distance.value / 1000).toString();
-          resolve(finalRes);
-        }
-        else {
-          console.log("Could not find address");
-          reject(404);
-        }
-    });
-  })
 }

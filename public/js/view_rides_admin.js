@@ -126,9 +126,6 @@ const carType = {
   "UberBLACK": 4
 }
 
-/* Specify current time, just for simulation purposes */
-var currentTime = new Date(2020, 0, 3, 20, 55, 52);
-
 /* Remove post from the array */
 function removePostById(posts, postNumber) {
   for (let i = 0; i < posts.length; i++) {
@@ -160,46 +157,26 @@ function getPostById(posts, id) {
   return (foundPost.length === 0) ? -1 : foundPost[0];
 }
 
-function removeRideAJAX(ride) {
-  const url = '/rides/' + ride._id;
-
-  const request = new Request(url, {
-      method: 'delete',
-      body: JSON.stringify(ride),
-      headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-      },
-  });
-
-  return fetch(request)
-  .then((res) => {
-      if (res.status === 200) {
-         return res.json()
-     } else {
-          alert('Could not remove ride')
-     }
-  }).catch((error) => {
-      console.log(error)
-  })
-}
 
 function getPostElementFromButton(button) {
   return button.parentElement.parentElement.parentElement;
 }
 
-function getPostMarkup(ride) {
-  const seatsAvailable =  carType[ride.carType] - ride.seatsOccupied;
-
+function calculateTimeToExpiry(ride) {
   /* Convert time difference to readable format, sourced from
   https://stackoverflow.com/questions/1322732/convert-seconds-to-hh-mm-ss-with-javascript */
-  const timerDifferenceSeconds = (ride.departureTime - new Date()) / 1000;
+  const depTime = new Date(ride.departureTime)
+  const timerDifferenceSeconds = (depTime - new Date()) / 1000;
   const date = new Date(null);
   date.setSeconds(timerDifferenceSeconds); // specify value for SECONDS here
   const timeString = date.toISOString().substr(11, 8).split(':');
-  const hourString = timeString[0];
-  const minuteString = timeString[1];
-  const secondString = timeString[2];
+  return { 'hourString': timeString[0], 'minuteString': timeString[1], 'secondString': timeString[2] };
+}
+
+function getPostMarkup(ride) {
+  const seatsAvailable =  carType[ride.carType] - ride.seatsOccupied;
+
+  const { hourString, minuteString, secondString } = calculateTimeToExpiry(ride);
 
   const expiryTimeString = new Date(ride.departureTime).toLocaleString("en-US").split(', ')[1];
 
@@ -216,13 +193,13 @@ function getPostMarkup(ride) {
       <div class="card-body shadow-sm bg-white rounded">
       <div class="post-container row ">
         <div class="col-md-2 img-container">
-          <img class="profilePic img-fluid rounded" src="img/profilepic.jpeg">
+          <img class="profilePic img-fluid rounded" src="/profilepic.jpeg">
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
-          <strong> Name:</strong> ${ride.owner.name} <br>
+          <strong> Name: </strong> <span id="name"></span><br>
+          <strong>Phone Number</strong>: <span id='phone'></span><br>
           <strong>Time to call cab: </strong> ${expiryTimeString} <br>
-          <strong>Phone Number</strong>: ${ride.owner.phone}
         </div><!--post text container -->
         <div class="col-md-4 third-container">
           </div>
@@ -241,6 +218,11 @@ function createPost(newPost) {
 
   const postContainer = createPostContainer(newPost.postNumber);
   postContainer.innerHTML = postMarkup;
+  getUserAJAX(ride.owner)
+  .then((user) => {
+    postContainer.querySelector('#name').innerText = user.firstname + " " + user.lastname;
+    postContainer.querySelector('#phone').innerText = user.phone;
+  })
 
   allPosts.push(newPost);
   postArea.appendChild(postContainer);
@@ -257,15 +239,7 @@ function createPostContainer(id) {
 }
 
 function createAllPosts() {
-  const url = '/rides';
-  fetch(url)
-  .then((res) => {
-      if (res.status === 200) {
-         return res.json()
-     } else {
-          alert('Could not get rides')
-     }
-  })
+  getRidesAJAX()
   .then((rides) => {
     for (let i = 0; i < rides.length; i++) {
       const newPost = new Post(rides[i]);
