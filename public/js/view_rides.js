@@ -1,5 +1,3 @@
-// import { findDistance } from "./google_maps_api.js";
-var directionsService = new google.maps.DirectionsService();
 /* View rides */
 class Post {
   constructor(ride) {
@@ -38,11 +36,9 @@ es.onmessage = function (event) {
     else if (op === 'update')  {
       const rideDoc = data.fullDocument;
       postElement.parentElement.removeChild(postElement);
-      removePostById(allPosts, post.postNumber);
-
       post.ride = rideDoc;
 
-      createPost(post);
+      renderPost(post);
     }
   }
 
@@ -331,6 +327,7 @@ function calculateTimeToExpiry(ride) {
 
 
 function renderPost(post) {
+  const ride = post.ride;
   let postArea;
   let postMarkup;
 
@@ -343,66 +340,60 @@ function renderPost(post) {
     postMarkup = getOtherPostMarkup(ride);
   }
 
+  const postContainer = createPostContainer(post.postNumber);
+  postContainer.innerHTML = postMarkup;
+
+  postContainer.querySelector('#name').innerText = post.ownerName;
+  postContainer.querySelector('#phone').innerText = post.ownerPhone;
+
+  postContainer.querySelector('#distanceFromOrigin').innerText = post.distanceFromOrigin;
+  postContainer.querySelector('#distanceFromDest').innerText = post.distanceFromDest;
+
+  insertPostDOM(postArea, postContainer, allPosts);
+  updateEmptyAlerts()
 }
 
+/* Create new post, add it to the DOM */
 function createPost(post) {
   const ride = post.ride;
+
+  let postArea;
+  let postMarkup;
+
+  if (ride.members.includes(loggedInUser)) {
+    postArea = joinedPostArea;
+    postMarkup = getJoinedPostMarkup(ride);
+  }
+  else {
+    postArea = otherPostArea;
+    postMarkup = getOtherPostMarkup(ride);
+  }
+
+  const postContainer = createPostContainer(post.postNumber);
+  postContainer.innerHTML = postMarkup;
 
   getUserAJAX(ride.owner)
   .then((user) => {
     post.ownerName = user.firstname + " " + user.lastname;
     post.ownerPhone = user.phone;
 
-    return findDistance(userOrigin, ride.origin);
-  })
-  .then((distanceFromOrigin) => {
-    postContainer.querySelector('#distanceFromOrigin').innerText = distanceFromOrigin;
-    return findDistance(userDest, ride.destination);
-  })
-  .then((distanceFromDest) => {
-    postContainer.querySelector('#distanceFromDest').innerText = distanceFromDest;
-  }).catch((error) => {
-    console.log(error);
-  })
-  insertPost(allPosts, newPost);
-  insertPostDOM(postArea, postContainer, allPosts);
-}
-
-/* Create new post, add it to the DOM */
-function createPost(newPost) {
-  const ride = newPost.ride;
-
-  let postArea;
-  let postMarkup;
-
-  if (ride.members.includes(loggedInUser)) {
-    postArea = joinedPostArea;
-    postMarkup = getJoinedPostMarkup(ride);
-  }
-  else {
-    postArea = otherPostArea;
-    postMarkup = getOtherPostMarkup(ride);
-  }
-
-  const postContainer = createPostContainer(newPost.postNumber);
-  postContainer.innerHTML = postMarkup;
-  getUserAJAX(ride.owner)
-  .then((user) => {
-    postContainer.querySelector('#name').innerText = user.firstname + " " + user.lastname;
-    postContainer.querySelector('#phone').innerText = user.phone;
+    postContainer.querySelector('#name').innerText = post.ownerName;
+    postContainer.querySelector('#phone').innerText = post.ownerPhone;
 
     return findDistance(userOrigin, ride.origin);
   })
   .then((distanceFromOrigin) => {
-    postContainer.querySelector('#distanceFromOrigin').innerText = distanceFromOrigin;
+    post.distanceFromOrigin = distanceFromOrigin;
+    postContainer.querySelector('#distanceFromOrigin').innerText = post.distanceFromOrigin;
     return findDistance(userDest, ride.destination);
   })
   .then((distanceFromDest) => {
-    postContainer.querySelector('#distanceFromDest').innerText = distanceFromDest;
+    post.distanceFromDest = distanceFromDest
+    postContainer.querySelector('#distanceFromDest').innerText = post.distanceFromDest;
   }).catch((error) => {
     console.log(error);
   })
-  insertPost(allPosts, newPost);
+  insertPost(allPosts, post);
   insertPostDOM(postArea, postContainer, allPosts);
 }
 
@@ -432,7 +423,7 @@ function getPostElementId(postElement) {
 
 function getTotalDistanceFromPostElement(postArray, postElement) {
   const post = getPostById(postArray, getPostElementId(postElement));
-  return post.ride.userDestDistance + post.ride.userOriginDistance;
+  return post.distanceFromDest + post.distanceFromOrigin;
 }
 
 /* Insert post into DOM in correct (sorted) position
@@ -545,7 +536,7 @@ function getOtherPostMarkup(ride) {
         </div>
         <div class="col-md-5 text-container">
           <strong> Available Seats </strong>: <span id="seats-available"> ${seatsAvailable}</span> <br>
-          <strong> Cost </strong>: $<span id="cost"> ${splitcost}</span> <br>
+          <strong> Cost Per Person </strong>: $<span id="cost"> ${splitcost}</span> <br>
           <strong> Name: </strong> <span id="name"></span><br>
           <strong>Phone Number</strong>: <span id='phone'></span><br>
           <strong> Time to call cab: </strong> ${expiryTimeString} <br>
